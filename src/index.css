@@ -1,9 +1,12 @@
-
 div#root {
   display: flex;
   justify-content: center;
   flex-direction:column
-
+}
+div.outer {
+  display: flex;
+  justify-content: center;
+  flex-direction:column
 }
 div.inner{
   background-color: rgb(203, 204, 204);
