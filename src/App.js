@@ -1,83 +1,70 @@
 
 import './App.css';
-async function loadPage() {
-  //Getting Post content
-    let responsePosts = await fetch("https://jsonplaceholder.typicode.com/posts");
-    let posts = await responsePosts.json();
-
-  // Getting User names
-    let responseUsers = await fetch("https://jsonplaceholder.typicode.com/users");
-    let users = await responseUsers.json();
-  // Gettinf Photos
-   let responsePhotos = await fetch ("https://jsonplaceholder.typicode.com/photos");
-   let photos = await responsePhotos.json();
-  // Getting Comments
-   let responseComments = await fetch ("https://jsonplaceholder.typicode.com/comments");
-   let comments = await responseComments.json();
-   //Add Avatar
-const mappedPosts = posts.map((p) => {
-  const avatars = photos.find((u) => u.id === p.userId); // userId в постах 
-//Add Comments
-  const commentsInPost = comments.find((u) => u.id === p.userId);
-
-// Changing ID
-  const createdBy = users.find((u) => u.id === p.userId);
-  return {
-    ...p, 
-    commentsInPost,
-    avatars,
-    userId: createdBy ? createdBy.username : "Unknown user",
-  }
-});
-console.log(mappedPosts)
-  //Creating Post
-  for (let post of mappedPosts) {
-    const container = document.getElementById("root");
-    const resultedPost = createPost(post);
-    const postWrapper = document.createElement("div");
-    postWrapper.classList.add("inner");
-    postWrapper.innerHTML = resultedPost;
-    container.appendChild(postWrapper);
-  }
-  // Accordion
-
-let acc = document.getElementsByClassName("accordion");
-for (let i = 0; i < acc.length; i++) {
-  acc[i].addEventListener("click", function() {
-    /* Toggle between adding and removing the "active" class,
-    to highlight the button that controls the panel */
-    this.classList.toggle("active");
-
-    /* Toggle between hiding and showing the active panel */
-    let panel = this.nextElementSibling;
-    if (panel.style.display === "block") {
-      panel.style.display = "none";
-    } else {
-      panel.style.display = "block";
-    }
-  });
-} 
-}
-
 
 function App() {
-  loadPage();
+  const mappedPosts = [{
+  
+  "userId": "Bret",
+  "id": 1,
+  "title": "sunt aut facere repellat provident occaecati excepturi optio reprehenderit",
+  "body": "quia et suscipit\nsuscipit recusandae consequuntur expedita et cum\nreprehenderit molestiae ut ut quas totam\nnostrum rerum est autem sunt rem eveniet architecto",
+  "commentsInPost": {
+    "postId": 1,
+    "id": 1,
+    "name": "id labore ex et quam laborum",
+    "email": "Eliseo@gardner.biz",
+    "body": "laudantium enim quasi est quidem magnam voluptate ipsam eos\ntempora quo necessitatibus\ndolor quam autem quasi\nreiciendis et nam sapiente accusantium"
+  },
+  "avatars": {
+    "albumId": 1,
+    "id": 1,
+    "title": "accusamus beatae ad facilis cum similique qui sunt",
+    "url": "https://via.placeholder.com/600/92c952",
+    "thumbnailUrl": "https://via.placeholder.com/150/92c952"
+  }
+
+
+ }]
+
  
+
+  console.log(mappedPosts);
+  
+
+  // Creating Post with JSX
+  return (
+    <div className='inner'>
+      {mappedPosts.map((post) => {
+        return (
+          <div key={post.id}>
+            <h1>{post.title}</h1>
+
+            <p>
+              {post.body}
+              <span>
+                {post.userId}
+                <img className ="Avatar" src={post.avatars.thumbnailUrl} />
+              </span>
+            </p>
+            <button  className ="accordion">
+              Comments
+            </button>
+            <div className ="panel">
+              <p>
+                {post.commentsInPost.body}
+                <span>
+                  {post.commentsInPost.name}
+                  <img className ="Avatar" src={post.avatars.thumbnailUrl} />
+                </span>
+              </p>
+            </div>
+
+     
+          </div>
+        );
+      })}
+    </div>
+  );
 }
-
-function createPost(post) {
-  return `
-    <h1>${post.title}</h1>
-    <p>${post.body}<span>${post.userId}<img class="Avatar" src=${post.avatars.thumbnailUrl}></span></p>
-    <button class="accordion">Comments</button>
-      <div class="panel">
-        <p>${post.commentsInPost.body}<span>${post.commentsInPost.name}<img class="Avatar" src=${post.avatars.thumbnailUrl}></span></p></p>
-        
-      </div>
-  `;
-}
-
-
-
-
 export default App;
+
