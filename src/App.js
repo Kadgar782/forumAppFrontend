@@ -1,7 +1,20 @@
-
+import React, { useState, useEffect } from "react";
 import './App.css';
+const axios = require('axios').default;
 
 function App() {
+  //Getting Post content
+  async function doGetRequest(url) {
+    let res = await axios.get(url);
+    let data = res.data;
+    console.log(data);
+  }
+  const posts = doGetRequest("https://jsonplaceholder.typicode.com/posts")
+  const users = doGetRequest("https://jsonplaceholder.typicode.com/users")
+  const photos = doGetRequest("https://jsonplaceholder.typicode.com/photos")
+  const comments = doGetRequest("https://jsonplaceholder.typicode.com/comments")
+  console.log(posts)
+
   const mappedPosts = [{
   
   "userId": "Bret",
