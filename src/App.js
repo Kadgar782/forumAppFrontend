@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef} from "react";
 import './App.css';
 
 
@@ -9,6 +9,7 @@ function App() {
   const [comments, setComments] = useState([]);
   const [users, setUsers] = useState([]);
   const [mappedPosts, setMappedPosts] = useState([]);
+  // const mappedPosts = useRef()
 
   //Getting Post content
   useEffect(() => {
@@ -21,37 +22,37 @@ function App() {
   
       // set state with the result
       setData(json);
+
     }
   
     // call the function
-    
-    fetchData("https://jsonplaceholder.typicode.com/posts",setPosts);
-    fetchData("https://jsonplaceholder.typicode.com/photos",setPhotos)
-    fetchData("https://jsonplaceholder.typicode.com/users",setUsers)
-    fetchData("https://jsonplaceholder.typicode.com/comments",setComments)
-         // make sure to catch any error
-         .catch(console.error);
-    setMappedPosts(
-          posts.map((p) => {
-            const avatars = photos.find((u) => u.id === p.userId); // userId в постах
-            //Add Comments
-            const commentsInPost = comments.find((u) => u.id === p.userId);
-    
-            // Changing ID
-            const createdBy = users.find((u) => u.id === p.userId);
-            return {
-              ...p,
-              commentsInPost,
-              avatars,
-              userId: createdBy ? createdBy.username : "Unknown user"
-            };
-          })
-        );
-    
-        setIsLoading(false);
-  }, [])
+    Promise.all([
+    fetchData("https://jsonplaceholder.typicode.com/posts",setPosts),
+    fetchData("https://jsonplaceholder.typicode.com/photos",setPhotos),
+    fetchData("https://jsonplaceholder.typicode.com/users",setUsers),
+    fetchData("https://jsonplaceholder.typicode.com/comments",setComments)]).then(()=>{ 
+      setMappedPosts(
+      posts.map((p) => {
+        const avatars = photos.find((u) => u.id === p.userId); // userId в постах
+        //Add Comments
+        const commentsInPost = comments.find((u) => u.id === p.userId);
 
-  const [isActive, setActive] = useState("false");
+        // Changing ID
+        const createdBy = users.find((u) => u.id === p.userId);
+        return {
+          ...p,
+          commentsInPost,
+          avatars,
+          userId: createdBy ? createdBy.username : "Unknown user"
+        };
+      })
+    );
+    })
+          
+         setIsLoading(false)
+  }, [mappedPosts])
+
+  const [isActive, setActive] = useState(false);
 
   const handleToggle = () => {
     setActive(!isActive);
