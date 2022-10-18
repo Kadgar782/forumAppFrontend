@@ -1,4 +1,5 @@
-import React, { useState, useEffect, useRef} from "react";
+import React, { useState, useEffect,} from "react";
+import  {MuiAccordion}  from "./MUIComponents/MUIAccordion.tsx";
 import './App.css';
 
 
@@ -9,7 +10,6 @@ function App() {
   const [comments, setComments] = useState([]);
   const [users, setUsers] = useState([]);
   const [mappedPosts, setMappedPosts] = useState([]);
-  // const mappedPosts = useRef()
 
   //Getting Post content
   useEffect(() => {
@@ -52,12 +52,6 @@ function App() {
          setIsLoading(false)
   }, [mappedPosts])
 
-  const [isActive, setActive] = useState(false);
-
-  const handleToggle = () => {
-    setActive(!isActive);
-  };
-
   // Creating Post with JSX
   return (
     <div className="outer">
@@ -76,21 +70,7 @@ function App() {
                   <img className="Avatar" src={post.avatars.thumbnailUrl} />
                 </span>
               </p>
-              <button
-                className={isActive ? "accordion" : "accordion active"}
-                onClick={handleToggle}
-              >
-                Comments
-              </button>
-              <div className="panel">
-                <p>
-                  {post.commentsInPost.body}
-                  <span>
-                    {post.commentsInPost.name}
-                    <img className="Avatar" src={post.avatars.thumbnailUrl} />
-                  </span>
-                </p>
-              </div>
+             <MuiAccordion header={"Comments"} content={post.commentsInPost.body}  />
             </div>
           );
         })
@@ -99,5 +79,4 @@ function App() {
   );
 }
 export default App;
-
 
