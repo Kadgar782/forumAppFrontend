@@ -1,7 +1,7 @@
 import React, { useState, useEffect,} from "react";
+import { Divider } from "@mui/material";
 import  {MuiAccordion}  from "./MUIComponents/MUIAccordion.tsx";
 import './App.css';
-
 
 function App() {
   const [isLoading, setIsLoading] = useState(true);
@@ -70,7 +70,10 @@ function App() {
                   <img className="Avatar" src={post.avatars.thumbnailUrl} />
                 </span>
               </p>
-             <MuiAccordion header={"Comments"} content={post.commentsInPost.body}  />
+              <Divider
+              sx={{border: 1}} />
+             <MuiAccordion header={"Comments"} content={post.commentsInPost.body} 
+             />
             </div>
           );
         })
@@ -79,4 +82,5 @@ function App() {
   );
 }
 export default App;
+
 
