@@ -1,6 +1,7 @@
 import React, { useState, useEffect,} from "react";
-import { Divider } from "@mui/material";
+import { Divider, Typography } from "@mui/material";
 import  {MuiAccordion}  from "./MUIComponents/MUIAccordion.tsx";
+import { createTheme, responsiveFontSizes } from '@mui/material/styles';
 import './App.css';
 
 function App() {
@@ -11,6 +12,9 @@ function App() {
   const [users, setUsers] = useState([]);
   const [mappedPosts, setMappedPosts] = useState([]);
 
+// Font Sizes
+let theme = createTheme();
+theme = responsiveFontSizes(theme);
   //Getting Post content
   useEffect(() => {
     // declare the async data fetching function
@@ -61,7 +65,7 @@ function App() {
         mappedPosts.map((post) => {
           return (
             <div className="inner" key={post.id}>
-              <h1>{post.title}</h1>
+              <Typography variant="h5">{post.title}</Typography>
 
               <p>
                 {post.body}
