@@ -7,10 +7,16 @@ export const MuiAccordion = ({header,content}) => {
          <div>
          <Accordion>
             <AccordionSummary
-            expandIcon={<ExpandMoreIcon />}>
+             sx={{
+                backgroundColor: "#ccc"
+              }}
+             expandIcon={<ExpandMoreIcon />}>
                 <Typography>{header}</Typography>
             </AccordionSummary>
-            <AccordionDetails>
+            <AccordionDetails
+            sx={{
+                backgroundColor: "#ccc"
+              }} >
                 <Typography> {content}</Typography>
             </AccordionDetails>
          </Accordion>
@@ -18,4 +24,3 @@ export const MuiAccordion = ({header,content}) => {
         </div>
         )
     
-}
