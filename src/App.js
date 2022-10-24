@@ -1,5 +1,5 @@
 import React, { useState, useEffect,} from "react";
-import { Divider, Typography } from "@mui/material";
+import { Divider, Typography,  } from "@mui/material";
 import  {MuiAccordion}  from "./MUIComponents/MUIAccordion.tsx";
 import { createTheme, responsiveFontSizes } from '@mui/material/styles';
 import './App.css';
@@ -69,9 +69,10 @@ theme = responsiveFontSizes(theme);
 
               <p>
                 {post.body}
+                <br></br>
                 <span>
+                <img className="Avatar" src={post.avatars.thumbnailUrl} />
                   {post.userId}
-                  <img className="Avatar" src={post.avatars.thumbnailUrl} />
                 </span>
               </p>
               <Divider
@@ -86,5 +87,6 @@ theme = responsiveFontSizes(theme);
   );
 }
 export default App;
+
 
 
