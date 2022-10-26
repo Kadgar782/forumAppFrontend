@@ -56,7 +56,7 @@ theme = responsiveFontSizes(theme);
          setIsLoading(false)
   }, [mappedPosts])
 
-  // Creating Post with JSX
+ // Creating Post with JSX
   return (
     <div className="outer">
       {isLoading ? (
@@ -77,7 +77,7 @@ theme = responsiveFontSizes(theme);
               </p>
               <Divider
               sx={{border: 1}} />
-             <MuiAccordion header={"Comments"} content={post.commentsInPost.body} 
+             <MuiAccordion header={"Comments"} content={post.commentsInPost.body} creator={post.avatars.thumbnailUrl} 
              />
             </div>
           );
