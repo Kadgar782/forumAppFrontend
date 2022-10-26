@@ -1,9 +1,9 @@
-import { Accordion, AccordionSummary, AccordionDetails, Typography, Divider} from "@mui/material"
+import { Accordion, AccordionSummary, AccordionDetails, Typography, Divider, Avatar} from "@mui/material"
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore"
 import React from "react"
 
  
-export const MuiAccordion = ({header,content}) => {
+export const MuiAccordion = ({header,content,creator}) => {
     return( 
          <div>
          <Accordion>
@@ -19,6 +19,7 @@ export const MuiAccordion = ({header,content}) => {
             <AccordionDetails  sx={{
                 backgroundColor: "#cbcccc"
               }} >
+                <Avatar alt="Placeholder" src={creator} />
                 <Typography> {content}</Typography>
             </AccordionDetails>
          </Accordion>
@@ -27,4 +28,4 @@ export const MuiAccordion = ({header,content}) => {
         )
     
 }
-    
+
