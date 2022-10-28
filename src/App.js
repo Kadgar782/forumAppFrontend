@@ -1,5 +1,5 @@
 import React, { useState, useEffect,} from "react";
-import { Divider, Typography,  } from "@mui/material";
+import { Divider, Typography,Avatar  } from "@mui/material";
 import  {MuiAccordion}  from "./MUIComponents/MUIAccordion.tsx";
 import { createTheme, responsiveFontSizes } from '@mui/material/styles';
 import './App.css';
@@ -56,7 +56,7 @@ theme = responsiveFontSizes(theme);
          setIsLoading(false)
   }, [mappedPosts])
 
- // Creating Post with JSX
+  // Creating Post with JSX
   return (
     <div className="outer">
       {isLoading ? (
@@ -66,18 +66,24 @@ theme = responsiveFontSizes(theme);
           return (
             <div className="inner" key={post.id}>
               <Typography variant="h5">{post.title}</Typography>
-
               <p>
                 {post.body}
-                <br></br>
+                </p>
                 <span>
-                <img className="Avatar" src={post.avatars.thumbnailUrl} />
+                <Avatar   alt="Placeholder" src={post.avatars.thumbnailUrl} variant="rounded" 
+                sx={{
+                maxWidth: 35,
+                maxHeight: 35,
+                marginRight: 0.5
+                }}/>
                   {post.userId}
                 </span>
-              </p>
               <Divider
               sx={{border: 1}} />
-             <MuiAccordion header={"Comments"} content={post.commentsInPost.body} creator={post.avatars.thumbnailUrl} 
+             <MuiAccordion header={"Comments"} 
+             content={post.commentsInPost.body} 
+             creatorAvatar={post.avatars.thumbnailUrl} 
+             creatorName={post.commentsInPost.name}
              />
             </div>
           );
@@ -87,6 +93,3 @@ theme = responsiveFontSizes(theme);
   );
 }
 export default App;
-
-
-
