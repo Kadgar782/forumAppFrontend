@@ -11,7 +11,7 @@ function App() {
   const [comments, setComments] = useState([]);
   const [users, setUsers] = useState([]);
   const [mappedPosts, setMappedPosts] = useState([]);
-
+  const [visible, setVisible] = useState(true);
 // Font Sizes
 let theme = createTheme();
 theme = responsiveFontSizes(theme);
@@ -56,6 +56,26 @@ theme = responsiveFontSizes(theme);
          setIsLoading(false)
   }, [mappedPosts])
 
+  //Post remove function
+  const removeElement = () => {
+    setVisible(!visible);
+  };
+
+//   const deleteItem = (index) => {
+//     const newVisible = [...visible]
+//     newVisible.splice(index, 1)
+//     setVisible(newVisible)
+// }
+
+  // const removeElement = (index) => {
+  //   const newMapppedPosts = mappedPosts.filter(
+  //     (mappedPosts) =>mappedPosts.index !== index
+  //     );
+  //   setMappedPosts(newMapppedPosts);
+  // };
+  
+
+
   // Creating Post with JSX
   return (
     <div className="outer">
@@ -64,8 +84,10 @@ theme = responsiveFontSizes(theme);
       ) : (
         mappedPosts.map((post) => {
           return (
-            <div className="inner" key={post.id}>
+            {visible ? null : (
+              <div className="inner" key={post.id} id={post.id}>
               <Typography variant="h5">{post.title}</Typography>
+               <button onClick={()=>removeElement()}>Remove</button>
               <p>
                 {post.body}
                 </p>
@@ -86,6 +108,7 @@ theme = responsiveFontSizes(theme);
              creatorName={post.commentsInPost.name}
              />
             </div>
+            )}
           );
         })
       )}
@@ -93,3 +116,4 @@ theme = responsiveFontSizes(theme);
   );
 }
 export default App;
+
