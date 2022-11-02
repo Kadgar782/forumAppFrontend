@@ -1,6 +1,8 @@
 import React, { useState, useEffect,} from "react";
-import { Divider, Typography,Avatar  } from "@mui/material";
+import { Divider, Typography,Avatar,IconButton } from "@mui/material";
+import DeleteIcon from '@mui/icons-material/Delete';
 import  {MuiAccordion}  from "./MUIComponents/MUIAccordion.tsx";
+
 import './App.css';
 
 function App() {
@@ -64,8 +66,11 @@ function App() {
         mappedPosts.map((post) => {
           return (
               <div className="inner" key={post.id} id={post.id}>
-              <Typography variant="h5">{post.title}</Typography>
-               <button onClick={()=>removeElement(post.id)}>Remove</button>
+              <Typography variant="h5">{post.title}
+              <IconButton   aria-label="delete" disableRipple onClick={()=>removeElement(post.id)} >
+              <DeleteIcon/>
+             </IconButton>
+             </Typography>
               <p>
                 {post.body}
                 </p>
@@ -78,6 +83,7 @@ function App() {
                 }}/>
                   {post.userId}
                 </span>
+                
               <Divider
               sx={{border: 1}} />
              <MuiAccordion header={"Comments"} 
