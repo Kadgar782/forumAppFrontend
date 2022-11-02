@@ -1,59 +1,51 @@
 import React, { useState, useEffect,} from "react";
 import { Divider, Typography,Avatar  } from "@mui/material";
 import  {MuiAccordion}  from "./MUIComponents/MUIAccordion.tsx";
-import { createTheme, responsiveFontSizes } from '@mui/material/styles';
 import './App.css';
 
 function App() {
   const [isLoading, setIsLoading] = useState(true);
-  const [posts, setPosts] = useState([]);
-  const [photos, setPhotos] = useState([]);
-  const [comments, setComments] = useState([]);
-  const [users, setUsers] = useState([]);
   const [mappedPosts, setMappedPosts] = useState([]);
-// Font Sizes
-let theme = createTheme();
-theme = responsiveFontSizes(theme);
   //Getting Post content
   useEffect(() => {
     // declare the async data fetching function
-    const fetchData = async (url, setData) => {
+    const fetchData = async (url) => {
       // get the data from the api
       const response = await fetch(url);
       // convert the data to json
       const json = await response.json();
-  
+
       // set state with the result
-      setData(json);
-
+      return json;
     }
-  
     // call the function
-    Promise.all([
-    fetchData("https://jsonplaceholder.typicode.com/posts",setPosts),
-    fetchData("https://jsonplaceholder.typicode.com/photos",setPhotos),
-    fetchData("https://jsonplaceholder.typicode.com/users",setUsers),
-    fetchData("https://jsonplaceholder.typicode.com/comments",setComments)]).then(()=>{ 
-      setMappedPosts(
-      posts.map((p) => {
-        const avatars = photos.find((u) => u.id === p.userId); // userId в постах
-        //Add Comments
-        const commentsInPost = comments.find((u) => u.id === p.userId);
+    const mapPosts = async () => {
+      const [posts, photos, users, comments] = await Promise.all([
+        fetchData("https://jsonplaceholder.typicode.com/posts"),
+        fetchData("https://jsonplaceholder.typicode.com/photos"),
+        fetchData("https://jsonplaceholder.typicode.com/users"),
+        fetchData("https://jsonplaceholder.typicode.com/comments")]);
 
-        // Changing ID
-        const createdBy = users.find((u) => u.id === p.userId);
-        return {
-          ...p,
-          commentsInPost,
-          avatars,
-          userId: createdBy ? createdBy.username : "Unknown user"
-        };
-      })
-    );
-    })
-          
-         setIsLoading(false)
-  }, [mappedPosts])
+        setMappedPosts(
+          posts.map((p) => {
+            const avatars = photos.find((u) => u.id === p.userId); // userId в постах
+            //Add Comments
+            const commentsInPost = comments.find((u) => u.id === p.userId);
+  
+            // Changing ID
+            const createdBy = users.find((u) => u.id === p.userId);
+            return {
+              ...p,
+              commentsInPost,
+              avatars,
+              userId: createdBy ? createdBy.username : "Unknown user"
+            };
+  
+          })
+        );
+      }
+      mapPosts().then(() => setIsLoading(false))
+    }, [])
 
   //Post remove function
   const removeElement = (id) => {
@@ -102,5 +94,3 @@ theme = responsiveFontSizes(theme);
   );
 }
 export default App;
-
-
