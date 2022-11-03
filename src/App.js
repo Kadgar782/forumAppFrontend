@@ -1,9 +1,11 @@
 import React, { useState, useEffect,} from "react";
-import { Divider, Typography,Avatar,IconButton } from "@mui/material";
+import { Divider, Typography,Avatar,IconButton, Button,Modal} from "@mui/material";
 import DeleteIcon from '@mui/icons-material/Delete';
 import  {MuiAccordion}  from "./MUIComponents/MUIAccordion.tsx";
+import {PostFields} from "./MUIComponents/CreatePost.tsx";
 
 import './App.css';
+import { getValue } from "@testing-library/user-event/dist/utils";
 
 function App() {
   const [isLoading, setIsLoading] = useState(true);
@@ -56,10 +58,20 @@ function App() {
     );
     setMappedPosts(newPosts);
   };
+  //Modal open
+  const [open, setOpen] = React.useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
 
   // Creating Post with JSX
   return (
     <div className="outer">
+     <Button onClick={handleOpen}>Open modal</Button>
+     <Modal   open={open} onClose={handleClose}>
+     <PostFields />
+
+      </Modal>
+
       {isLoading ? (
         <div>IS loading...</div>
       ) : (
