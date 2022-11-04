@@ -1,7 +1,9 @@
 import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button'
-import React from "react"
+import React, { useState } from "react";
+import { Divider, Typography} from "@mui/material";
+
 const style = {
   position: 'absolute' as 'absolute',
   top: '50%',
@@ -14,22 +16,46 @@ const style = {
   p: 4,
 };
 
- 
-export const PostFields =({header, content,buttonFunction}) => {
-  return(
-  <Box sx={style}>
-    <TextField label="the topic of the post"  multiline={true} sx={{
-      marginBottom: 1,
-      width: 5/6,
-    }}>
-    {header}
-    </TextField>
-     <TextField label="content" multiline={true} sx={{ 
-      width: 1/1,
+export const PostFields = ({ header, content }) => {
+  const [tfHeaderValue,setTFHeaderValue ] = useState("");
+  const [tfContentValue, setTFContentValue] = useState("");
+  const createNewPost = (value1, value2) => {
+    const headerContent=value1;
+    const bodyContent=value2;
+    const clearHeaderValue=()=> setTFHeaderValue("");
+    const clearContentValue=()=>setTFContentValue("");
+    clearHeaderValue();
+    clearContentValue();
+    console.log(headerContent)
+    return(
+      <div className="inner" >
+              <Typography variant="h5">
+                {headerContent}
+              </Typography>
+              <p>{bodyContent}</p>
+              <Divider sx={{ border: 1 }} />
+              </div>
+    )
+  }
+  
+  return (
+    <Box sx={style}>
+      <TextField label="the topic of the post" value={tfHeaderValue} multiline={true}
+        onChange={(newValue) => setTFHeaderValue(newValue.target.value)}
+        sx={{
+          marginBottom: 1,
+          width: 5 / 6,
         }}>
-     {content}
-     </TextField>
-     <Button onClick={buttonFunction}>Confirm</Button>
-  </Box>
+        {header}
+      </TextField>
+      <TextField label="content" multiline={true} value={tfContentValue}
+        onChange={(newValue) => setTFContentValue(newValue.target.value)}
+        sx={{
+          width: 1 / 1,
+        }}>
+        {content}
+      </TextField>
+      <Button onClick={()=>createNewPost(tfHeaderValue, tfContentValue)}>Confirm</Button>
+    </Box>
   )
 }
