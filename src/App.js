@@ -57,16 +57,18 @@ function App() {
     setMappedPosts(newPosts);
   };
   //Modal open
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+  
 
   // Creating Post with JSX
   return (
     <div className="outer">
       <Button onClick={handleOpen}>Open modal</Button>
       <Modal open={open} onClose={handleClose}>
-        <PostFields />
+        <PostFields
+        arrayOfPosts={mappedPosts} />
       </Modal>
 
       {isLoading ? (
@@ -101,12 +103,19 @@ function App() {
               </span>
 
               <Divider sx={{ border: 1 }} />
+             { post.commentsInPost == 0 || post.commentsInPost === undefined  ? (
+                <MuiAccordion
+                header={"Comments"} 
+                content="No comments yet"
+              />
+              ) : (
               <MuiAccordion
                 header={"Comments"}
                 content={post.commentsInPost.body}
                 creatorAvatar={post.avatars.thumbnailUrl}
                 creatorName={post.commentsInPost.name}
               />
+              )}
             </div>
           );
         })
@@ -115,4 +124,5 @@ function App() {
   );
 }
 export default App;
+
 
