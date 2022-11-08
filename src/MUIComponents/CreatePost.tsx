@@ -2,7 +2,6 @@ import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button'
 import React, { useState } from "react";
-import { Divider, Typography} from "@mui/material";
 
 const style = {
   position: 'absolute' as 'absolute',
@@ -16,31 +15,45 @@ const style = {
   p: 4,
 };
 
-export const PostFields = ({ header, content }) => {
+export const PostFields = ({ header, content,arrayOfPosts }) => {
+
   const [tfHeaderValue,setTFHeaderValue ] = useState("");
   const [tfContentValue, setTFContentValue] = useState("");
-  const createNewPost = (value1, value2) => {
-    const headerContent=value1;
-    const bodyContent=value2;
+
+// Function for button
+  const createNewPost = (upperValue, loverValue) => {
+    // {((!upperValue.replace(/\s/g, '').length) || (!loverValue.replace(/\s/g, '').length) ? {
+    //   alert("Fields should not be empty")} ) : (
+
+   const userId = "Mak";
+   const id = Math.random().toString(16).slice(2);
+   const title = upperValue;
+   const body = loverValue;
+   const avatars = {
+    albumId: 1,
+    id: 8,
+    title: "aut porro officiis laborum odit ea laudantium corporis",
+    url: "https://via.placeholder.com/600/54176f",
+    thumbnailUrl: "https://via.placeholder.com/150/54176f"
+  }
+  const commentsInPost ={}
+
     const clearHeaderValue=()=> setTFHeaderValue("");
     const clearContentValue=()=>setTFContentValue("");
+
     clearHeaderValue();
     clearContentValue();
-    console.log(headerContent)
-    return(
-      <div className="inner" >
-              <Typography variant="h5">
-                {headerContent}
-              </Typography>
-              <p>{bodyContent}</p>
-              <Divider sx={{ border: 1 }} />
-              </div>
-    )
+    
+    arrayOfPosts.push({title, body,userId,id,avatars,commentsInPost})
   }
+  // )}
+
   
+  //Modal content
+
   return (
     <Box sx={style}>
-      <TextField label="the topic of the post" value={tfHeaderValue} multiline={true}
+      <TextField  label="the topic of the post" value={tfHeaderValue} multiline={true}
         onChange={(newValue) => setTFHeaderValue(newValue.target.value)}
         sx={{
           marginBottom: 1,
@@ -48,7 +61,7 @@ export const PostFields = ({ header, content }) => {
         }}>
         {header}
       </TextField>
-      <TextField label="content" multiline={true} value={tfContentValue}
+      <TextField  label="content" multiline={true} value={tfContentValue}
         onChange={(newValue) => setTFContentValue(newValue.target.value)}
         sx={{
           width: 1 / 1,
