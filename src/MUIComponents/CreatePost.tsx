@@ -1,7 +1,7 @@
 import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button'
-import React, { useState } from "react";
+import React, { useState,  } from "react";
 
 const style = {
   position: 'absolute' as 'absolute',
@@ -22,20 +22,12 @@ export const PostFields = ({ header, content,arrayOfPosts }) => {
 
 // Function for button
   const createNewPost = (upperValue, loverValue) => {
-    // {((!upperValue.replace(/\s/g, '').length) || (!loverValue.replace(/\s/g, '').length) ? {
-    //   alert("Fields should not be empty")} ) : (
 
    const userId = "Mak";
    const id = Math.random().toString(16).slice(2);
    const title = upperValue;
    const body = loverValue;
-   const avatars = {
-    albumId: 1,
-    id: 8,
-    title: "aut porro officiis laborum odit ea laudantium corporis",
-    url: "https://via.placeholder.com/600/54176f",
-    thumbnailUrl: "https://via.placeholder.com/150/54176f"
-  }
+   const avatars = { thumbnailUrl: "https://via.placeholder.com/150/54176f"}
   const commentsInPost ={}
 
     const clearHeaderValue=()=> setTFHeaderValue("");
@@ -45,10 +37,9 @@ export const PostFields = ({ header, content,arrayOfPosts }) => {
     clearContentValue();
     
     arrayOfPosts.push({title, body,userId,id,avatars,commentsInPost})
-  }
-  // )}
 
-  
+  }
+ 
   //Modal content
 
   return (
@@ -68,7 +59,7 @@ export const PostFields = ({ header, content,arrayOfPosts }) => {
         }}>
         {content}
       </TextField>
-      <Button onClick={()=>createNewPost(tfHeaderValue, tfContentValue)}>Confirm</Button>
+      <Button disabled={(!tfHeaderValue.replace(/\s/g, '').length) || (!tfContentValue.replace(/\s/g, '').length)} onClick={()=>createNewPost(tfHeaderValue, tfContentValue)}>Confirm</Button>
     </Box>
   )
 }
