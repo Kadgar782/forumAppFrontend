@@ -36,7 +36,7 @@ export const PostFields = ({ header, content,arrayOfPosts }) => {
     clearHeaderValue();
     clearContentValue();
     
-    arrayOfPosts.push({title, body,userId,id,avatars,commentsInPost})
+    arrayOfPosts.unshift({title, body,userId,id,avatars,commentsInPost})
 
   }
  
