@@ -10,6 +10,7 @@ import './App.css';
 function App() {
   const [isLoading, setIsLoading] = useState(true);
   const [mappedPosts, setMappedPosts] = useState([]);
+  const [open, setOpen] = useState(false);
   //Getting Post content
   useEffect(() => {
     // declare the async data fetching function
@@ -33,7 +34,7 @@ function App() {
 
       setMappedPosts(
         posts.map((p) => {
-          const avatars = photos.find((u) => u.id === p.userId); // userId в постах
+          const avatars = photos.find((u) => u.id === p.userId); // userId in posts
           //Add Comments
           const commentsInPost = comments.find((u) => u.id === p.userId);
 
@@ -57,20 +58,26 @@ function App() {
     setMappedPosts(newPosts);
   };
   //Modal open
-  const [open, setOpen] = useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+  const handleModalToggle = () => setOpen(!open);
+
+  //Adding new data from a component
+  const addingToArray = (added) =>
+  {
+    mappedPosts.unshift(added)
+ }
   
 
   // Creating Post with JSX
   return (
     <div className="outer">
-      <Button onClick={handleOpen}>Open modal</Button>
-      <Modal open={open} onClose={handleClose}>
-        <PostFields
-        arrayOfPosts={mappedPosts} />
+      <Button onClick={handleModalToggle}>Create new post</Button>
+      <Modal open={open} onClose={handleModalToggle}>
+        <PostFields 
+        addingToArray={addingToArray}
+        /> 
+       
+      
       </Modal>
-
       {isLoading ? (
         <div>IS loading...</div>
       ) : (
@@ -103,7 +110,7 @@ function App() {
               </span>
 
               <Divider sx={{ border: 1 }} />
-             { post.commentsInPost == 0 || post.commentsInPost === undefined  ? (
+             { post.commentsInPost === 0 || post.commentsInPost === undefined  ? (
                 <MuiAccordion
                 header={"Comments"} 
                 content="No comments yet"
@@ -124,5 +131,3 @@ function App() {
   );
 }
 export default App;
-
-
