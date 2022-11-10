@@ -15,31 +15,30 @@ const style = {
   p: 4,
 };
 
-export const PostFields = ({ header, content,arrayOfPosts }) => {
+export const PostFields = ({ header, content,addingToArray}) => {
 
   const [tfHeaderValue,setTFHeaderValue ] = useState("");
   const [tfContentValue, setTFContentValue] = useState("");
 
-// Function for button
+  // Function for button
   const createNewPost = (upperValue, loverValue) => {
 
-   const userId = "Mak";
-   const id = Math.random().toString(16).slice(2);
-   const title = upperValue;
-   const body = loverValue;
-   const avatars = { thumbnailUrl: "https://via.placeholder.com/150/54176f"}
-  const commentsInPost ={}
+    const userId = "Mak";
+    const id = Math.random().toString(16).slice(2);
+    const title = upperValue;
+    const body = loverValue;
+    const avatars = { thumbnailUrl: "https://via.placeholder.com/150/54176f" }
+    const commentsInPost = {}
 
-    const clearHeaderValue=()=> setTFHeaderValue("");
-    const clearContentValue=()=>setTFContentValue("");
+    const clearHeaderValue = () => setTFHeaderValue("");
+    const clearContentValue = () => setTFContentValue("");
 
     clearHeaderValue();
     clearContentValue();
-    
-    arrayOfPosts.unshift({title, body,userId,id,avatars,commentsInPost})
 
+    addingToArray({userId,id,title,body,avatars,commentsInPost})
   }
- 
+  
   //Modal content
 
   return (
