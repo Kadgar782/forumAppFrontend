@@ -1,8 +1,10 @@
 import React, { useState, useEffect,} from "react";
 import { Divider, Typography,Avatar,IconButton, Button,Modal} from "@mui/material";
 import DeleteIcon from '@mui/icons-material/Delete';
+import EditIcon from '@mui/icons-material/Edit';
 import  {MuiAccordion}  from "./MUIComponents/MUIAccordion.tsx";
 import {PostFields} from "./MUIComponents/CreatePost.tsx";
+import { EditPostFields } from "./MUIComponents/editPost.tsx";
 
 import './App.css';
 
@@ -11,6 +13,7 @@ function App() {
   const [isLoading, setIsLoading] = useState(true);
   const [mappedPosts, setMappedPosts] = useState([]);
   const [open, setOpen] = useState(false);
+  const [editOpen, setEditOpen] = useState(false);
   //Getting Post content
   useEffect(() => {
     // declare the async data fetching function
@@ -57,10 +60,19 @@ function App() {
     const newPosts = mappedPosts.filter((mappedPosts) => mappedPosts.id !== id);
     setMappedPosts(newPosts);
   };
+
   //Modal open
   const handleModalToggle = () => setOpen(!open);
 
-  //Adding new data from a component
+  // Modal changes
+  const handleEditableModalToggle = () => setEditOpen(!editOpen);
+
+ //Сhanging a post with a specific id
+  const updatePost = (id, updatedPost) => {
+    setMappedPosts(mappedPosts.map((post)=>post.id === id ? updatedPost : post))
+  }
+
+ //Adding new data from a component
   const addingToArray = (added) =>
   {
     mappedPosts.unshift(added)
@@ -72,12 +84,11 @@ function App() {
     <div className="outer">
       <Button onClick={handleModalToggle}>Create new post</Button>
       <Modal open={open} onClose={handleModalToggle}>
-        <PostFields 
-        addingToArray={addingToArray}
-        /> 
-       
-      
+        <PostFields addingToArray={addingToArray}
+        />
       </Modal>
+     
+
       {isLoading ? (
         <div>IS loading...</div>
       ) : (
@@ -86,6 +97,15 @@ function App() {
             <div className="inner" key={post.id} id={post.id}>
               <Typography variant="h5">
                 {post.title}
+
+                <IconButton
+                  aria-label="Edit"
+                  disableRipple
+                  onClick={handleEditableModalToggle}
+                >
+                  <EditIcon />
+                </IconButton>
+
                 <IconButton
                   aria-label="delete"
                   disableRipple
@@ -94,7 +114,13 @@ function App() {
                   <DeleteIcon />
                 </IconButton>
               </Typography>
-              <p>{post.body}</p>
+              <p>{post.body}</p> 
+
+              <Modal open={editOpen} onClose={handleEditableModalToggle}>
+                <EditPostFields thePost={post} updatePost={updatePost} />
+                 
+              </Modal>
+
               <span>
                 <Avatar
                   alt="Placeholder"
@@ -108,20 +134,17 @@ function App() {
                 />
                 {post.userId}
               </span>
-
               <Divider sx={{ border: 1 }} />
-             { post.commentsInPost === 0 || post.commentsInPost === undefined  ? (
-                <MuiAccordion
-                header={"Comments"} 
-                content="No comments yet"
-              />
+              {post.commentsInPost === 0 ||
+              post.commentsInPost === undefined ? (
+                <MuiAccordion header={"Comments"} content="No comments yet" />
               ) : (
-              <MuiAccordion
-                header={"Comments"}
-                content={post.commentsInPost.body}
-                creatorAvatar={post.avatars.thumbnailUrl}
-                creatorName={post.commentsInPost.name}
-              />
+                <MuiAccordion
+                  header={"Comments"}
+                  content={post.commentsInPost.body}
+                  creatorAvatar={post.avatars.thumbnailUrl}
+                  creatorName={post.commentsInPost.name}
+                />
               )}
             </div>
           );
