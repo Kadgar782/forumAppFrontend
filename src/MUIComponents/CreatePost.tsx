@@ -15,7 +15,7 @@ const style = {
   p: 4,
 };
 
-export const PostFields = ({ header, content,addingToArray}) => {
+export const PostFields = ({addingToArray}) => {
 
   const [tfHeaderValue,setTFHeaderValue ] = useState("");
   const [tfContentValue, setTFContentValue] = useState("");
@@ -49,16 +49,15 @@ export const PostFields = ({ header, content,addingToArray}) => {
           marginBottom: 1,
           width: 5 / 6,
         }}>
-        {header}
       </TextField>
       <TextField  label="content" multiline={true} value={tfContentValue}
         onChange={(newValue) => setTFContentValue(newValue.target.value)}
         sx={{
           width: 1 / 1,
         }}>
-        {content}
       </TextField>
       <Button disabled={(!tfHeaderValue.replace(/\s/g, '').length) || (!tfContentValue.replace(/\s/g, '').length)} onClick={()=>createNewPost(tfHeaderValue, tfContentValue)}>Confirm</Button>
     </Box>
   )
+}
 }
