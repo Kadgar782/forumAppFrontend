@@ -69,7 +69,7 @@ function App() {
 
  //Сhanging a post with a specific id
   const updatePost = (id, updatedPost) => {
-    setMappedPosts(mappedPosts.map((post)=>post.id === id ? updatedPost : post))
+    setMappedPosts(mappedPosts.map((post) => post.id === id ? updatedPost : post));
   }
 
  //Adding new data from a component
@@ -154,3 +154,4 @@ function App() {
   );
 }
 export default App;
+
