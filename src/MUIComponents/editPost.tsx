@@ -15,16 +15,19 @@ const style = {
   p: 4,
 };
 
-export const EditPostFields = ({thePost},updatePost) => {
- 
-  const id = thePost.id;  
+export const EditPostFields = ({thePost, updatePost} ) => {
+
   const [header,setHeader ] = useState(thePost.title);
   const [content, setContent] = useState(thePost.body);
+  
+  const id = thePost.id;  
+  const avatars = thePost.avatars.thumbnailUrl;
+  const userId = thePost.userId;
 
-  const updatedPost = {id,header, content}
+  const updatedPost = {id, header, content, avatars, userId};
   // Function for button
   const handleSubmit = () => {
-    updatePost(id, updatedPost)
+    updatePost(id, updatedPost);
 }
   //Modal content
 
@@ -36,16 +39,14 @@ export const EditPostFields = ({thePost},updatePost) => {
           marginBottom: 1,
           width: 5 / 6,
         }}>
-        {header}
       </TextField>
       <TextField  label="content" multiline={true} value={content}
         onChange={(newValue) => setContent(newValue.target.value)}
         sx={{
           width: 1 / 1,
         }}>
-        {content}
       </TextField>
-      <Button disabled={(!header.replace(/\s/g, '').length) || (!content.replace(/\s/g, '').length)} onClick={()=>handleSubmit()}>Confirm</Button>
+      <Button  disabled={(!header.replace(/\s/g, '').length) || (!content.replace(/\s/g, '').length)} onClick={()=>handleSubmit()}>Confirm</Button>
     </Box>
   )
 }
