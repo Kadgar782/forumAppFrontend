@@ -17,14 +17,15 @@ const style = {
 
 export const EditPostFields = ({thePost, updatePost} ) => {
 
-  const [header,setHeader ] = useState(thePost.title);
-  const [content, setContent] = useState(thePost.body);
-  
-  const id = thePost.id;  
-  const avatars = thePost.avatars.thumbnailUrl;
-  const userId = thePost.userId;
+  const [title,setTitle ] = useState(thePost.title);
+  const [body, setBody] = useState(thePost.body);
 
-  const updatedPost = {id, header, content, avatars, userId};
+  const id = thePost.id;  
+  const avatars = { thumbnailUrl: thePost.avatars.thumbnailUrl }
+  const userId = thePost.userId;
+  const commentsInPost = {};
+
+  const updatedPost = {id, title, body, avatars, userId, commentsInPost};
   // Function for button
   const handleSubmit = () => {
     updatePost(id, updatedPost);
@@ -33,20 +34,20 @@ export const EditPostFields = ({thePost, updatePost} ) => {
 
   return (
     <Box sx={style}>
-      <TextField  label="the topic of the post" value={header} multiline={true}
-        onChange={(newValue) => setHeader(newValue.target.value)}
+      <TextField  label="the topic of the post" value={title} multiline={true}
+        onChange={(newValue) => setTitle(newValue.target.value)}
         sx={{
           marginBottom: 1,
           width: 5 / 6,
         }}>
       </TextField>
-      <TextField  label="content" multiline={true} value={content}
-        onChange={(newValue) => setContent(newValue.target.value)}
+      <TextField  label="content" multiline={true} value={body}
+        onChange={(newValue) => setBody(newValue.target.value)}
         sx={{
           width: 1 / 1,
         }}>
       </TextField>
-      <Button  disabled={(!header.replace(/\s/g, '').length) || (!content.replace(/\s/g, '').length)} onClick={()=>handleSubmit()}>Confirm</Button>
+      <Button  disabled={(!title.replace(/\s/g, '').length) || (!body.replace(/\s/g, '').length)} onClick={()=>handleSubmit()}>Confirm</Button>
     </Box>
   )
 }
