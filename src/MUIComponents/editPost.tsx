@@ -15,12 +15,14 @@ const style = {
   p: 4,
 };
 
-export const EditPostFields = ({thePost, updatePost} ) => {
+export const EditPostFields = ({specificId, mappedPosts, updatePost} ) => {
+  console.log(",kz")
+  let thePost = mappedPosts.find((post)=>post.id === specificId)
 
   const [title,setTitle ] = useState(thePost.title);
   const [body, setBody] = useState(thePost.body);
 
-  const id = thePost.id;  
+  const id = specificId;  
   const avatars = { thumbnailUrl: thePost.avatars.thumbnailUrl }
   const userId = thePost.userId;
   const commentsInPost = {};
@@ -28,7 +30,7 @@ export const EditPostFields = ({thePost, updatePost} ) => {
   const updatedPost = {id, title, body, avatars, userId, commentsInPost};
   // Function for button
   const handleSubmit = () => {
-    updatePost(id, updatedPost);
+    updatePost(updatedPost);
 }
   //Modal content
 
