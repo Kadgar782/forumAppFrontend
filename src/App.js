@@ -12,6 +12,7 @@ import './App.css';
 function App() {
   const [isLoading, setIsLoading] = useState(true);
   const [mappedPosts, setMappedPosts] = useState([]);
+  const [idForEditing, setID] = useState(0);
   const [open, setOpen] = useState(false);
   const [editOpen, setEditOpen] = useState(false);
   //Getting Post content
@@ -65,11 +66,18 @@ function App() {
   const handleModalToggle = () => setOpen(!open);
 
   // Modal changes
-  const handleEditableModalToggle = () => setEditOpen(!editOpen);
+  const handleEditableModalToggle = () => setEditOpen(!editOpen);//тут надо найти айди
 
+  //Search for a post by ID via the button
+  const checkId = event => {
+   setID(event.currentTarget.id);
+   console.log(idForEditing);
+   handleEditableModalToggle();
+  };
  //Сhanging a post with a specific id
-  const updatePost = (id, updatedPost) => {
-    setMappedPosts(mappedPosts.map((post) => post.id === id ? updatedPost : post));
+  const updatePost = (updatedPost) => {
+    setMappedPosts(mappedPosts.map((post) => post.id === idForEditing ? updatedPost : post));
+    console.log(updatedPost);
   }
 
  //Adding new data from a component
@@ -84,10 +92,13 @@ function App() {
     <div className="outer">
       <Button onClick={handleModalToggle}>Create new post</Button>
       <Modal open={open} onClose={handleModalToggle}>
-        <PostFields addingToArray={addingToArray}
+        <PostFields specificId={idForEditing} mappedPosts={mappedPosts} addingToArray={addingToArray}
         />
-      </Modal>
-     
+      </Modal>  
+
+      <Modal open={editOpen} onClose={handleEditableModalToggle}>
+                <EditPostFields specificId={idForEditing} thePost={mappedPosts} updatePost={updatePost} />    
+              </Modal>
 
       {isLoading ? (
         <div>IS loading...</div>
@@ -101,7 +112,8 @@ function App() {
                 <IconButton
                   aria-label="Edit"
                   disableRipple
-                  onClick={handleEditableModalToggle}
+                  id={post.id}
+                  onClick={checkId} 
                 >
                   <EditIcon />
                 </IconButton>
@@ -115,11 +127,6 @@ function App() {
                 </IconButton>
               </Typography>
               <p>{post.body}</p> 
-
-              <Modal open={editOpen} onClose={handleEditableModalToggle}>
-                <EditPostFields thePost={post} updatePost={updatePost} />
-                 
-              </Modal>
 
               <span>
                 <Avatar
@@ -154,4 +161,3 @@ function App() {
   );
 }
 export default App;
-
