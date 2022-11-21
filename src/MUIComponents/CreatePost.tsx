@@ -15,7 +15,7 @@ const style = {
   p: 4,
 };
 
-export const PostFields = ({addingToArray}) => {
+export const PostFields = ({addingToArray, modalStatusChange}) => {
 
   const [tfHeaderValue,setTFHeaderValue ] = useState("");
   const [tfContentValue, setTFContentValue] = useState("");
@@ -36,7 +36,8 @@ export const PostFields = ({addingToArray}) => {
     clearHeaderValue();
     clearContentValue();
 
-    addingToArray({userId,id,title,body,avatars,commentsInPost})
+    addingToArray({userId,id,title,body,avatars,commentsInPost});
+    modalStatusChange();
   }
   
   //Modal content
