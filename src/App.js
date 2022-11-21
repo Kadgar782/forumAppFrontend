@@ -12,7 +12,7 @@ import './App.css';
 function App() {
   const [isLoading, setIsLoading] = useState(true);
   const [mappedPosts, setMappedPosts] = useState([]);
-  const [idForEditing, setID] = useState(1);
+  const [idForEditing, setID] = useState(0);
   const [open, setOpen] = useState(false);
   const [editOpen, setEditOpen] = useState(false);
   //Getting Post content
@@ -70,17 +70,12 @@ function App() {
 
   //Search for a post by ID via the button
   const checkId = event => {
-   console.log(event.currentTarget.id);
    setID(event.currentTarget.id);
-   console.log(idForEditing);
    handleEditableModalToggle();
   };
  //Сhanging a post with a specific id
-  const updatePost = ({updatedPost}) => {
-    setMappedPosts(mappedPosts.map((post) => post.id === idForEditing ? updatedPost : post));
-    console.log('update post has occurred');
-    console.log(mappedPosts);
-    console.log(updatedPost);
+  const updatePost = (updatedPost) => {
+    setMappedPosts(mappedPosts.map((post) => post.id === Number(idForEditing) ? updatedPost : post));
   }
 
  //Adding new data from a component
@@ -95,12 +90,12 @@ function App() {
     <div className="outer">
       <Button onClick={handleModalToggle}>Create new post</Button>
       <Modal open={open} onClose={handleModalToggle}>
-        <PostFields  mappedPosts={mappedPosts} addingToArray={addingToArray}
+        <PostFields modalStatusChange={handleModalToggle}  mappedPosts={mappedPosts} addingToArray={addingToArray}
         />
       </Modal>  
 
       <Modal open={editOpen} onClose={handleEditableModalToggle}>
-                <EditPostFields specificId={1} allPosts={mappedPosts} updatePost={updatePost} />    
+                <EditPostFields modalStatusChange={handleEditableModalToggle} specificId={idForEditing} allPosts={mappedPosts} updatePost={updatePost} />    
               </Modal>
 
       {isLoading ? (
@@ -164,4 +159,3 @@ function App() {
   );
 }
 export default App;
-
