@@ -15,15 +15,14 @@ const style = {
   p: 4,
 };
 
-export const EditPostFields = ({specificId, allPosts, updatePost} ) => {
-  console.log(",kz")
-  let thePost = allPosts.find((post)=>post.id === specificId);
-  console.log(thePost);
+export const EditPostFields = ({specificId, allPosts, updatePost, modalStatusChange} ) => {
+  Number(specificId);
+  let thePost = allPosts.find((post)=>post.id ===  Number(specificId));
 
   const [title,setTitle ] = useState(thePost.title);
   const [body, setBody] = useState(thePost.body);
 
-  const id = specificId;  
+  const id = Number(specificId);  
   const avatars = { thumbnailUrl: thePost.avatars.thumbnailUrl }
   const userId = thePost.userId;
   const commentsInPost = {};
@@ -32,6 +31,7 @@ export const EditPostFields = ({specificId, allPosts, updatePost} ) => {
   // Function for button
   const handleSubmit = () => {
     updatePost(updatedPost);
+    modalStatusChange();
 }
   //Modal content
 
