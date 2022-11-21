@@ -1,4 +1,4 @@
-import React, { useState, useEffect,} from "react";
+import React, { useState, useEffect } from "react";
 import { Divider, Typography,Avatar,IconButton, Button,Modal} from "@mui/material";
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
@@ -12,7 +12,7 @@ import './App.css';
 function App() {
   const [isLoading, setIsLoading] = useState(true);
   const [mappedPosts, setMappedPosts] = useState([]);
-  const [idForEditing, setID] = useState(0);
+  const [idForEditing, setID] = useState(1);
   const [open, setOpen] = useState(false);
   const [editOpen, setEditOpen] = useState(false);
   //Getting Post content
@@ -66,17 +66,20 @@ function App() {
   const handleModalToggle = () => setOpen(!open);
 
   // Modal changes
-  const handleEditableModalToggle = () => setEditOpen(!editOpen);//тут надо найти айди
+  const handleEditableModalToggle = () => setEditOpen(!editOpen);
 
   //Search for a post by ID via the button
   const checkId = event => {
+   console.log(event.currentTarget.id);
    setID(event.currentTarget.id);
    console.log(idForEditing);
    handleEditableModalToggle();
   };
  //Сhanging a post with a specific id
-  const updatePost = (updatedPost) => {
+  const updatePost = ({updatedPost}) => {
     setMappedPosts(mappedPosts.map((post) => post.id === idForEditing ? updatedPost : post));
+    console.log('update post has occurred');
+    console.log(mappedPosts);
     console.log(updatedPost);
   }
 
@@ -92,12 +95,12 @@ function App() {
     <div className="outer">
       <Button onClick={handleModalToggle}>Create new post</Button>
       <Modal open={open} onClose={handleModalToggle}>
-        <PostFields specificId={idForEditing} mappedPosts={mappedPosts} addingToArray={addingToArray}
+        <PostFields  mappedPosts={mappedPosts} addingToArray={addingToArray}
         />
       </Modal>  
 
       <Modal open={editOpen} onClose={handleEditableModalToggle}>
-                <EditPostFields specificId={idForEditing} thePost={mappedPosts} updatePost={updatePost} />    
+                <EditPostFields specificId={1} allPosts={mappedPosts} updatePost={updatePost} />    
               </Modal>
 
       {isLoading ? (
@@ -161,3 +164,4 @@ function App() {
   );
 }
 export default App;
+
