@@ -15,9 +15,10 @@ const style = {
   p: 4,
 };
 
-export const EditPostFields = ({specificId, mappedPosts, updatePost} ) => {
+export const EditPostFields = ({specificId, allPosts, updatePost} ) => {
   console.log(",kz")
-  let thePost = mappedPosts.find((post)=>post.id === specificId)
+  let thePost = allPosts.find((post)=>post.id === specificId);
+  console.log(thePost);
 
   const [title,setTitle ] = useState(thePost.title);
   const [body, setBody] = useState(thePost.body);
