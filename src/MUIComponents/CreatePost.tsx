@@ -15,16 +15,16 @@ const style = {
   p: 4,
 };
 
-export const PostFields = ({addingToArray, modalStatusChange}) => {
+export const PostFields = ({addingToArray, modalStatusChange, lastID}) => {
 
   const [tfHeaderValue,setTFHeaderValue ] = useState("");
   const [tfContentValue, setTFContentValue] = useState("");
 
+
   // Function for button
   const createNewPost = (upperValue, loverValue) => {
-
+    const id = lastID;
     const userId = "Mak";
-    const id = Math.random().toString(16).slice(2);
     const title = upperValue;
     const body = loverValue;
     const avatars = { thumbnailUrl: "https://via.placeholder.com/150/54176f" }
