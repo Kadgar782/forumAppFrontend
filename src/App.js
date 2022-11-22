@@ -15,6 +15,7 @@ function App() {
   const [idForEditing, setID] = useState(0);
   const [open, setOpen] = useState(false);
   const [editOpen, setEditOpen] = useState(false);
+  const [lastID, setLastID] = useState(100);
   //Getting Post content
   useEffect(() => {
     // declare the async data fetching function
@@ -63,8 +64,10 @@ function App() {
   };
 
   //Modal open
-  const handleModalToggle = () => setOpen(!open);
-
+  const handleModalToggle = () =>{
+     addingOne();
+     setOpen(!open);     
+  }
   // Modal changes
   const handleEditableModalToggle = () => setEditOpen(!editOpen);
 
@@ -77,7 +80,10 @@ function App() {
   const updatePost = (updatedPost) => {
     setMappedPosts(mappedPosts.map((post) => post.id === Number(idForEditing) ? updatedPost : post));
   }
-
+ //Addint 1 to last ID
+ const addingOne = () => {
+  setLastID(lastID+1);
+ }
  //Adding new data from a component
   const addingToArray = (added) =>
   {
@@ -90,7 +96,7 @@ function App() {
     <div className="outer">
       <Button onClick={handleModalToggle}>Create new post</Button>
       <Modal open={open} onClose={handleModalToggle}>
-        <PostFields modalStatusChange={handleModalToggle}  mappedPosts={mappedPosts} addingToArray={addingToArray}
+        <PostFields lastID={lastID}  modalStatusChange={handleModalToggle}  mappedPosts={mappedPosts} addingToArray={addingToArray}
         />
       </Modal>  
 
