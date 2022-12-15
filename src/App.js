@@ -29,34 +29,16 @@ function App() {
       return json;
     };
     // call the function
-    const mapPosts = async () => {
-      const [posts, photos, users, comments] = await Promise.all([
-        fetchData("https://jsonplaceholder.typicode.com/posts"),
-        fetchData("https://jsonplaceholder.typicode.com/photos"),
-        fetchData("https://jsonplaceholder.typicode.com/users"),
-        fetchData("https://jsonplaceholder.typicode.com/comments"),
-      ]);
+    const getPosts = async () => {
+      const res = await fetchData("http://localhost:5000/api/data");
 
-      setMappedPosts(
-        posts.map((p) => {
-          const avatars = photos.find((u) => u.id === p.userId); // userId in posts
-          //Add Comments
-          const commentsInPost = comments.find((u) => u.id === p.userId);
+      const post = res.data;
 
-          // Changing ID
-          const createdBy = users.find((u) => u.id === p.userId);
-          return {
-            ...p,
-            commentsInPost,
-            avatars,
-            userId: createdBy ? createdBy.username : "Unknown user",
-          };
-        })
-      );
+      setMappedPosts(post);
     };
-    mapPosts().then(() => setIsLoading(false));
+    getPosts().then(() => setIsLoading(false));
   }, []);
-
+  console.log(mappedPosts);
   //Post remove function
   const removeElement = (id) => {
     const newPosts = mappedPosts.filter((mappedPosts) => mappedPosts.id !== id);
@@ -64,45 +46,56 @@ function App() {
   };
 
   //Modal open
-  const handleModalToggle = () =>{
-     addingOne();
-     setOpen(!open);     
-  }
+  const handleModalToggle = () => {
+    addingOne();
+    setOpen(!open);
+  };
   // Modal changes
   const handleEditableModalToggle = () => setEditOpen(!editOpen);
 
   //Search for a post by ID via the button
-  const checkId = event => {
-   setID(event.currentTarget.id);
-   handleEditableModalToggle();
+  const checkId = (event) => {
+    setID(event.currentTarget.id);
+    handleEditableModalToggle();
   };
- //Сhanging a post with a specific id
+  //Сhanging a post with a specific id
   const updatePost = (updatedPost) => {
-    setMappedPosts(mappedPosts.map((post) => post.id === Number(idForEditing) ? updatedPost : post));
-  }
- //Addint 1 to last ID
- const addingOne = () => {
-  setLastID(lastID+1);
- }
- //Adding new data from a component
-  const addingToArray = (added) =>
-  {
-    mappedPosts.unshift(added)
- }
-  
+    setMappedPosts(
+      mappedPosts.map((post) =>
+        post.id === Number(idForEditing) ? updatedPost : post
+      )
+    );
+  };
+  //Addint 1 to last ID
+  const addingOne = () => {
+    setLastID(lastID + 1);
+  };
+  //Adding new data from a component
+  const addingToArray = (added) => {
+    mappedPosts.unshift(added);
+  };
 
   // Creating Post with JSX
   return (
     <div className="outer">
       <Button onClick={handleModalToggle}>Create new post</Button>
       <Modal open={open} onClose={handleModalToggle}>
-        <PostFields lastID={lastID}  modalStatusChange={handleModalToggle}  mappedPosts={mappedPosts} addingToArray={addingToArray}
+        <PostFields
+          lastID={lastID}
+          modalStatusChange={handleModalToggle}
+          mappedPosts={mappedPosts}
+          addingToArray={addingToArray}
         />
-      </Modal>  
+      </Modal>
 
       <Modal open={editOpen} onClose={handleEditableModalToggle}>
-                <EditPostFields modalStatusChange={handleEditableModalToggle} specificId={idForEditing} allPosts={mappedPosts} updatePost={updatePost} />    
-              </Modal>
+        <EditPostFields
+          modalStatusChange={handleEditableModalToggle}
+          specificId={idForEditing}
+          allPosts={mappedPosts}
+          updatePost={updatePost}
+        />
+      </Modal>
 
       {isLoading ? (
         <div>IS loading...</div>
@@ -117,7 +110,7 @@ function App() {
                   aria-label="Edit"
                   disableRipple
                   id={post.id}
-                  onClick={checkId} 
+                  onClick={checkId}
                 >
                   <EditIcon />
                 </IconButton>
@@ -130,7 +123,7 @@ function App() {
                   <DeleteIcon />
                 </IconButton>
               </Typography>
-              <p>{post.body}</p> 
+              <p>{post.body}</p>
 
               <span>
                 <Avatar
