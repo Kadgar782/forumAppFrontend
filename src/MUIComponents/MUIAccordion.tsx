@@ -3,7 +3,7 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore"
 import React from "react"
 
  
-export const MuiAccordion = ({header,content,creator}) => {
+export const MuiAccordion = ({header,content,creatorAvatar,creatorName}) => {
     return( 
          <div>
          <Accordion>
@@ -17,9 +17,18 @@ export const MuiAccordion = ({header,content,creator}) => {
             <Divider
               sx={{border: 1}} />
             <AccordionDetails  sx={{
-                backgroundColor: "#cbcccc"
+                backgroundColor: "#cbcccc",
+                paddingLeft: -10
               }} >
-                <Avatar alt="Placeholder" src={creator} />
+                <span>
+                <Avatar alt="Placeholder" src={creatorAvatar} variant="rounded"
+                sx={{
+                  maxWidth: 35,
+                  maxHeight: 35,
+                  marginRight: 0.5
+                }} />
+                {creatorName}
+                </span>
                 <Typography> {content}</Typography>
             </AccordionDetails>
          </Accordion>
@@ -28,4 +37,3 @@ export const MuiAccordion = ({header,content,creator}) => {
         )
     
 }
-

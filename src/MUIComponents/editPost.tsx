@@ -16,18 +16,38 @@ const style = {
 };
 
 export const EditPostFields = ({specificId, allPosts, updatePost, modalStatusChange} ) => {
-  Number(specificId);
-  let thePost = allPosts.find((post)=>post.id ===  Number(specificId));
+  let thePost = allPosts.find((post)=>post._id ===  specificId);
 
   const [title,setTitle ] = useState(thePost.title);
   const [body, setBody] = useState(thePost.body);
 
-  const id = Number(specificId);  
-  const avatars = { thumbnailUrl: thePost.avatars.thumbnailUrl }
+  const _id = specificId;  
+  const thumbnailUrl = thePost.thumbnailUrl
   const userId = thePost.userId;
   const commentsInPost = {};
 
-  const updatedPost = {id, title, body, avatars, userId, commentsInPost};
+  const updatedPost = {_id, title, body, thumbnailUrl, userId, commentsInPost};
+  
+ // make request to backend
+  const updateResource = (id, data) => {
+    fetch(`http://localhost:5000/api/products/${id}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data)
+    })
+    .then(response => response.json())
+    .then(result => {
+      console.log(result);
+    })
+    .catch(error => {
+      console.error(error);
+    });
+  }
+
+  updateResource(_id,updatedPost);
+  
   // Function for button
   const handleSubmit = () => {
     updatePost(updatedPost);

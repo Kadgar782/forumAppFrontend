@@ -3,6 +3,7 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button'
 import React, { useState,  } from "react";
 
+
 const style = {
   position: 'absolute' as 'absolute',
   top: '50%',
@@ -15,7 +16,7 @@ const style = {
   p: 4,
 };
 
-export const PostFields = ({addingToArray, modalStatusChange, lastID}) => {
+export const PostFields = ({addingToArray, modalStatusChange}) => {
 
   const [tfHeaderValue,setTFHeaderValue ] = useState("");
   const [tfContentValue, setTFContentValue] = useState("");
@@ -23,12 +24,13 @@ export const PostFields = ({addingToArray, modalStatusChange, lastID}) => {
 
   // Function for button
   const createNewPost = (upperValue, loverValue) => {
-    const id = lastID;
     const userId = "Mak";
     const title = upperValue;
     const body = loverValue;
-    const avatars = { thumbnailUrl: "https://via.placeholder.com/150/54176f" }
+    const thumbnailUrl = "https://via.placeholder.com/150/54176f";
     const commentsInPost = {}
+
+    const allData = {userId, title, body,thumbnailUrl }
 
     const clearHeaderValue = () => setTFHeaderValue("");
     const clearContentValue = () => setTFContentValue("");
@@ -36,7 +38,27 @@ export const PostFields = ({addingToArray, modalStatusChange, lastID}) => {
     clearHeaderValue();
     clearContentValue();
 
-    addingToArray({userId,id,title,body,avatars,commentsInPost});
+    // make request to backend
+    const createNewPost = (data) => {
+      fetch("http://localhost:5000/api/products", {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+      })
+      .then(response => response.json())
+      .then(result => {
+        console.log(result);
+      })
+      .catch(error => {
+        console.error(error);
+      });
+    }
+
+  createNewPost(allData);
+
+    addingToArray({userId,title,body,thumbnailUrl,commentsInPost});
     modalStatusChange();
   }
   

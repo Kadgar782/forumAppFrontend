@@ -12,10 +12,9 @@ import './App.css';
 function App() {
   const [isLoading, setIsLoading] = useState(true);
   const [mappedPosts, setMappedPosts] = useState([]);
-  const [idForEditing, setID] = useState(0);
+  const [idForEditing, setID] = useState([]);
   const [open, setOpen] = useState(false);
   const [editOpen, setEditOpen] = useState(false);
-  const [lastID, setLastID] = useState(100);
   //Getting Post content
   useEffect(() => {
     // declare the async data fetching function
@@ -39,15 +38,27 @@ function App() {
     getPosts().then(() => setIsLoading(false));
   }, []);
   console.log(mappedPosts);
+
+
   //Post remove function
-  const removeElement = (id) => {
-    const newPosts = mappedPosts.filter((mappedPosts) => mappedPosts.id !== id);
-    setMappedPosts(newPosts);
-  };
+  const removeElement = (_id) => {
+    const newPosts = mappedPosts.filter((mappedPosts) => mappedPosts._id !== _id);
+   //Backend fetch
+   const deleteResource = (id) => {
+    fetch(`http://localhost:5000/api/products/${id}`,{
+      method: 'DELETE',
+    })
+      .then(response => response.json())
+      .then(data => console.log(data))
+      .catch(error => console.error(error))
+    };
+   deleteResource(_id)
+
+    setMappedPosts(newPosts); 
+  }
 
   //Modal open
   const handleModalToggle = () => {
-    addingOne();
     setOpen(!open);
   };
   // Modal changes
@@ -56,19 +67,16 @@ function App() {
   //Search for a post by ID via the button
   const checkId = (event) => {
     setID(event.currentTarget.id);
+    console.log(event.currentTarget.id);
     handleEditableModalToggle();
   };
   //Сhanging a post with a specific id
   const updatePost = (updatedPost) => {
     setMappedPosts(
       mappedPosts.map((post) =>
-        post.id === Number(idForEditing) ? updatedPost : post
+        post._id === idForEditing ? updatedPost : post
       )
     );
-  };
-  //Addint 1 to last ID
-  const addingOne = () => {
-    setLastID(lastID + 1);
   };
   //Adding new data from a component
   const addingToArray = (added) => {
@@ -81,7 +89,6 @@ function App() {
       <Button onClick={handleModalToggle}>Create new post</Button>
       <Modal open={open} onClose={handleModalToggle}>
         <PostFields
-          lastID={lastID}
           modalStatusChange={handleModalToggle}
           mappedPosts={mappedPosts}
           addingToArray={addingToArray}
@@ -102,14 +109,14 @@ function App() {
       ) : (
         mappedPosts.map((post) => {
           return (
-            <div className="inner" key={post.id} id={post.id}>
+            <div className="inner" key={post._id} >
               <Typography variant="h5">
                 {post.title}
 
                 <IconButton
                   aria-label="Edit"
                   disableRipple
-                  id={post.id}
+                  id={post._id}
                   onClick={checkId}
                 >
                   <EditIcon />
@@ -118,7 +125,7 @@ function App() {
                 <IconButton
                   aria-label="delete"
                   disableRipple
-                  onClick={() => removeElement(post.id)}
+                  onClick={() => removeElement(post._id)}
                 >
                   <DeleteIcon />
                 </IconButton>
@@ -128,7 +135,7 @@ function App() {
               <span>
                 <Avatar
                   alt="Placeholder"
-                  src={post.avatars.thumbnailUrl}
+                  src={post.thumbnailUrl}
                   variant="rounded"
                   sx={{
                     maxWidth: 35,
@@ -146,7 +153,7 @@ function App() {
                 <MuiAccordion
                   header={"Comments"}
                   content={post.commentsInPost.body}
-                  creatorAvatar={post.avatars.thumbnailUrl}
+                  creatorAvatar={post.thumbnailUrl}
                   creatorName={post.commentsInPost.name}
                 />
               )}
