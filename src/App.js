@@ -1,13 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { Divider, Typography,Avatar,IconButton, Button,Modal} from "@mui/material";
-import DeleteIcon from '@mui/icons-material/Delete';
-import EditIcon from '@mui/icons-material/Edit';
-import  {MuiAccordion}  from "./MUIComponents/MUIAccordion.tsx";
-import {PostFields} from "./MUIComponents/CreatePost.tsx";
-import { EditPostFields } from "./MUIComponents/editPost.tsx";
+import { Divider, Button, Modal} from "@mui/material";
+import  {MuiAccordion}  from "./Components/MUIAccordion.tsx";
+import {PostFields} from "./Components/CreatePost.tsx";
+import { EditPostFields } from "./Components/editPost.tsx";
+import { PostSchema } from "./Components/PostBlueprint.tsx";
 
 import './App.css';
-
 
 function App() {
   const [isLoading, setIsLoading] = useState(true);
@@ -90,7 +88,6 @@ function App() {
       <Modal open={open} onClose={handleModalToggle}>
         <PostFields
           modalStatusChange={handleModalToggle}
-          mappedPosts={mappedPosts}
           addingToArray={addingToArray}
         />
       </Modal>
@@ -107,61 +104,13 @@ function App() {
       {isLoading ? (
         <div>IS loading...</div>
       ) : (
-        mappedPosts.map((post) => {
-          return (
-            <div className="inner" key={post._id} >
-              <Typography variant="h5">
-                {post.title}
-
-                <IconButton
-                  aria-label="Edit"
-                  disableRipple
-                  id={post._id}
-                  onClick={checkId}
-                >
-                  <EditIcon />
-                </IconButton>
-
-                <IconButton
-                  aria-label="delete"
-                  disableRipple
-                  onClick={() => removeElement(post._id)}
-                >
-                  <DeleteIcon />
-                </IconButton>
-              </Typography>
-              <p>{post.body}</p>
-
-              <span>
-                <Avatar
-                  alt="Placeholder"
-                  src={post.thumbnailUrl}
-                  variant="rounded"
-                  sx={{
-                    maxWidth: 35,
-                    maxHeight: 35,
-                    marginRight: 0.5,
-                  }}
-                />
-                {post.userId}
-              </span>
-              <Divider sx={{ border: 1 }} />
-              {post.commentsInPost === 0 ||
-              post.commentsInPost === undefined ? (
-                <MuiAccordion header={"Comments"} content="No comments yet" />
-              ) : (
-                <MuiAccordion
-                  header={"Comments"}
-                  content={post.commentsInPost.body}
-                  creatorAvatar={post.thumbnailUrl}
-                  creatorName={post.commentsInPost.name}
-                />
-              )}
-            </div>
-          );
-        })
+        <PostSchema
+          arrayWithPosts={mappedPosts}
+          checkingId={checkId}
+          deleteElement={removeElement}
+        />
       )}
     </div>
   );
-}
+      }
 export default App;
