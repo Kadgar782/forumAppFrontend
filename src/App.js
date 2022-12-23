@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { Divider, Button, Modal} from "@mui/material";
-import  {MuiAccordion}  from "./Components/MUIAccordion.tsx";
-import {PostFields} from "./Components/CreatePost.tsx";
-import { EditPostFields } from "./Components/editPost.tsx";
-import { PostSchema } from "./Components/PostBlueprint.tsx";
+import {  Button, Modal} from "@mui/material";
+import  {MuiAccordion}  from "./Components/MUIAccordion.js";
+import {PostFields} from "./Components/CreatePost.js";
+import { EditPostFields } from "./Components/editPost.js";
+import { PostSchema } from "./Components/PostBlueprint.js";
 
 import './App.css';
 
@@ -107,10 +107,11 @@ function App() {
         <PostSchema
           arrayWithPosts={mappedPosts}
           checkingId={checkId}
-          deleteElement={removeElement}
+          deleteElement={removeElement}    
         />
+   
       )}
     </div>
   );
-      }
+}
 export default App;
