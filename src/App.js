@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import {  Button, Modal} from "@mui/material";
-import  {MuiAccordion}  from "./Components/MUIAccordion.js";
 import {PostFields} from "./Components/CreatePost.js";
 import { EditPostFields } from "./Components/editPost.js";
 import { PostSchema } from "./Components/PostBlueprint.js";
+import {RegistrationFields} from "./Components/registrationFields.js"
 
 import './App.css';
 
@@ -12,6 +12,7 @@ function App() {
   const [mappedPosts, setMappedPosts] = useState([]);
   const [idForEditing, setID] = useState([]);
   const [open, setOpen] = useState(false);
+  const [registrationOpen, setRegistrationOpen] = useState(false);
   const [editOpen, setEditOpen] = useState(false);
   //Getting Post content
   useEffect(() => {
@@ -61,6 +62,10 @@ function App() {
   };
   // Modal changes
   const handleEditableModalToggle = () => setEditOpen(!editOpen);
+  //Registration Modal
+  const handleRegistrationModalToggle = () => {
+    setRegistrationOpen(!registrationOpen);
+  };
 
   //Search for a post by ID via the button
   const checkId = (event) => {
@@ -85,12 +90,21 @@ function App() {
   return (
     <div className="outer">
       <Button onClick={handleModalToggle}>Create new post</Button>
+      <Button onClick={handleRegistrationModalToggle}>Registration</Button>
       <Modal open={open} onClose={handleModalToggle}>
         <PostFields
           modalStatusChange={handleModalToggle}
           addingToArray={addingToArray}
         />
       </Modal>
+
+      <Modal open={registrationOpen} onClose={handleRegistrationModalToggle}>
+        <RegistrationFields
+          modalStatusChange={handleRegistrationModalToggle}
+          addingToArray={addingToArray}
+        />
+      </Modal>
+
 
       <Modal open={editOpen} onClose={handleEditableModalToggle}>
         <EditPostFields

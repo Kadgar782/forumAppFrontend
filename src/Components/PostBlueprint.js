@@ -7,7 +7,6 @@ import React from "react";
 
 export const PostSchema = ({ arrayWithPosts, checkingId, deleteElement }) => {
   return arrayWithPosts.map((post) => {
-    console.log(post);
     return (
       <div className="inner" key={post._id}>
         <Typography variant="h5">
@@ -43,7 +42,7 @@ export const PostSchema = ({ arrayWithPosts, checkingId, deleteElement }) => {
               marginRight: 0.5,
             }}
           />
-          {post.userId}
+          {post.username}
         </span>
         <Divider sx={{ border: 1 }} />
         <CommentSchema wholePost={post} />
