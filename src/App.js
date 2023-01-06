@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
-import {  Button, Modal} from "@mui/material";
+import { Box, IconButton, Typography,Toolbar,AppBar, Button, Modal} from "@mui/material";
 import {PostFields} from "./Components/CreatePost.js";
 import { EditPostFields } from "./Components/editPost.js";
 import { PostSchema } from "./Components/PostBlueprint.js";
+import MenuIcon from '@mui/icons-material/Menu';
 import {RegistrationFields} from "./Components/registrationFields.js"
 
 import './App.css';
@@ -10,6 +11,7 @@ import './App.css';
 function App() {
   const [isLoading, setIsLoading] = useState(true);
   const [mappedPosts, setMappedPosts] = useState([]);
+  const [userList, setUser] = useState([]);
   const [idForEditing, setID] = useState([]);
   const [open, setOpen] = useState(false);
   const [registrationOpen, setRegistrationOpen] = useState(false);
@@ -82,18 +84,41 @@ function App() {
     );
   };
   //Adding new data from a component
-  const addingToArray = (added) => {
-    mappedPosts.unshift(added);
+  const addingToArray = (arrayForAdding,added) => {
+    arrayForAdding.unshift(added);
   };
+  
 
   // Creating Post with JSX
   return (
     <div className="outer">
-      <Button onClick={handleModalToggle}>Create new post</Button>
-      <Button onClick={handleRegistrationModalToggle}>Registration</Button>
+     <Box sx={{ flexGrow: 1 }}>
+      <AppBar position="static">
+        <Toolbar>
+          <IconButton
+            size="large"
+            edge="start"
+            color="inherit"
+            aria-label="menu"
+            sx={{ mr: 2 }}
+          >
+            <MenuIcon />
+          </IconButton>
+          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+          </Typography>
+          <Button  color="inherit" onClick={handleModalToggle}>Create new post</Button>
+          <Button color="inherit">Login</Button>
+          <Button color="inherit" onClick={handleRegistrationModalToggle}>Registration</Button>
+        </Toolbar>
+      </AppBar>
+    </Box>
+    
+
+     
       <Modal open={open} onClose={handleModalToggle}>
         <PostFields
           modalStatusChange={handleModalToggle}
+          arrayForAdding={mappedPosts}
           addingToArray={addingToArray}
         />
       </Modal>
@@ -101,6 +126,7 @@ function App() {
       <Modal open={registrationOpen} onClose={handleRegistrationModalToggle}>
         <RegistrationFields
           modalStatusChange={handleRegistrationModalToggle}
+          arrayForAdding={userList}
           addingToArray={addingToArray}
         />
       </Modal>

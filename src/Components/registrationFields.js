@@ -16,7 +16,7 @@ const style = {
   p: 4,
 };
 
-export const RegistrationFields = ({addingToArray, modalStatusChange}) => {
+export const RegistrationFields = ({addingToArray,arrayForAdding, modalStatusChange}) => {
 
   const [tfHeaderValue,setTFHeaderValue ] = useState("");
   const [tfContentValue, setTFContentValue] = useState("");
@@ -55,7 +55,7 @@ export const RegistrationFields = ({addingToArray, modalStatusChange}) => {
 
     registrateNewUser(allData);
 
-    addingToArray({username });
+    addingToArray(arrayForAdding, {username });
     modalStatusChange();
     console.log(allData)
   }
