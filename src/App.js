@@ -4,16 +4,19 @@ import {PostFields} from "./Components/CreatePost.js";
 import { EditPostFields } from "./Components/editPost.js";
 import { PostSchema } from "./Components/PostBlueprint.js";
 import MenuIcon from '@mui/icons-material/Menu';
+import  {LoginFields} from "./Components/loginUser.js"
 import {RegistrationFields} from "./Components/registrationFields.js"
-
 import './App.css';
+
 
 function App() {
   const [isLoading, setIsLoading] = useState(true);
   const [mappedPosts, setMappedPosts] = useState([]);
   const [userList, setUser] = useState([]);
+  const [currentUser, setCurrentUser] = useState([]);
   const [idForEditing, setID] = useState([]);
   const [open, setOpen] = useState(false);
+  const [loginOpen, setLoginOpen] = useState(false);
   const [registrationOpen, setRegistrationOpen] = useState(false);
   const [editOpen, setEditOpen] = useState(false);
   //Getting Post content
@@ -68,6 +71,10 @@ function App() {
   const handleRegistrationModalToggle = () => {
     setRegistrationOpen(!registrationOpen);
   };
+  //Login Modal
+  const handleLoginModalToggle = () => {
+    setLoginOpen(!loginOpen);
+  };
 
   //Search for a post by ID via the button
   const checkId = (event) => {
@@ -107,17 +114,24 @@ function App() {
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
           </Typography>
           <Button  color="inherit" onClick={handleModalToggle}>Create new post</Button>
-          <Button color="inherit">Login</Button>
+          <Button color="inherit" onClick={handleLoginModalToggle}>Login</Button>
           <Button color="inherit" onClick={handleRegistrationModalToggle}>Registration</Button>
         </Toolbar>
       </AppBar>
     </Box>
     
-
+  <Modal open={loginOpen} onClose={handleLoginModalToggle}>
+    <LoginFields
+          modalStatusChange={handleLoginModalToggle}
+          arrayForAdding={currentUser}
+          addingToArray={addingToArray}
+    />
+  </Modal>
      
       <Modal open={open} onClose={handleModalToggle}>
         <PostFields
           modalStatusChange={handleModalToggle}
+          userName={currentUser}
           arrayForAdding={mappedPosts}
           addingToArray={addingToArray}
         />

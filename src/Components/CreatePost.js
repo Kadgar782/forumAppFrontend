@@ -16,7 +16,7 @@ const style = {
   p: 4,
 };
 
-export const PostFields = ({addingToArray,arrayForAdding, modalStatusChange}) => {
+export const PostFields = ({userName,addingToArray,arrayForAdding, modalStatusChange}) => {
 
   const [tfHeaderValue,setTFHeaderValue ] = useState("");
   const [tfContentValue, setTFContentValue] = useState("");
@@ -24,13 +24,13 @@ export const PostFields = ({addingToArray,arrayForAdding, modalStatusChange}) =>
 
   // Function for button
   const createNewPost = (upperValue, loverValue) => {
-    const userId = "Mak";
+    const username = userName;
     const title = upperValue;
     const body = loverValue;
     const thumbnailUrl = "https://via.placeholder.com/150/54176f";
     const commentsInPost = {}
 
-    const allData = {userId, title, body,thumbnailUrl }
+    const allData = {username, title, body,thumbnailUrl }
 
     const clearHeaderValue = () => setTFHeaderValue("");
     const clearContentValue = () => setTFContentValue("");
@@ -58,7 +58,7 @@ export const PostFields = ({addingToArray,arrayForAdding, modalStatusChange}) =>
 
   createNewPost(allData);
 
-    addingToArray(arrayForAdding,{userId,title,body,thumbnailUrl,commentsInPost});
+    addingToArray(arrayForAdding,{username,title,body,thumbnailUrl,commentsInPost});
     modalStatusChange();
   }
   

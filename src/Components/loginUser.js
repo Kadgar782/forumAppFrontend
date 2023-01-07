@@ -16,14 +16,14 @@ const style = {
   p: 4,
 };
 
-export const RegistrationFields = ({addingToArray,arrayForAdding, modalStatusChange}) => {
+export const LoginFields = ({addingToArray,arrayForAdding, modalStatusChange}) => {
 
   const [tfHeaderValue,setTFHeaderValue ] = useState("");
   const [tfContentValue, setTFContentValue] = useState("");
 
 
   // Function for button
-  const registrationNewUser = (upperValue, loverValue) => {
+  const loginUser = (upperValue, loverValue) => {
     const username = upperValue;
     const password = loverValue;
 
@@ -36,8 +36,8 @@ export const RegistrationFields = ({addingToArray,arrayForAdding, modalStatusCha
     clearContentValue();
 
     // make request to backend
-    const registrateNewUser = (data) => {
-      fetch("http://localhost:5000/auth/registration", {
+    const loginBackendUser = (data) => {
+      fetch("http://localhost:5000/auth/login", {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -53,11 +53,11 @@ export const RegistrationFields = ({addingToArray,arrayForAdding, modalStatusCha
       });
     }
 
-    registrateNewUser(allData);
+    loginBackendUser(allData);
 
     addingToArray(arrayForAdding, {username });
     modalStatusChange();
-    console.log(allData)
+    console.log(username)
   }
   
   //Modal content
@@ -77,7 +77,7 @@ export const RegistrationFields = ({addingToArray,arrayForAdding, modalStatusCha
           width: 1 / 1,
         }}>
       </TextField>
-      <Button disabled={(!tfHeaderValue.replace(/\s/g, '').length) || (!tfContentValue.replace(/\s/g, '').length)} onClick={()=>registrationNewUser(tfHeaderValue, tfContentValue)}>Confirm</Button>
+      <Button disabled={(!tfHeaderValue.replace(/\s/g, '').length) || (!tfContentValue.replace(/\s/g, '').length)} onClick={()=> loginUser(tfHeaderValue, tfContentValue)}>Confirm</Button>
     </Box>
   )
 }
