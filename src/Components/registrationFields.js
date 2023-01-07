@@ -23,9 +23,8 @@ export const RegistrationFields = ({addingToArray,arrayForAdding, modalStatusCha
 
 
   // Function for button
-  const registrationNewUser = (upperValue, loverValue) => {
-    const username = upperValue;
-    const password = loverValue;
+  const registrationNewUser = (username, password) => {
+
 
     const allData = {username, password }
 

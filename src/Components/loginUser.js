@@ -16,7 +16,7 @@ const style = {
   p: 4,
 };
 
-export const LoginFields = ({addingToArray,arrayForAdding, modalStatusChange}) => {
+export const LoginFields = ({thatUser, modalStatusChange}) => {
 
   const [tfHeaderValue,setTFHeaderValue ] = useState("");
   const [tfContentValue, setTFContentValue] = useState("");
@@ -55,7 +55,7 @@ export const LoginFields = ({addingToArray,arrayForAdding, modalStatusChange}) =
 
     loginBackendUser(allData);
 
-    addingToArray(arrayForAdding, {username });
+    thatUser(username);
     modalStatusChange();
     console.log(username)
   }
