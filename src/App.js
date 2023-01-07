@@ -13,7 +13,7 @@ function App() {
   const [isLoading, setIsLoading] = useState(true);
   const [mappedPosts, setMappedPosts] = useState([]);
   const [userList, setUser] = useState([]);
-  const [currentUser, setCurrentUser] = useState([]);
+  const [currentUser, setCurrentUser] = useState("");
   const [idForEditing, setID] = useState([]);
   const [open, setOpen] = useState(false);
   const [loginOpen, setLoginOpen] = useState(false);
@@ -82,6 +82,13 @@ function App() {
     console.log(event.currentTarget.id);
     handleEditableModalToggle();
   };
+
+  //Set current User
+  const setTheUser = (username) =>{
+    setCurrentUser(username);
+    console.log(currentUser)
+  }
+
   //Сhanging a post with a specific id
   const updatePost = (updatedPost) => {
     setMappedPosts(
@@ -123,8 +130,7 @@ function App() {
   <Modal open={loginOpen} onClose={handleLoginModalToggle}>
     <LoginFields
           modalStatusChange={handleLoginModalToggle}
-          arrayForAdding={currentUser}
-          addingToArray={addingToArray}
+          thatUser={setTheUser}
     />
   </Modal>
      
