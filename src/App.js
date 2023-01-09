@@ -46,7 +46,7 @@ function App() {
 
   //Post remove function
   const removeElement = (_id) => {
-    const newPosts = mappedPosts.filter((mappedPosts) => mappedPosts._id !== _id);
+  
    //Backend fetch
    const deleteResource = (id) => {
     fetch(`http://localhost:5000/api/products/${id}`,{
@@ -56,7 +56,9 @@ function App() {
       .then(data => console.log(data))
       .catch(error => console.error(error))
     };
-   deleteResource(_id)
+   deleteResource(_id);
+
+   const newPosts = mappedPosts.filter((mappedPosts) => mappedPosts._id !== _id);
 
     setMappedPosts(newPosts); 
   }
@@ -82,7 +84,10 @@ function App() {
     console.log(event.currentTarget.id);
     handleEditableModalToggle();
   };
-
+  const logOut =()=>{
+    setCurrentUser("");
+    console.log(currentUser)
+  }
   //Set current User
   const setTheUser = (username) =>{
     setCurrentUser(username);
@@ -101,7 +106,7 @@ function App() {
   const addingToArray = (arrayForAdding,added) => {
     arrayForAdding.unshift(added);
   };
-  
+  console.log(currentUser)
 
   // Creating Post with JSX
   return (
@@ -121,7 +126,10 @@ function App() {
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
           </Typography>
           <Button  color="inherit" onClick={handleModalToggle}>Create new post</Button>
-          <Button color="inherit" onClick={handleLoginModalToggle}>Login</Button>
+          {currentUser === "" ?(<Button color="inherit" onClick={handleLoginModalToggle}>Login</Button>)
+           :
+            (<Button color="inherit" onClick={logOut}>Log out</Button>)}
+          
           <Button color="inherit" onClick={handleRegistrationModalToggle}>Registration</Button>
         </Toolbar>
       </AppBar>

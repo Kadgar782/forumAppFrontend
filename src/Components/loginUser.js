@@ -36,8 +36,9 @@ export const LoginFields = ({thatUser, modalStatusChange}) => {
     clearContentValue();
 
     // make request to backend
-    const loginBackendUser = (data) => {
-      fetch("http://localhost:5000/auth/login", {
+    const loginBackendUser =  (data) => {
+      
+       fetch("http://localhost:5000/auth/login", {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -45,17 +46,17 @@ export const LoginFields = ({thatUser, modalStatusChange}) => {
         body: JSON.stringify(data)
       })
       .then(response => response.json())
+      .then (thatUser(username))
       .then(result => {
         console.log(result);
       })
       .catch(error => {
         console.error(error);
-      });
+      }) 
     }
 
     loginBackendUser(allData);
 
-    thatUser(username);
     modalStatusChange();
     console.log(username)
   }
