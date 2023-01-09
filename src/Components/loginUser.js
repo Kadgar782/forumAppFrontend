@@ -45,10 +45,13 @@ export const LoginFields = ({thatUser, modalStatusChange}) => {
         },
         body: JSON.stringify(data)
       })
-      .then(response => response.json())
-      .then (thatUser(username))
-      .then(result => {
-        console.log(result);
+      .then(response => {
+        if (response.status >= 400) {
+          throw new Error("Server responds with error!");
+        }
+      })
+      .then (() => {
+        thatUser(username)
       })
       .catch(error => {
         console.error(error);
