@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Box, IconButton, Typography,Toolbar,AppBar, Button, Modal} from "@mui/material";
+import { createBrowserRouter, Routes, Route, Link} from "react-router-dom";
 import {PostFields} from "./Components/CreatePost.js";
 import { EditPostFields } from "./Components/editPost.js";
 import { PostSchema } from "./Components/PostBlueprint.js";
@@ -37,31 +38,37 @@ function App() {
 
       const post = res.data;
 
-      setMappedPosts(post);
+      const revPost = post.reverse();
+
+      setMappedPosts(revPost);
+      console.log(mappedPosts);
     };
+
     getPosts().then(() => setIsLoading(false));
   }, []);
   console.log(mappedPosts);
 
+  //Router
 
   //Post remove function
   const removeElement = (_id) => {
-  
-   //Backend fetch
-   const deleteResource = (id) => {
-    fetch(`http://localhost:5000/api/products/${id}`,{
-      method: 'DELETE',
-    })
-      .then(response => response.json())
-      .then(data => console.log(data))
-      .catch(error => console.error(error))
+    //Backend fetch
+    const deleteResource = (id) => {
+      fetch(`http://localhost:5000/api/products/${id}`, {
+        method: "DELETE",
+      })
+        .then((response) => response.json())
+        .then((data) => console.log(data))
+        .catch((error) => console.error(error));
     };
-   deleteResource(_id);
+    deleteResource(_id);
 
-   const newPosts = mappedPosts.filter((mappedPosts) => mappedPosts._id !== _id);
+    const newPosts = mappedPosts.filter(
+      (mappedPosts) => mappedPosts._id !== _id
+    );
 
-    setMappedPosts(newPosts); 
-  }
+    setMappedPosts(newPosts);
+  };
 
   //Modal open
   const handleModalToggle = () => {
@@ -84,15 +91,15 @@ function App() {
     console.log(event.currentTarget.id);
     handleEditableModalToggle();
   };
-  const logOut =()=>{
+  const logOut = () => {
     setCurrentUser("");
-    console.log(currentUser)
-  }
+    console.log(currentUser);
+  };
   //Set current User
-  const setTheUser = (username) =>{
+  const setTheUser = (username) => {
     setCurrentUser(username);
-    console.log(currentUser)
-  }
+    console.log(currentUser);
+  };
 
   //Сhanging a post with a specific id
   const updatePost = (updatedPost) => {
@@ -103,45 +110,62 @@ function App() {
     );
   };
   //Adding new data from a component
-  const addingToArray = (arrayForAdding,added) => {
+  const addingToArray = (arrayForAdding, added) => {
     arrayForAdding.unshift(added);
   };
-  console.log(currentUser)
+  console.log(currentUser);
 
   // Creating Post with JSX
   return (
     <div className="outer">
-     <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static">
-        <Toolbar>
-          <IconButton
-            size="large"
-            edge="start"
-            color="inherit"
-            aria-label="menu"
-            sx={{ mr: 2 }}
-          >
-            <MenuIcon />
-          </IconButton>
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-          </Typography>
-          <Button  color="inherit" onClick={handleModalToggle}>Create new post</Button>
-          {currentUser === "" ?(<Button color="inherit" onClick={handleLoginModalToggle}>Login</Button>)
-           :
-            (<Button color="inherit" onClick={logOut}>Log out</Button>)}
-          
-          <Button color="inherit" onClick={handleRegistrationModalToggle}>Registration</Button>
-        </Toolbar>
-      </AppBar>
-    </Box>
-    
-  <Modal open={loginOpen} onClose={handleLoginModalToggle}>
-    <LoginFields
+      <Box sx={{ flexGrow: 1 }}>
+        <AppBar position="static">
+          <Toolbar>
+            <IconButton
+              size="large"
+              edge="start"
+              color="inherit"
+              aria-label="menu"
+              sx={{ mr: 2 }}
+            >
+              <MenuIcon />
+            </IconButton>
+            <Typography
+              variant="h6"
+              component="div"
+              sx={{ flexGrow: 1 }}
+            ></Typography>
+            <Button color="inherit" component={Link} to="/editor"  >
+              Create new post
+            </Button>
+            {currentUser === "" ? (
+              <Button color="inherit" onClick={handleLoginModalToggle}>
+                Login
+              </Button>
+            ) : (
+              <Button color="inherit" onClick={logOut}>
+                Log out
+              </Button>
+            )}
+
+            <Button color="inherit" onClick={handleRegistrationModalToggle}>
+              Registration
+            </Button>
+          </Toolbar>
+        </AppBar>
+      </Box>
+
+      <Routes>
+       <Route path="/editor" element={<PostFields />} />
+      </Routes>
+
+      <Modal open={loginOpen} onClose={handleLoginModalToggle}>
+        <LoginFields
           modalStatusChange={handleLoginModalToggle}
           thatUser={setTheUser}
-    />
-  </Modal>
-     
+        />
+      </Modal>
+
       <Modal open={open} onClose={handleModalToggle}>
         <PostFields
           modalStatusChange={handleModalToggle}
@@ -159,7 +183,6 @@ function App() {
         />
       </Modal>
 
-
       <Modal open={editOpen} onClose={handleEditableModalToggle}>
         <EditPostFields
           modalStatusChange={handleEditableModalToggle}
@@ -175,9 +198,8 @@ function App() {
         <PostSchema
           arrayWithPosts={mappedPosts}
           checkingId={checkId}
-          deleteElement={removeElement}    
+          deleteElement={removeElement}
         />
-   
       )}
     </div>
   );

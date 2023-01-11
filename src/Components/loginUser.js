@@ -46,7 +46,7 @@ export const LoginFields = ({thatUser, modalStatusChange}) => {
         body: JSON.stringify(data)
       })
       .then(response => {
-        if (response.status >= 400) {
+        if (response.status >= 400) {  
           throw new Error("Server responds with error!");
         }
       })
