@@ -41,7 +41,6 @@ function App() {
       const revPost = post.reverse();
 
       setMappedPosts(revPost);
-      console.log(mappedPosts);
     };
 
     getPosts().then(() => setIsLoading(false));
@@ -157,6 +156,11 @@ function App() {
 
       <Routes>
        <Route path="/editor" element={<PostFields />} />
+       <Route path="/" element={ <PostSchema
+          arrayWithPosts={mappedPosts}
+          checkingId={checkId}
+          deleteElement={removeElement}
+        />} />
       </Routes>
 
       <Modal open={loginOpen} onClose={handleLoginModalToggle}>
@@ -192,7 +196,7 @@ function App() {
         />
       </Modal>
 
-      {isLoading ? (
+      {/* {isLoading ? (
         <div>IS loading...</div>
       ) : (
         <PostSchema
@@ -200,7 +204,7 @@ function App() {
           checkingId={checkId}
           deleteElement={removeElement}
         />
-      )}
+      )} */}
     </div>
   );
 }
