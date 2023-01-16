@@ -68,11 +68,10 @@ function App() {
 
     setMappedPosts(newPosts);
   };
+  const refreshPage = () => {
+    window.location.reload(false);
+  } 
 
-  //Modal open
-  const handleModalToggle = () => {
-    setOpen(!open);
-  };
   // Modal changes
   const handleEditableModalToggle = () => setEditOpen(!editOpen);
   //Registration Modal
@@ -121,6 +120,7 @@ function App() {
         <AppBar position="static">
           <Toolbar>
             <IconButton
+             component={Link} to="/" 
               size="large"
               edge="start"
               color="inherit"
@@ -155,7 +155,10 @@ function App() {
       </Box>
 
       <Routes>
-       <Route path="/editor" element={<PostFields />} />
+       <Route path="/editor" element={<PostFields
+          userName={currentUser}
+          arrayForAdding={mappedPosts}
+          addingToArray={addingToArray} />} />
        <Route path="/" element={ <PostSchema
           arrayWithPosts={mappedPosts}
           checkingId={checkId}
@@ -167,15 +170,6 @@ function App() {
         <LoginFields
           modalStatusChange={handleLoginModalToggle}
           thatUser={setTheUser}
-        />
-      </Modal>
-
-      <Modal open={open} onClose={handleModalToggle}>
-        <PostFields
-          modalStatusChange={handleModalToggle}
-          userName={currentUser}
-          arrayForAdding={mappedPosts}
-          addingToArray={addingToArray}
         />
       </Modal>
 
