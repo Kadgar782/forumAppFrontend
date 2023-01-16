@@ -68,9 +68,6 @@ function App() {
 
     setMappedPosts(newPosts);
   };
-  const refreshPage = () => {
-    window.location.reload(false);
-  } 
 
   // Modal changes
   const handleEditableModalToggle = () => setEditOpen(!editOpen);
