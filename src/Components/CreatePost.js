@@ -2,6 +2,7 @@ import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button'
 import React, { useState,  } from "react";
+import { Link, } from "react-router-dom";
 
 
 const style = {
@@ -61,31 +62,43 @@ export const PostFields = ({userName,addingToArray,arrayForAdding,}) => {
     addingToArray(arrayForAdding,{username,title,body,thumbnailUrl,commentsInPost});
 
 
-    const refreshPage = () => {
-      window.location.reload(false);
-    } 
 
-    refreshPage();
   }
   
   //Modal content
 
   return (
     <Box sx={style}>
-      <TextField  label="the topic of the post" value={tfHeaderValue} multiline={true}
+      <TextField
+        label="the topic of the post"
+        value={tfHeaderValue}
+        multiline={true}
         onChange={(newValue) => setTFHeaderValue(newValue.target.value)}
         sx={{
           marginBottom: 1,
           width: 5 / 6,
-        }}>
-      </TextField>
-      <TextField  label="content" multiline={true} value={tfContentValue}
+        }}
+      ></TextField>
+      <TextField
+        label="content"
+        multiline={true}
+        value={tfContentValue}
         onChange={(newValue) => setTFContentValue(newValue.target.value)}
         sx={{
           width: 1 / 1,
-        }}>
-      </TextField>
-      <Button disabled={(!tfHeaderValue.replace(/\s/g, '').length) || (!tfContentValue.replace(/\s/g, '').length)} onClick={()=>createNewPost(tfHeaderValue, tfContentValue)}>Confirm</Button>
+        }}
+      ></TextField>
+      <Button
+        disabled={
+          !tfHeaderValue.replace(/\s/g, "").length ||
+          !tfContentValue.replace(/\s/g, "").length
+        }
+        component={Link}
+        to="/"
+        onClick={() => createNewPost(tfHeaderValue, tfContentValue)}
+      >
+        Confirm
+      </Button>
     </Box>
-  )
+  );
 }

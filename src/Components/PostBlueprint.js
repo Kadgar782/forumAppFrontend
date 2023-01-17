@@ -24,7 +24,7 @@ export const PostSchema = ({ arrayWithPosts, checkingId, deleteElement }) => {
           <IconButton
             aria-label="delete"
             disableRipple
-            onClick={() => deleteElement(post._id)}
+            onClick={() => deleteElement(post.id)}
           >
             <DeleteIcon />
           </IconButton>

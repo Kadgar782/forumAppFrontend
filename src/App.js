@@ -16,7 +16,6 @@ function App() {
   const [userList, setUser] = useState([]);
   const [currentUser, setCurrentUser] = useState("");
   const [idForEditing, setID] = useState([]);
-  const [open, setOpen] = useState(false);
   const [loginOpen, setLoginOpen] = useState(false);
   const [registrationOpen, setRegistrationOpen] = useState(false);
   const [editOpen, setEditOpen] = useState(false);
@@ -82,8 +81,8 @@ function App() {
 
   //Search for a post by ID via the button
   const checkId = (event) => {
-    setID(event.currentTarget.id);
-    console.log(event.currentTarget.id);
+    setID(event.currentTarget._id);
+    console.log(event.currentTarget._id);
     handleEditableModalToggle();
   };
   const logOut = () => {
@@ -156,11 +155,15 @@ function App() {
           userName={currentUser}
           arrayForAdding={mappedPosts}
           addingToArray={addingToArray} />} />
-       <Route path="/" element={ <PostSchema
+       <Route path="/" element={isLoading ? (
+        <div>IS loading...</div>
+      ) : (
+        <PostSchema
           arrayWithPosts={mappedPosts}
           checkingId={checkId}
           deleteElement={removeElement}
-        />} />
+        />
+      )} />
       </Routes>
 
       <Modal open={loginOpen} onClose={handleLoginModalToggle}>
