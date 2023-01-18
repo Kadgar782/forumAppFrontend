@@ -81,8 +81,8 @@ function App() {
 
   //Search for a post by ID via the button
   const checkId = (event) => {
-    setID(event.currentTarget._id);
-    console.log(event.currentTarget._id);
+    setID(event.currentTarget.id);
+    console.log(event.currentTarget.id);
     handleEditableModalToggle();
   };
   const logOut = () => {
@@ -189,16 +189,7 @@ function App() {
           updatePost={updatePost}
         />
       </Modal>
-
-      {/* {isLoading ? (
-        <div>IS loading...</div>
-      ) : (
-        <PostSchema
-          arrayWithPosts={mappedPosts}
-          checkingId={checkId}
-          deleteElement={removeElement}
-        />
-      )} */}
+      
     </div>
   );
 }
