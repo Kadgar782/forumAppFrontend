@@ -41,10 +41,10 @@ function App() {
 
       setMappedPosts(revPost);
     };
-    
+   // checking whether the user has already been logged in
     const loggedInUser = localStorage.getItem("user");
     console.log(currentUser)
-    if (loggedInUser !== "") {
+    if (loggedInUser !== null) {
 
       setCurrentUser(loggedInUser);
     }
@@ -91,6 +91,7 @@ function App() {
     console.log(event.currentTarget.id);
     handleEditableModalToggle();
   };
+  //Logging out and clearing the local storage
   const logOut = () => {
     setCurrentUser("");
     localStorage.clear();
