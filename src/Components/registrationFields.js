@@ -16,7 +16,7 @@ const style = {
   p: 4,
 };
 
-export const RegistrationFields = ({addingToArray,arrayForAdding, modalStatusChange}) => {
+export const RegistrationFields = ({addingToArray, modalStatusChange}) => {
 
   const [tfHeaderValue,setTFHeaderValue ] = useState("");
   const [tfContentValue, setTFContentValue] = useState("");
@@ -35,26 +35,27 @@ export const RegistrationFields = ({addingToArray,arrayForAdding, modalStatusCha
     clearContentValue();
 
     // make request to backend
-    const registrateNewUser = (data) => {
+   
       fetch("http://localhost:5000/auth/registration", {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify(data)
+        body: JSON.stringify(allData)
       })
       .then(response => response.json())
       .then(result => {
-        console.log(result);
+        console.log(result.result);
+        addingToArray(result.result)
       })
       .catch(error => {
         console.error(error);
       });
-    }
 
-    registrateNewUser(allData);
+    
 
-    addingToArray(arrayForAdding, {username });
+  
+
     modalStatusChange();
     console.log(allData)
   }

@@ -18,7 +18,7 @@ const style = {
   p: 4,
 };
 
-export const PostFields = ({userName,addingToArray,arrayForAdding,}) => {
+export const PostFields = ({userName,addingToArray,}) => {
 
   const [tfHeaderValue,setTFHeaderValue ] = useState("");
   const [tfContentValue, setTFContentValue] = useState("");
@@ -32,7 +32,7 @@ export const PostFields = ({userName,addingToArray,arrayForAdding,}) => {
     const thumbnailUrl = "https://via.placeholder.com/150/54176f";
     const commentsInPost = {}
 
-    const allData = {username, title, body,thumbnailUrl }
+    const allData = {username, title, body,thumbnailUrl,commentsInPost}
 
     const clearHeaderValue = () => setTFHeaderValue("");
     const clearContentValue = () => setTFContentValue("");
@@ -41,27 +41,22 @@ export const PostFields = ({userName,addingToArray,arrayForAdding,}) => {
     clearContentValue();
 
     // make request to backend
-    const createNewPost = (data) => {
+   
       fetch("http://localhost:5000/api/products", {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify(data)
+        body: JSON.stringify(allData)
       })
       .then(response => response.json())
       .then(result => {
-        console.log(result);
+        console.log(result.result);
+        addingToArray(result.result)
       })
       .catch(error => {
         console.error(error);
       });
-    }
-
-  createNewPost(allData);
-
-    addingToArray(arrayForAdding,{username,title,body,thumbnailUrl,commentsInPost});
-
 
 
   }

@@ -29,13 +29,13 @@ export const EditPostFields = ({specificId, allPosts, updatePost, modalStatusCha
   const updatedPost = {_id, title, body, thumbnailUrl, userId, commentsInPost};
   
  // make request to backend
-  const updateResource = (id, data) => {
-    fetch(`http://localhost:5000/api/products/${id}`, {
+  
+    fetch(`http://localhost:5000/api/products/${_id}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify(data)
+      body: JSON.stringify(updatedPost)
     })
     .then(response => response.json())
     .then(result => {
@@ -44,9 +44,7 @@ export const EditPostFields = ({specificId, allPosts, updatePost, modalStatusCha
     .catch(error => {
       console.error(error);
     });
-  }
-
-  updateResource(_id,updatedPost);
+  
   
   // Function for button
   const handleSubmit = () => {

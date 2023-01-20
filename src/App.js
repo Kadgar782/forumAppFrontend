@@ -41,7 +41,13 @@ function App() {
 
       setMappedPosts(revPost);
     };
+    
+    const loggedInUser = localStorage.getItem("user");
+    console.log(currentUser)
+    if (loggedInUser !== "") {
 
+      setCurrentUser(loggedInUser);
+    }
     getPosts().then(() => setIsLoading(false));
   }, []);
   console.log(mappedPosts);
@@ -87,6 +93,7 @@ function App() {
   };
   const logOut = () => {
     setCurrentUser("");
+    localStorage.clear();
     console.log(currentUser);
   };
   //Set current User
@@ -104,8 +111,11 @@ function App() {
     );
   };
   //Adding new data from a component
-  const addingToArray = (arrayForAdding, added) => {
-    arrayForAdding.unshift(added);
+  const addingToMappedPosts = (added) => {
+    setMappedPosts([added,...mappedPosts]);
+  };
+  const addingToUserList = (added) => {
+    setUser([added,...userList]);
   };
   console.log(currentUser);
 
@@ -130,9 +140,13 @@ function App() {
               component="div"
               sx={{ flexGrow: 1 }}
             ></Typography>
+            {currentUser === "" ? (
+              null
+              ):(
             <Button color="inherit" component={Link} to="/editor"  >
               Create new post
             </Button>
+            )}
             {currentUser === "" ? (
               <Button color="inherit" onClick={handleLoginModalToggle}>
                 Login
@@ -154,7 +168,7 @@ function App() {
        <Route path="/editor" element={<PostFields
           userName={currentUser}
           arrayForAdding={mappedPosts}
-          addingToArray={addingToArray} />} />
+          addingToArray={addingToMappedPosts} />} />
        <Route path="/" element={isLoading ? (
         <div>IS loading...</div>
       ) : (
@@ -169,15 +183,14 @@ function App() {
       <Modal open={loginOpen} onClose={handleLoginModalToggle}>
         <LoginFields
           modalStatusChange={handleLoginModalToggle}
-          thatUser={setTheUser}
+          setThatUser={setTheUser}
         />
       </Modal>
 
       <Modal open={registrationOpen} onClose={handleRegistrationModalToggle}>
         <RegistrationFields
           modalStatusChange={handleRegistrationModalToggle}
-          arrayForAdding={userList}
-          addingToArray={addingToArray}
+          addingToArray={addingToUserList}
         />
       </Modal>
 

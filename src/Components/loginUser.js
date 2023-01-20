@@ -16,7 +16,7 @@ const style = {
   p: 4,
 };
 
-export const LoginFields = ({thatUser, modalStatusChange}) => {
+export const LoginFields = ({setThatUser, modalStatusChange}) => {
 
   const [tfHeaderValue,setTFHeaderValue ] = useState("");
   const [tfContentValue, setTFContentValue] = useState("");
@@ -51,11 +51,14 @@ export const LoginFields = ({thatUser, modalStatusChange}) => {
         }
       })
       .then (() => {
-        thatUser(username)
+        setThatUser(username)
+        localStorage.setItem("user", username)
+        console.log(username)
       })
       .catch(error => {
         console.error(error);
       }) 
+
     }
 
     loginBackendUser(allData);
