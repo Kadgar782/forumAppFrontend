@@ -6,15 +6,13 @@ import {
   Divider,
   Avatar,
 } from "@mui/material";
+import { InsideAccordion } from "./ContentOfAccordion";
 import { CommentFields } from "./commentEditor";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import React from "react";
 
 export const MuiAccordion = ({
-  header,
-  content,
-  creatorAvatar,
-  creatorName,
+  arrayForComments
 }) => {
   return (
     <Accordion>
@@ -26,30 +24,8 @@ export const MuiAccordion = ({
       >
         <Typography>Comments</Typography>
       </AccordionSummary>
-     
-      <AccordionDetails
-        sx={{
-          padding:0,
-          backgroundColor: "#cbcccc",
-        }}
-      >
-        <CommentFields />
-
-        <span>
-          <Avatar
-            alt="Placeholder"
-            src={creatorAvatar}
-            variant="rounded"
-            sx={{
-              maxWidth: 35,
-              maxHeight: 35,
-              marginRight: 0.5,
-            }}
-          />
-          {creatorName}
-        </span>
-        <Typography> {content}</Typography>
-      </AccordionDetails>
+      <CommentFields/>
+      <InsideAccordion arrayForMapping={arrayForComments}/>
     </Accordion>
   );
 };
