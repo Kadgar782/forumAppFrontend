@@ -2,7 +2,7 @@ import { MuiAccordion } from "./MUIAccordion.js";
 import React from "react";
 
 export const CommentSchema = ({ wholePost }) => {
-  if (wholePost.commentsInPost === 0 || wholePost.commentsInPost === undefined || wholePost.commentsInPost === null )
+  if (wholePost.lenght === 0 || wholePost === [] )
     return (
     <MuiAccordion header={"Comments"} content="No comments yet" /> 
     );  
@@ -12,9 +12,9 @@ export const CommentSchema = ({ wholePost }) => {
       return (   
       <MuiAccordion
         header={"Comments"}
-        content={post.commentsInPost.body}
+        content={post.body}
         creatorAvatar={post.thumbnailUrl}
-        creatorName={post.commentsInPost.name}
+        creatorName={post.name}
       />
       );     
     });
