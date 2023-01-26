@@ -24,7 +24,7 @@ export const MuiAccordion = ({
           backgroundColor: "#cbcccc",
         }}
       >
-        <Typography>{header}</Typography>
+        <Typography>Comments</Typography>
       </AccordionSummary>
      
       <AccordionDetails
