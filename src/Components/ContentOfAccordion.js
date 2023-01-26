@@ -15,7 +15,6 @@ export const InsideAccordion = ({ arrayForMapping }) => {
             backgroundColor: "#cbcccc",
           }}
         >
-          <CommentFields />
           <span>
             <Avatar
               alt="Placeholder"
