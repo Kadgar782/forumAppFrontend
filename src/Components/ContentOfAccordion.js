@@ -1,5 +1,5 @@
 import { AccordionDetails, Typography, Avatar } from "@mui/material";
-import { CommentFields } from "./commentEditor";
+import { Divider } from "@mui/material";
 import React from "react";
 
 export const InsideAccordion = ({ arrayForMapping }) => {
@@ -29,6 +29,7 @@ export const InsideAccordion = ({ arrayForMapping }) => {
             {commentStuff.username}
           </span>
           <Typography> {commentStuff.body}</Typography>
+          <Divider sx={{ border: 1 }} />
         </AccordionDetails>
       );
   });

@@ -40,12 +40,11 @@ border-bottom: solid black 1px;
 span {
   display: flex;
   justify-content: left;
- 
-  margin-top: 10px;
   color: coral;
   padding-right: 8px;
   padding-left: 5px;
   padding-bottom: 5px;
+  padding-top: 5px;
 
 }
 

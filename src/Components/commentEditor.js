@@ -16,18 +16,19 @@ const style = {
   flexDirection: 'column',
 };
 
-export const CommentFields = ({userName,addingToArray,}) => {
+export const CommentFields = ({userName,_id}) => {
 
   const [tfContentValue, setTFContentValue] = useState("");
 
 
   // Function for button
-  const createNewComment = (upperValue, loverValue) => {
+  const createNewComment = ( loverValue) => {
     const username = userName;
     const body = loverValue;
+    const postId = _id;
     const thumbnailUrl = "https://via.placeholder.com/150/54176f";
 
-    const allData = {username,body,thumbnailUrl}
+    const allData = {username,body,thumbnailUrl,postId}
 
 
     const clearContentValue = () => setTFContentValue("");
@@ -35,22 +36,24 @@ export const CommentFields = ({userName,addingToArray,}) => {
     clearContentValue();
 
     // make request to backend
+    console.log(postId);
+    console.log(username)
    
-    //   fetch("http://localhost:5000/api/products", {
-    //     method: 'POST',
-    //     headers: {
-    //       'Content-Type': 'application/json'
-    //     },
-    //     body: JSON.stringify(allData)
-    //   })
-    //   .then(response => response.json())
-    //   .then(result => {
-    //     console.log(result.result);
-    //     addingToArray(result.result)
-    //   })
-    //   .catch(error => {
-    //     console.error(error);
-    //   });
+      fetch("http://localhost:5000/api/comments", {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(allData)
+      })
+      .then(response => response.json())
+      .then(result => {
+        console.log(result.result);
+       
+      })
+      .catch(error => {
+        console.error(error);
+      });
 
 
   }

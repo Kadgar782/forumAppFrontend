@@ -3,11 +3,15 @@ import { CommentSchema } from "./CommentBlueprint";
 import { Divider } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
-import React from "react";
+import React, {createContext, useContext} from "react";
+  //Context
+
+  export const postContext = createContext("without provider");
 
 export const PostSchema = ({ arrayWithPosts, checkingId, deleteElement }) => {
   return arrayWithPosts.map((post) => {
     return (
+      <postContext.Provider value={post._id}>
       <div className="inner" key={post._id}>
         <Typography variant="h5">
           {post.title}
@@ -47,6 +51,7 @@ export const PostSchema = ({ arrayWithPosts, checkingId, deleteElement }) => {
         <Divider sx={{ border: 1 }} />
         <CommentSchema wholePost={post.commentsInPost} />
       </div>
+      </postContext.Provider>
     );
   });
 };

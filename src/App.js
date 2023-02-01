@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, createContext } from "react";
 import { Box, IconButton, Typography,Toolbar,AppBar, Button, Modal} from "@mui/material";
 import { createBrowserRouter, Routes, Route, Link} from "react-router-dom";
 import {PostFields} from "./Components/CreatePost.js";
@@ -8,6 +8,9 @@ import MenuIcon from '@mui/icons-material/Menu';
 import  {LoginFields} from "./Components/loginUser.js"
 import {RegistrationFields} from "./Components/registrationFields.js"
 import './App.css';
+
+//Context
+export const userContext = createContext("without user provider")
 
 
 function App() {
@@ -51,9 +54,8 @@ function App() {
     getPosts().then(() => setIsLoading(false));
   }, []);
   console.log(mappedPosts);
-
-  //Router
-
+  
+  
   //Post remove function
   const removeElement = (_id) => {
     //Backend fetch
@@ -118,10 +120,13 @@ function App() {
   const addingToUserList = (added) => {
     setUser([added,...userList]);
   };
+
   console.log(currentUser);
+  
 
   // Creating Post with JSX
   return (
+  <userContext.Provider value={currentUser}>
     <div className="outer">
       <Box sx={{ flexGrow: 1 }}>
         <AppBar position="static">
@@ -205,6 +210,7 @@ function App() {
       </Modal>
       
     </div>
+    </userContext.Provider>
   );
 }
 export default App;
