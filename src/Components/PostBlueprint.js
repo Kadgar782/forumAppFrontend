@@ -49,7 +49,7 @@ export const PostSchema = ({ arrayWithPosts, checkingId, deleteElement }) => {
           {post.username}
         </span>
         <Divider sx={{ border: 1 }} />
-        <CommentSchema wholePost={post.commentsInPost} />
+        <CommentSchema arrayWithComments={post.commentsInPost} />
       </div>
       </postContext.Provider>
     );

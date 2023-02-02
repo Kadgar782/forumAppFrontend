@@ -4,23 +4,23 @@ import React, { useContext } from "react";
 import {postContext} from "./PostBlueprint"
 import {userContext} from "../App.js"
 
-export const CommentSchema = ({ wholePost }) => {
+export const CommentSchema = ({ arrayWithComments }) => {
   const postId = useContext(postContext);
 const username = useContext(userContext);
 
-  if (wholePost.length === 0 || wholePost === [] )
+
+  if (arrayWithComments.length === 0 || arrayWithComments === undefined )
     return (
     <CommentFields _id={postId}
     userName={username} 
-
     /> 
     );  
   else
-  console.log(wholePost)
+  console.log(arrayWithComments)
 
       return (   
-      <MuiAccordion
-       arrayForComments={wholePost}
+      <MuiAccordion 
+       arrayForComments={arrayWithComments}
       />
       );     
  

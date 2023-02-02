@@ -30,7 +30,7 @@ export const PostFields = ({userName,addingToArray,}) => {
     const title = upperValue;
     const body = loverValue;
     const thumbnailUrl = "https://via.placeholder.com/150/54176f";
-    const commentsInPost = {}
+    const commentsInPost = {};
 
     const allData = {username, title, body,thumbnailUrl,commentsInPost}
 

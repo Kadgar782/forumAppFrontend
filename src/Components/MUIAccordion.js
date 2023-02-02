@@ -9,11 +9,16 @@ import {
 import { InsideAccordion } from "./ContentOfAccordion";
 import { CommentFields } from "./commentEditor";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import React from "react";
+import React, { useContext } from "react";
+import {postContext} from "./PostBlueprint"
+import {userContext} from "../App.js"
 
-export const MuiAccordion = ({
-  arrayForComments
-}) => {
+
+
+
+export const MuiAccordion = ({ arrayForComments }) => {
+  const postId = useContext(postContext);
+  const username = useContext(userContext);
   return (
     <Accordion>
       <AccordionSummary
@@ -24,8 +29,8 @@ export const MuiAccordion = ({
       >
         <Typography>Comments</Typography>
       </AccordionSummary>
-      <CommentFields/>
-      <InsideAccordion arrayForMapping={arrayForComments}/>
+      <CommentFields _id={postId} userName={username} />
+      <InsideAccordion arrayForMapping={arrayForComments} />
     </Accordion>
   );
 };

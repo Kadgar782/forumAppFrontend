@@ -49,7 +49,6 @@ export const CommentFields = ({userName,_id}) => {
       .then(response => response.json())
       .then(result => {
         console.log(result.result);
-       
       })
       .catch(error => {
         console.error(error);

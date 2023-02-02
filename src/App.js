@@ -10,12 +10,13 @@ import {RegistrationFields} from "./Components/registrationFields.js"
 import './App.css';
 
 //Context
-export const userContext = createContext("without user provider")
+export const userContext = createContext("without user provider");
 
 
 function App() {
   const [isLoading, setIsLoading] = useState(true);
   const [mappedPosts, setMappedPosts] = useState([]);
+  const [comments, setComments] = useState([]);
   const [userList, setUser] = useState([]);
   const [currentUser, setCurrentUser] = useState("");
   const [idForEditing, setID] = useState([]);
@@ -44,6 +45,7 @@ function App() {
 
       setMappedPosts(revPost);
     };
+
    // checking whether the user has already been logged in
     const loggedInUser = localStorage.getItem("user");
     console.log(currentUser)
@@ -53,8 +55,6 @@ function App() {
     }
     getPosts().then(() => setIsLoading(false));
   }, []);
-  console.log(mappedPosts);
-  
   
   //Post remove function
   const removeElement = (_id) => {
@@ -120,6 +120,10 @@ function App() {
   const addingToUserList = (added) => {
     setUser([added,...userList]);
   };
+  const addingToComments = (added) => {
+    setComments([added,...comments])
+    console.log(added)
+  };
 
   console.log(currentUser);
   
@@ -171,6 +175,7 @@ function App() {
       </Box>
 
       <Routes>
+
        <Route path="/editor" element={<PostFields
           userName={currentUser}
           arrayForAdding={mappedPosts}
@@ -184,6 +189,7 @@ function App() {
           deleteElement={removeElement}
         />
       )} />
+  
       </Routes>
 
       <Modal open={loginOpen} onClose={handleLoginModalToggle}>
@@ -210,7 +216,7 @@ function App() {
       </Modal>
       
     </div>
-    </userContext.Provider>
+    </userContext.Provider>   
   );
 }
 export default App;
