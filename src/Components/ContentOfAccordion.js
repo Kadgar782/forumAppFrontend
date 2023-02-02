@@ -4,10 +4,10 @@ import React from "react";
 
 export const InsideAccordion = ({ arrayForMapping }) => {
   console.log(arrayForMapping);
+  if (arrayForMapping === undefined || arrayForMapping.length === 0)
+  return <AccordionDetails></AccordionDetails>;
+else
   return arrayForMapping.map((commentStuff) => {
-    if (arrayForMapping === undefined || arrayForMapping.length === 0)
-      return <AccordionDetails></AccordionDetails>;
-    else
       return (
         <AccordionDetails
           sx={{
