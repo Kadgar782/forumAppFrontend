@@ -16,7 +16,6 @@ const username = useContext(userContext);
     /> 
     );  
   else
-  console.log(arrayWithComments)
 
       return (   
       <MuiAccordion 

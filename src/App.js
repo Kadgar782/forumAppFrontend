@@ -120,10 +120,7 @@ function App() {
   const addingToUserList = (added) => {
     setUser([added,...userList]);
   };
-  const addingToComments = (added) => {
-    setComments([added,...comments])
-    console.log(added)
-  };
+
 
   console.log(currentUser);
   
