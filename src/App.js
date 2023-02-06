@@ -120,6 +120,9 @@ function App() {
   const addingToUserList = (added) => {
     setUser([added,...userList]);
   };
+  const addingToComments = (added) => {
+    setComments([added,...comments])
+  }
 
 
   console.log(currentUser);
@@ -181,6 +184,7 @@ function App() {
         <div>IS loading...</div>
       ) : (
         <PostSchema
+          functionForAddingComments={addingToComments}
           arrayWithPosts={mappedPosts}
           checkingId={checkId}
           deleteElement={removeElement}

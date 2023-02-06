@@ -16,7 +16,7 @@ const style = {
   flexDirection: 'column',
 };
 
-export const CommentFields = ({userName,_id}) => {
+export const CommentFields = ({addingToArray,userName,_id}) => {
 
   const [tfContentValue, setTFContentValue] = useState("");
 
@@ -49,6 +49,7 @@ export const CommentFields = ({userName,_id}) => {
       .then(response => response.json())
       .then(result => {
         console.log(result.result);
+        addingToArray(result.result)
       })
       .catch(error => {
         console.error(error);

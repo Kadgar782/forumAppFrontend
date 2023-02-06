@@ -8,7 +8,7 @@ import React, {createContext, useContext} from "react";
 
   export const postContext = createContext("without provider");
 
-export const PostSchema = ({ arrayWithPosts, checkingId, deleteElement }) => {
+export const PostSchema = ({functionForAddingComments, arrayWithPosts, checkingId, deleteElement }) => {
   return arrayWithPosts.map((post) => {
     return (
       <postContext.Provider value={post._id}>
@@ -49,7 +49,9 @@ export const PostSchema = ({ arrayWithPosts, checkingId, deleteElement }) => {
           {post.username}
         </span>
         <Divider sx={{ border: 1 }} />
-        <CommentSchema arrayWithComments={post.commentsInPost} />
+        <CommentSchema arrayWithComments={post.commentsInPost} 
+        addingComments={functionForAddingComments}   
+        />
       </div>
       </postContext.Provider>
     );

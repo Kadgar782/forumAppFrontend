@@ -16,7 +16,7 @@ import {userContext} from "../App.js"
 
 
 
-export const MuiAccordion = ({ arrayForComments }) => {
+export const MuiAccordion = ({ MuiAddingComments,arrayForComments }) => {
   console.log(arrayForComments)
   const postId = useContext(postContext);
   const username = useContext(userContext);
@@ -30,7 +30,7 @@ export const MuiAccordion = ({ arrayForComments }) => {
       >
         <Typography>Comments</Typography>
       </AccordionSummary>
-      <CommentFields _id={postId} userName={username} />
+      <CommentFields _id={postId} userName={username} addingToArray={MuiAddingComments}/>
       <InsideAccordion arrayForMapping={arrayForComments} />
     </Accordion>
   );

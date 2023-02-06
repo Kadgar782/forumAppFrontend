@@ -4,7 +4,7 @@ import React, { useContext } from "react";
 import {postContext} from "./PostBlueprint"
 import {userContext} from "../App.js"
 
-export const CommentSchema = ({ arrayWithComments }) => {
+export const CommentSchema = ({ addingComments,arrayWithComments }) => {
   const postId = useContext(postContext);
 const username = useContext(userContext);
 
@@ -13,6 +13,7 @@ const username = useContext(userContext);
     return (
     <CommentFields _id={postId}
     userName={username} 
+    addingToArray={addingComments}
     /> 
     );  
   else
@@ -20,6 +21,7 @@ const username = useContext(userContext);
       return (   
       <MuiAccordion 
        arrayForComments={arrayWithComments}
+       MuiAddingComments={addingComments}
       />
       );     
  
