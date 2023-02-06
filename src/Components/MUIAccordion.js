@@ -17,7 +17,6 @@ import {userContext} from "../App.js"
 
 
 export const MuiAccordion = ({ MuiAddingComments,arrayForComments }) => {
-  console.log(arrayForComments)
   const postId = useContext(postContext);
   const username = useContext(userContext);
   return (

@@ -3,7 +3,6 @@ import { Divider } from "@mui/material";
 import React from "react";
 
 export const InsideAccordion = ({ arrayForMapping }) => {
-  console.log(arrayForMapping);
   if  (!Array.isArray(arrayForMapping) || !arrayForMapping.length)
   return <AccordionDetails></AccordionDetails>;
 else

@@ -36,16 +36,28 @@ function App() {
       return json;
     };
     // call the function
+   //Getting Comments 
+    const getComments = async () => {
+      const resComments = await fetchData("http://localhost:5000/api/comments");
+
+      const comments = resComments.data;
+      console.log(comments)
+
+      const revComments = comments.reverse();
+
+      setComments(revComments)
+    }
     const getPosts = async () => {
       const res = await fetchData("http://localhost:5000/api/data");
 
       const post = res.data;
+      console.log(post)
 
       const revPost = post.reverse();
 
       setMappedPosts(revPost);
-    };
 
+    };
    // checking whether the user has already been logged in
     const loggedInUser = localStorage.getItem("user");
     console.log(currentUser)
@@ -53,7 +65,9 @@ function App() {
 
       setCurrentUser(loggedInUser);
     }
-    getPosts().then(() => setIsLoading(false));
+    
+    getPosts().then(() => getComments())
+    .then(() => setIsLoading(false));
   }, []);
   
   //Post remove function
@@ -122,6 +136,8 @@ function App() {
   };
   const addingToComments = (added) => {
     setComments([added,...comments])
+    console.log(added);
+    console.log(comments)
   }
 
 
