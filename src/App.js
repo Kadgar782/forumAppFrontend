@@ -50,7 +50,7 @@ function App() {
     const getPosts = async () => {
       const res = await fetchData("http://localhost:5000/api/data");
 
-      const post = res.data;
+      const post = res.result;
       console.log(post)
 
       const revPost = post.reverse();
