@@ -36,40 +36,35 @@ function App() {
       return json;
     };
     // call the function
-   //Getting Comments 
+    //Getting Comments
     const getComments = async () => {
       const resComments = await fetchData("http://localhost:5000/api/comments");
 
-      const comments = resComments.data;
+      const comments = resComments.result;
       console.log(comments)
-
-      const revComments = comments.reverse();
-
-      setComments(revComments)
-    }
+        
+      setComments(comments);
+    };
     const getPosts = async () => {
       const res = await fetchData("http://localhost:5000/api/data");
 
-      const post = res.result;
-      console.log(post)
+      const post = res.data;
 
       const revPost = post.reverse();
 
       setMappedPosts(revPost);
-
     };
-   // checking whether the user has already been logged in
+    // checking whether the user has already been logged in
     const loggedInUser = localStorage.getItem("user");
-    console.log(currentUser)
+    console.log(currentUser);
     if (loggedInUser !== null) {
-
       setCurrentUser(loggedInUser);
     }
-    
-    getPosts().then(() => getComments())
-    .then(() => setIsLoading(false));
+
+    getPosts()
+      .then(() => getComments())
+      .then(() => setIsLoading(false));
   }, []);
-  
   //Post remove function
   const removeElement = (_id) => {
     //Backend fetch
@@ -129,111 +124,117 @@ function App() {
   };
   //Adding new data from a component
   const addingToMappedPosts = (added) => {
-    setMappedPosts([added,...mappedPosts]);
+    setMappedPosts([added, ...mappedPosts]);
   };
   const addingToUserList = (added) => {
-    setUser([added,...userList]);
+    setUser([added, ...userList]);
   };
   const addingToComments = (added) => {
-    setComments([added,...comments])
+    setComments((comments) => [added, ...comments]);
     console.log(added);
-    console.log(comments)
-  }
-
+    console.log(comments);
+  };
 
   console.log(currentUser);
-  
 
   // Creating Post with JSX
   return (
-  <userContext.Provider value={currentUser}>
-    <div className="outer">
-      <Box sx={{ flexGrow: 1 }}>
-        <AppBar position="static">
-          <Toolbar>
-            <IconButton
-             component={Link} to="/" 
-              size="large"
-              edge="start"
-              color="inherit"
-              aria-label="menu"
-              sx={{ mr: 2 }}
-            >
-              <MenuIcon />
-            </IconButton>
-            <Typography
-              variant="h6"
-              component="div"
-              sx={{ flexGrow: 1 }}
-            ></Typography>
-            {currentUser === "" ? (
-              null
-              ):(
-            <Button color="inherit" component={Link} to="/editor"  >
-              Create new post
-            </Button>
-            )}
-            {currentUser === "" ? (
-              <Button color="inherit" onClick={handleLoginModalToggle}>
-                Login
+    <userContext.Provider value={currentUser}>
+      <div className="outer">
+        <Box sx={{ flexGrow: 1 }}>
+          <AppBar position="static">
+            <Toolbar>
+              <IconButton
+                component={Link}
+                to="/"
+                size="large"
+                edge="start"
+                color="inherit"
+                aria-label="menu"
+                sx={{ mr: 2 }}
+              >
+                <MenuIcon />
+              </IconButton>
+              <Typography
+                variant="h6"
+                component="div"
+                sx={{ flexGrow: 1 }}
+              ></Typography>
+              {currentUser === "" ? null : (
+                <Button color="inherit" component={Link} to="/editor">
+                  Create new post
+                </Button>
+              )}
+              {currentUser === "" ? (
+                <Button color="inherit" onClick={handleLoginModalToggle}>
+                  Login
+                </Button>
+              ) : (
+                <Button color="inherit" onClick={logOut}>
+                  Log out
+                </Button>
+              )}
+
+              <Button color="inherit" onClick={handleRegistrationModalToggle}>
+                Registration
               </Button>
-            ) : (
-              <Button color="inherit" onClick={logOut}>
-                Log out
-              </Button>
-            )}
+            </Toolbar>
+          </AppBar>
+        </Box>
 
-            <Button color="inherit" onClick={handleRegistrationModalToggle}>
-              Registration
-            </Button>
-          </Toolbar>
-        </AppBar>
-      </Box>
+        <Routes>
+          <Route
+            path="/editor"
+            element={
+              <PostFields
+                userName={currentUser}
+                arrayForAdding={mappedPosts}
+                addingToArray={addingToMappedPosts}
+              />
+            }
+          />
+          <Route
+            path="/"
+            element={
+              isLoading ? (
+                <div>IS loading...</div>
+              ) : (
+                <PostSchema
+                  mainArrayWithComments={comments}
+                  functionForAddingComments={addingToComments} 
+                  arrayWithPosts={mappedPosts}
+                  checkingId={checkId}
+                  deleteElement={removeElement}
+                />
+              )
+            }
+          />
+        </Routes>
 
-      <Routes>
+        <Modal open={loginOpen} onClose={handleLoginModalToggle}>
+          <LoginFields
+            modalStatusChange={handleLoginModalToggle}
+            setThatUser={setTheUser}
+          />
+        </Modal>
 
-       <Route path="/editor" element={<PostFields
-          userName={currentUser}
-          arrayForAdding={mappedPosts}
-          addingToArray={addingToMappedPosts} />} />
-       <Route path="/" element={isLoading ? (
-        <div>IS loading...</div>
-      ) : (
-        <PostSchema
-          functionForAddingComments={addingToComments}
-          arrayWithPosts={mappedPosts}
-          checkingId={checkId}
-          deleteElement={removeElement}
-        />
-      )} />
-  
-      </Routes>
+        <Modal open={registrationOpen} onClose={handleRegistrationModalToggle}>
+          <RegistrationFields
+            modalStatusChange={handleRegistrationModalToggle}
+            addingToArray={addingToUserList}
+          />
+        </Modal>
 
-      <Modal open={loginOpen} onClose={handleLoginModalToggle}>
-        <LoginFields
-          modalStatusChange={handleLoginModalToggle}
-          setThatUser={setTheUser}
-        />
-      </Modal>
-
-      <Modal open={registrationOpen} onClose={handleRegistrationModalToggle}>
-        <RegistrationFields
-          modalStatusChange={handleRegistrationModalToggle}
-          addingToArray={addingToUserList}
-        />
-      </Modal>
-
-      <Modal open={editOpen} onClose={handleEditableModalToggle}>
-        <EditPostFields
-          modalStatusChange={handleEditableModalToggle}
-          specificId={idForEditing}
-          allPosts={mappedPosts}
-          updatePost={updatePost}
-        />
-      </Modal>
-      
-    </div>
-    </userContext.Provider>   
+        <Modal open={editOpen} onClose={handleEditableModalToggle}>
+          <EditPostFields
+            modalStatusChange={handleEditableModalToggle}
+            specificId={idForEditing}
+            allPosts={mappedPosts}
+            updatePost={updatePost}
+          />
+        </Modal>
+      </div>
+    </userContext.Provider>
   );
 }
 export default App;

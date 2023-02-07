@@ -8,8 +8,16 @@ import React, {createContext, useContext} from "react";
 
   export const postContext = createContext("without provider");
 
-export const PostSchema = ({functionForAddingComments, arrayWithPosts, checkingId, deleteElement }) => {
+export const PostSchema = ({functionForAddingComments,mainArrayWithComments,arrayWithPosts, checkingId, deleteElement }) => {
   return arrayWithPosts.map((post) => {
+   //Filter the necessary comments for a particular post
+    const filterComments = (comments,post) => {
+      const reqComments = comments.filter(
+        (comments) => (comments.postId === post._id)
+      );
+      console.log(reqComments);
+      return reqComments;
+    };
     return (
       <postContext.Provider value={post._id}>
       <div className="inner" key={post._id}>
@@ -49,7 +57,7 @@ export const PostSchema = ({functionForAddingComments, arrayWithPosts, checkingI
           {post.username}
         </span>
         <Divider sx={{ border: 1 }} />
-        <CommentSchema arrayWithComments={post.commentsInPost} 
+        <CommentSchema arrayWithComments={filterComments(mainArrayWithComments, post)} 
         addingComments={functionForAddingComments}   
         />
       </div>
