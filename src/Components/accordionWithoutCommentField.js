@@ -7,7 +7,6 @@ import {
     Avatar,
   } from "@mui/material";
   import { InsideAccordion } from "./ContentOfAccordion";
-  import { CommentFields } from "./commentEditor";
   import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
   import React, { useContext } from "react";
   import {postContext} from "./PostBlueprint"
@@ -21,8 +20,9 @@ import {
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
           sx={{
-            backgroundColor: "#cbcccc",
-          }}
+          backgroundColor: "#cbcccc",
+          borderBottom: 1, 
+        }}
         >
           <Typography>Comments</Typography>
         </AccordionSummary>  
