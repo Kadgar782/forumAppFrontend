@@ -8,7 +8,7 @@ import React, {createContext, useContext} from "react";
 
   export const postContext = createContext("without provider");
 
-export const PostSchema = ({functionForAddingComments,mainArrayWithComments,arrayWithPosts, checkingId, deleteElement }) => {
+export const PostSchema = ({presentUser,functionForAddingComments,mainArrayWithComments,arrayWithPosts, checkingId, deleteElement }) => {
   return arrayWithPosts.map((post) => {
    //Filter the necessary comments for a particular post
     const filterComments = (comments,post) => {
@@ -58,7 +58,8 @@ export const PostSchema = ({functionForAddingComments,mainArrayWithComments,arra
         </span>
         <Divider sx={{ border: 1 }} />
         <CommentSchema arrayWithComments={filterComments(mainArrayWithComments, post)} 
-        addingComments={functionForAddingComments}   
+        addingComments={functionForAddingComments}
+        loggedInUser={presentUser}   
         />
       </div>
       </postContext.Provider>

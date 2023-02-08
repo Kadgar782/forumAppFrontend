@@ -13,9 +13,6 @@ import React, { useContext } from "react";
 import {postContext} from "./PostBlueprint"
 import {userContext} from "../App.js"
 
-
-
-
 export const MuiAccordion = ({ MuiAddingComments,arrayForComments }) => {
   const postId = useContext(postContext);
   const username = useContext(userContext);
@@ -24,7 +21,12 @@ export const MuiAccordion = ({ MuiAddingComments,arrayForComments }) => {
       <AccordionSummary
         expandIcon={<ExpandMoreIcon />}
         sx={{
-          backgroundColor: "#cbcccc",
+          borderBottom: 1, 
+          '&:hover': {
+          backgroundColor: '#5be1e1',
+          opacity: [0.9, 0.8, 0.7],
+        },
+          '& .css-7jip21-MuiButtonBase-root-MuiAccordionSummary-root': {  backgroundColor: "#5be1e1",},     
         }}
       >
         <Typography>Comments</Typography>
@@ -33,4 +35,5 @@ export const MuiAccordion = ({ MuiAddingComments,arrayForComments }) => {
       <InsideAccordion arrayForMapping={arrayForComments} />
     </Accordion>
   );
+  
 };

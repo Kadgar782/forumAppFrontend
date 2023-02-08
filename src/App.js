@@ -200,6 +200,7 @@ function App() {
                 <div>IS loading...</div>
               ) : (
                 <PostSchema
+                  presentUser={currentUser}
                   mainArrayWithComments={comments}
                   functionForAddingComments={addingToComments} 
                   arrayWithPosts={mappedPosts}
