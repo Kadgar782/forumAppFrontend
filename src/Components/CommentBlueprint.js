@@ -27,15 +27,10 @@ const username = useContext(userContext);
         addingToArray={addingComments}
       />
     );
-  else if (loggedInUser === "")
-  return (
-    <MuiAccordionWithoutCommentField
-    arrayForComments={arrayWithComments}
-    />
-  )
   else
     return (
       <MuiAccordion
+        userIsLogged={loggedInUser}
         arrayForComments={arrayWithComments}
         MuiAddingComments={addingComments}
       />
