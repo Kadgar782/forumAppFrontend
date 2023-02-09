@@ -1,5 +1,4 @@
 import { MuiAccordion } from "./MUIAccordion.js";
-import { MuiAccordionWithoutCommentField } from "./accordionWithoutCommentField.js";
 import { CommentFields } from "./commentEditor";
 import React, { useContext } from "react";
 import {postContext} from "./PostBlueprint"
