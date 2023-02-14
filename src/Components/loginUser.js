@@ -36,14 +36,14 @@ export const LoginFields = ({setThatUser, modalStatusChange}) => {
     clearContentValue();
 
     // make request to backend
-    const loginBackendUser =  (data) => {
+
       
        fetch("http://localhost:5000/auth/login", {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify(data)
+        body: JSON.stringify(allData)
       })
       .then(response => {
         if (response.status >= 400) {  
@@ -59,9 +59,7 @@ export const LoginFields = ({setThatUser, modalStatusChange}) => {
         console.error(error);
       }) 
 
-    }
-
-    loginBackendUser(allData);
+    
 
     modalStatusChange();
     console.log(username)

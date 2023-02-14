@@ -18,6 +18,7 @@ export const PostSchema = ({presentUser,functionForAddingComments,mainArrayWithC
       console.log(reqComments);
       return reqComments;
     };
+    //If the user is not logged in, he cannot create new posts or write comments
     if (presentUser === "")
     return (
      <postContext.Provider value={post._id}>
@@ -88,7 +89,8 @@ export const PostSchema = ({presentUser,functionForAddingComments,mainArrayWithC
           {post.username}
         </span>
         <Divider sx={{ border: 1 }} />
-        <CommentSchema arrayWithComments={filterComments(mainArrayWithComments, post)} 
+        <CommentSchema 
+        arrayWithComments={filterComments(mainArrayWithComments, post)} 
         addingComments={functionForAddingComments}
         loggedInUser={presentUser}   
         />

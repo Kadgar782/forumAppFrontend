@@ -23,6 +23,7 @@ function App() {
   const [loginOpen, setLoginOpen] = useState(false);
   const [registrationOpen, setRegistrationOpen] = useState(false);
   const [editOpen, setEditOpen] = useState(false);
+  const [token, setToken] = useState("");
   //Getting Post content
   useEffect(() => {
     // declare the async data fetching function
@@ -35,25 +36,41 @@ function App() {
       // set state with the result
       return json;
     };
-    // call the function
     //Getting Comments
     const getComments = async () => {
       const resComments = await fetchData("http://localhost:5000/api/comments");
 
       const comments = resComments.result;
-      console.log(comments)
-        
+
       setComments(comments);
     };
     const getPosts = async () => {
-      const res = await fetchData("http://localhost:5000/api/data");
+      const response = await fetch("http://localhost:5000/api/data", {
+        headers: {
+          Authorization: `Bearer ${token}`, // передаем токен в заголовке
+        },
+      });
+      const post = await response.json();
 
-      const post = res.data;
-
-      const revPost = post.reverse();
+      console.log(post)
+      const revPost = post.data.reverse();
+      console.log(revPost);
 
       setMappedPosts(revPost);
     };
+
+    // const getPosts = async () => {
+    //   const res = await fetchData("http://localhost:5000/api/data"); // здесь надо передавать токен в хедерс
+
+    //   const post = res.data;
+
+    //   const revPost = post.reverse();
+
+    //   console.log(revPost);
+
+    //   setMappedPosts(revPost);
+    // };
+
     // checking whether the user has already been logged in
     const loggedInUser = localStorage.getItem("user");
     console.log(currentUser);
