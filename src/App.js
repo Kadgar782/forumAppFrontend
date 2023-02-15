@@ -44,32 +44,31 @@ function App() {
 
       setComments(comments);
     };
+
+    
     const getPosts = async () => {
+      const resPosts = await fetchData("http://localhost:5000/api/data")
+      
+      const post = resPosts.data;
+      const revPost = post.reverse();
+      console.log(revPost);
+
+      setMappedPosts(revPost);
+    };
+
+
+    const getPostsAuth = async () => {
       const response = await fetch("http://localhost:5000/api/data", {
         headers: {
           Authorization: `Bearer ${token}`, // передаем токен в заголовке
         },
       });
       const post = await response.json();
-
-      console.log(post)
       const revPost = post.data.reverse();
       console.log(revPost);
 
       setMappedPosts(revPost);
     };
-
-    // const getPosts = async () => {
-    //   const res = await fetchData("http://localhost:5000/api/data"); // здесь надо передавать токен в хедерс
-
-    //   const post = res.data;
-
-    //   const revPost = post.reverse();
-
-    //   console.log(revPost);
-
-    //   setMappedPosts(revPost);
-    // };
 
     // checking whether the user has already been logged in
     const loggedInUser = localStorage.getItem("user");
@@ -233,6 +232,7 @@ function App() {
           <LoginFields
             modalStatusChange={handleLoginModalToggle}
             setThatUser={setTheUser}
+            setThatToken={setToken}
           />
         </Modal>
 

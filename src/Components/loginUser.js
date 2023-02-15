@@ -16,7 +16,7 @@ const style = {
   p: 4,
 };
 
-export const LoginFields = ({setThatUser, modalStatusChange}) => {
+export const LoginFields = ({setThatToken, setThatUser, modalStatusChange}) => {
 
   const [tfHeaderValue,setTFHeaderValue ] = useState("");
   const [tfContentValue, setTFContentValue] = useState("");
@@ -37,32 +37,50 @@ export const LoginFields = ({setThatUser, modalStatusChange}) => {
 
     // make request to backend
 
-      
-       fetch("http://localhost:5000/auth/login", {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(allData)
-      })
-      .then(response => {
-        if (response.status >= 400) {  
-          throw new Error("Server responds with error!");
-        }
-      })
-      .then (() => {
-        setThatUser(username)
-        localStorage.setItem("user", username)
-        console.log(username)
-      })
-      .catch(error => {
-        console.error(error);
-      }) 
+    // fetch("http://localhost:5000/auth/login", {
+    //   method: 'POST',
+    //   headers: {
+    //     'Content-Type': 'application/json'
+    //   },
+    //   body: JSON.stringify(allData)
+    // })
+    // .then(response => {
+    //   const token = response.json()
+    //   console.log(token)
+    //   if (response.status >= 400) {  
+    //     throw new Error("Server responds with error!");
+    //   }
+    // })
+    // .then (() => {
+    //   setThatUser(username)
+    //   localStorage.setItem("user", username)
+    //   console.log(username)
+    // })
+    // .catch(error => {
+    //   console.error(error);
+    // }) 
 
-    
-
+      const loginFetch = async() => {
+      const response = await fetch("http://localhost:5000/auth/login", {
+       method: "POST",
+       headers: {
+         "Content-Type": "application/json",
+       },
+       body: JSON.stringify(allData),
+     });
+     const data = await response.json();
+     console.log(data.token);
+     setThatToken(data.token);
+     setThatUser(username);
+     localStorage.setItem("user", username)
+     .catch((error) => {
+     console.error(error);
+     }); 
+    }
+    loginFetch()
     modalStatusChange();
     console.log(username)
+ 
   }
   
   //Modal content

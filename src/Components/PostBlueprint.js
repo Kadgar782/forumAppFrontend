@@ -15,7 +15,6 @@ export const PostSchema = ({presentUser,functionForAddingComments,mainArrayWithC
       const reqComments = comments.filter(
         (comments) => (comments.postId === post._id)
       );
-      console.log(reqComments);
       return reqComments;
     };
     //If the user is not logged in, he cannot create new posts or write comments
