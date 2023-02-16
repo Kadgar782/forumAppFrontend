@@ -68,6 +68,10 @@ export const LoginFields = ({setThatToken, setThatUser, modalStatusChange}) => {
        },
        body: JSON.stringify(allData),
      });
+     if (response.status >= 400) {  
+          throw new Error("Server responds with error!");
+        }
+    else {  
      const data = await response.json();
      console.log(data.token);
      setThatToken(data.token);
@@ -75,7 +79,8 @@ export const LoginFields = ({setThatToken, setThatUser, modalStatusChange}) => {
      localStorage.setItem("user", username)
      .catch((error) => {
      console.error(error);
-     }); 
+     });
+    }
     }
     loginFetch()
     modalStatusChange();

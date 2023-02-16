@@ -45,18 +45,6 @@ function App() {
       setComments(comments);
     };
 
-    
-    const getPosts = async () => {
-      const resPosts = await fetchData("http://localhost:5000/api/data")
-      
-      const post = resPosts.data;
-      const revPost = post.reverse();
-      console.log(revPost);
-
-      setMappedPosts(revPost);
-    };
-
-
     const getPostsAuth = async () => {
       const response = await fetch("http://localhost:5000/api/data", {
         headers: {
@@ -77,10 +65,18 @@ function App() {
       setCurrentUser(loggedInUser);
     }
 
-    getPosts()
-      .then(() => getComments())
-      .then(() => setIsLoading(false));
+    getPostsAuth()
+    .then(()=>console.log("гетпост аут сработал"))
+    .then(() => getComments())
+    .then(() => setIsLoading(false))
+    .then(()=> console.log("залогинен"))
+
   }, []);
+
+
+
+
+
   //Post remove function
   const removeElement = (_id) => {
     //Backend fetch
@@ -190,10 +186,12 @@ function App() {
                   Log out
                 </Button>
               )}
-
+               {currentUser === "" ? (
               <Button color="inherit" onClick={handleRegistrationModalToggle}>
                 Registration
               </Button>
+               ):(null)
+               }
             </Toolbar>
           </AppBar>
         </Box>
