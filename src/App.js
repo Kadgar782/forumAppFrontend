@@ -47,12 +47,13 @@ function App() {
       setComments(comments);
     };
 
-    const getPostsAuth = async () => {
+    const getPostsAuth = async (bearerToken) => {
       const response = await fetch("http://localhost:5000/api/data", {
         headers: {
-          Authorization: `Bearer ${token}`, // передаем токен в заголовке
+          Authorization: `Bearer ${bearerToken}`, // передаем токен в заголовке
         },
       });
+      console.log ("токен перед отправкой " + bearerToken + "отправил на бэк запрос")
       const post = await response.json();
       const revPost = post.data.reverse();
       console.log(revPost);
@@ -60,10 +61,9 @@ function App() {
       setMappedPosts(revPost);
     };
 
-   
+    const checkLocalStorage = () => {
     // checking whether the user has already been logged in
     const loggedInUser = localStorage.getItem("user");
-    console.log(currentUser);
     if (loggedInUser) {
       setCurrentUser(loggedInUser);
     }
@@ -73,8 +73,10 @@ function App() {
     if (localToken) {
       setToken(localToken);
     }
-  
-     getPostsAuth()
+    console.log("чекнул локалсторадж")
+  }
+    checkLocalStorage()
+     getPostsAuth(token)
     .then(() => getComments())
     .then(() => setIsLoading(false))
 
@@ -155,7 +157,8 @@ function App() {
   };
 
   console.log(currentUser);
-  console.log(token)
+  console.log(token);
+  console.log(mappedPosts)
 
   // Creating Post with JSX
   return (
