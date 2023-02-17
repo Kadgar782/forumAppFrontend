@@ -24,6 +24,8 @@ function App() {
   const [registrationOpen, setRegistrationOpen] = useState(false);
   const [editOpen, setEditOpen] = useState(false);
   const [token, setToken] = useState("");
+
+
   //Getting Post content
   useEffect(() => {
     // declare the async data fetching function
@@ -58,18 +60,23 @@ function App() {
       setMappedPosts(revPost);
     };
 
+   
     // checking whether the user has already been logged in
     const loggedInUser = localStorage.getItem("user");
     console.log(currentUser);
-    if (loggedInUser !== null) {
+    if (loggedInUser) {
       setCurrentUser(loggedInUser);
     }
-
-    getPostsAuth()
-    .then(()=>console.log("гетпост аут сработал"))
+  
+    // checcking user token
+    const localToken = localStorage.getItem("token")
+    if (localToken) {
+      setToken(localToken);
+    }
+  
+     getPostsAuth()
     .then(() => getComments())
     .then(() => setIsLoading(false))
-    .then(()=> console.log("залогинен"))
 
   }, []);
 
@@ -148,6 +155,7 @@ function App() {
   };
 
   console.log(currentUser);
+  console.log(token)
 
   // Creating Post with JSX
   return (

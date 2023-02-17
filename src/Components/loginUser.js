@@ -73,10 +73,12 @@ export const LoginFields = ({setThatToken, setThatUser, modalStatusChange}) => {
         }
     else {  
      const data = await response.json();
-     console.log(data.token);
-     setThatToken(data.token);
+     const token = data.token
+     console.log(token);
+     setThatToken(token);
      setThatUser(username);
      localStorage.setItem("user", username)
+     localStorage.setItem("token", token)
      .catch((error) => {
      console.error(error);
      });
