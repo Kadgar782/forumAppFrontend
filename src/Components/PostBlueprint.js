@@ -48,7 +48,8 @@ export const PostSchema = ({presentUser,functionForAddingComments,mainArrayWithC
       </div>
       </postContext.Provider>
     )
-    else
+    // If the user is an admin
+    else if(post.controls === true || post.username === presentUser )
     return (
       <postContext.Provider value={post._id}>
       <div className="inner" key={post._id}>
@@ -71,6 +72,37 @@ export const PostSchema = ({presentUser,functionForAddingComments,mainArrayWithC
           >
             <DeleteIcon />
           </IconButton>
+        </Typography>
+        <p>{post.body}</p>
+
+        <span>
+          <Avatar
+            alt="Placeholder"
+            src={post.thumbnailUrl}
+            variant="rounded"
+            sx={{
+              maxWidth: 35,
+              maxHeight: 35,
+              marginRight: 0.5,
+            }}
+          />
+          {post.username}
+        </span>
+        <Divider sx={{ border: 1 }} />
+        <CommentSchema 
+        arrayWithComments={filterComments(mainArrayWithComments, post)} 
+        addingComments={functionForAddingComments}
+        loggedInUser={presentUser}   
+        />
+      </div>
+      </postContext.Provider>
+    );
+    else 
+    return (
+      <postContext.Provider value={post._id}>
+      <div className="inner" key={post._id}>
+        <Typography variant="h5">
+          {post.title}
         </Typography>
         <p>{post.body}</p>
 

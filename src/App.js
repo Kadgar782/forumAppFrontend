@@ -53,7 +53,7 @@ function App() {
           Authorization: `Bearer ${bearerToken}`, // передаем токен в заголовке
         },
       });
-      console.log ("токен перед отправкой " + bearerToken + "отправил на бэк запрос")
+      console.log ("токен перед отправкой " + bearerToken + " отправил на бэк запрос")
       const post = await response.json();
       const revPost = post.data.reverse();
       console.log(revPost);
@@ -61,7 +61,7 @@ function App() {
       setMappedPosts(revPost);
     };
 
-    const checkLocalStorage = () => {
+
     // checking whether the user has already been logged in
     const loggedInUser = localStorage.getItem("user");
     if (loggedInUser) {
@@ -73,10 +73,7 @@ function App() {
     if (localToken) {
       setToken(localToken);
     }
-    console.log("чекнул локалсторадж")
-  }
-    checkLocalStorage()
-     getPostsAuth(token)
+     getPostsAuth(localToken)
     .then(() => getComments())
     .then(() => setIsLoading(false))
 
