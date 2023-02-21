@@ -228,6 +228,7 @@ function App() {
                   arrayWithPosts={mappedPosts}
                   checkingId={checkId}
                   deleteElement={removeElement}
+                  setMappedComments={setComments}
                 />
               )
             }
