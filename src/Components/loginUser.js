@@ -42,6 +42,7 @@ export const LoginFields = ({setThatToken, setThatUser, modalStatusChange}) => {
        method: "POST",
        headers: {
          "Content-Type": "application/json",
+         credentials: 'include',
        },
        body: JSON.stringify(allData),
      });
@@ -51,11 +52,11 @@ export const LoginFields = ({setThatToken, setThatUser, modalStatusChange}) => {
     else {  
      const data = await response.json();
      const token = data.token
-     console.log(token);
-     setThatToken(token);
+     console.log(token.accessToken);
+     setThatToken(token.accessToken);
      setThatUser(username);
      localStorage.setItem("user", username)
-     localStorage.setItem("token", token)
+     localStorage.setItem("token", token.accessToken)
      .catch((error) => {
      console.error(error);
      });
