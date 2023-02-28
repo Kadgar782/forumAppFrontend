@@ -2,32 +2,49 @@ import { AccordionDetails, Typography, Avatar, IconButton } from "@mui/material"
 import { Divider } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
-import React from "react";
+import React, { useState, } from "react";
 
-export const InsideAccordion = ({ arrayForMapping, setMappedComments }) => {
+
+
+export const InsideAccordion = ({ arrayForMapping, setMappedComments,updateComment, }) => {
+  const [idForEditing, setID] = useState([]);
+  const [isEditable, setStatus] = useState(false);
 
   const removeElement = (_id) => {
     //Backend fetch
-   
-      fetch(`http://localhost:5000/api/comments/${_id}`, {
-        method: "DELETE",
-      })
-        .then((response) => response.json())
-        .then((data) => console.log(data))
-        .catch((error) => console.error(error));
-  
+
+    fetch(`http://localhost:5000/api/comments/${_id}`, {
+      method: "DELETE",
+    })
+      .then((response) => response.json())
+      .then((data) => console.log(data))
+      .catch((error) => console.error(error));
+
     const newComments = arrayForMapping.filter(
       (arrayForMapping) => arrayForMapping._id !== _id
     );
     setMappedComments(newComments);
   };
+  const handleSubmit = (updatedComment, commentId) => {
+    updateComment(updatedComment,commentId);
+  }
 
   //editing
+  const turnEditMode = () => {
+    setStatus(!isEditable);
+    console.log(isEditable)
+  };
 
-  if  (!Array.isArray(arrayForMapping) || !arrayForMapping.length)
-  return <AccordionDetails></AccordionDetails>;
-else
-  return arrayForMapping.map((commentStuff) => {
+  const checkId = (event) => {
+    setID(event.currentTarget.id);
+    console.log(event.currentTarget.id);
+    turnEditMode();
+  };
+
+  if (!Array.isArray(arrayForMapping) || !arrayForMapping.length)
+    return <AccordionDetails></AccordionDetails>;
+  else
+    return arrayForMapping.map((commentStuff) => {
       return (
         <AccordionDetails
           sx={{
@@ -35,7 +52,6 @@ else
             backgroundColor: "#cbcccc",
           }}
         >
-        
           <span>
             <Avatar
               alt="Placeholder"
@@ -48,28 +64,36 @@ else
               }}
             />
             {commentStuff.username}
-            
+
             <IconButton
-                aria-label="delete"
-                disableRipple
-                onClick={() => removeElement(commentStuff._id)}
-              >
-                <DeleteIcon />
-              </IconButton>
+              aria-label="delete"
+              disableRipple
+              onClick={() => removeElement(commentStuff._id)}
+            >
+              <DeleteIcon />
+            </IconButton>
+
+            <IconButton
+              aria-label="Edit"
+              disableRipple
+              id={commentStuff._id}
+              onClick={checkId}
+            >
+              <EditIcon />
+            </IconButton>
           </span>
-          {/* <IconButton
-                aria-label="Edit"
-                disableRipple
-                id={post._id}
-                onClick={checkingId}
-              >
-                <EditIcon />
-              </IconButton> */}
-
-
-          <Typography> {commentStuff.body}</Typography>
+          {
+            isEditable? ( //true
+              <Typography id={commentStuff._id}> {commentStuff.body}  + "1"</Typography>
+              ) : (
+                <Typography id={commentStuff._id} > {commentStuff.body}</Typography>
+              )
+            }
+            
+            
+ 
           <Divider sx={{ border: 1 }} />
         </AccordionDetails>
       );
-  });
+    });
 };

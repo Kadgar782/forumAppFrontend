@@ -4,7 +4,7 @@ import React, { useContext } from "react";
 import {postContext} from "./PostBlueprint"
 import {userContext} from "../App.js"
 
-export const CommentSchema = ({ loggedInUser, addingComments, arrayWithComments, setMappedComments }) => {
+export const CommentSchema = ({ loggedInUser, addingComments, arrayWithComments, setMappedComments, updateComment, }) => {
   const postId = useContext(postContext);
 const username = useContext(userContext);
   
@@ -32,6 +32,7 @@ const username = useContext(userContext);
   else
     return (
       <MuiAccordion
+        updateComment={updateComment}
         userIsLogged={loggedInUser}
         arrayForComments={arrayWithComments}
         setMappedComments={setMappedComments}

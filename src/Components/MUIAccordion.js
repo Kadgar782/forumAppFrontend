@@ -14,6 +14,7 @@ import { postContext } from "./PostBlueprint";
 import { userContext } from "../App.js";
 
 export const MuiAccordion = ({
+  updateComment,
   MuiAddingComments,
   arrayForComments,
   userIsLogged,
@@ -33,7 +34,7 @@ export const MuiAccordion = ({
         >
           <Typography>Comments</Typography>
         </AccordionSummary>
-        <InsideAccordion arrayForMapping={arrayForComments} setMappedComments={setMappedComments}/>
+        <InsideAccordion arrayForMapping={arrayForComments} setMappedComments={setMappedComments} />
       </Accordion>
     );
   else
@@ -53,7 +54,7 @@ export const MuiAccordion = ({
           userName={username}
           addingToArray={MuiAddingComments}
         />
-        <InsideAccordion arrayForMapping={arrayForComments} setMappedComments={setMappedComments} />
+        <InsideAccordion arrayForMapping={arrayForComments} setMappedComments={setMappedComments} updateComment={updateComment} />
       </Accordion>
     );
 };

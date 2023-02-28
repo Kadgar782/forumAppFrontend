@@ -140,6 +140,16 @@ function App() {
       )
     );
   };
+
+  //Changing comment
+ const updateComment = (updatedComment,commentId)  => {
+  setComments(
+    comments.map((comment) =>
+    comment._id === commentId ? updatedComment : comment
+    )
+  );
+};
+
   //Adding new data from a component
   const addingToMappedPosts = (added) => {
     setMappedPosts([added, ...mappedPosts]);
@@ -222,6 +232,7 @@ function App() {
                 <div>IS loading...</div>
               ) : (
                 <PostSchema
+                  updateComment={updateComment}
                   presentUser={currentUser}
                   mainArrayWithComments={comments}
                   functionForAddingComments={addingToComments} 

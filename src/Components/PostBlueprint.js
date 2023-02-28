@@ -9,6 +9,7 @@ import React, { createContext, useContext } from "react";
 export const postContext = createContext("without provider");
 
 export const PostSchema = ({
+  updateComment,
   presentUser,
   functionForAddingComments,
   mainArrayWithComments,
@@ -50,6 +51,7 @@ export const PostSchema = ({
             </span>
             <Divider sx={{ border: 1 }} />
             <CommentSchema
+              updateComment={updateComment}
               arrayWithComments={filterComments(mainArrayWithComments, post)}
               addingComments={functionForAddingComments}
               loggedInUser={presentUser}
@@ -102,6 +104,7 @@ export const PostSchema = ({
             </span>
             <Divider sx={{ border: 1 }} />
             <CommentSchema
+              updateComment={updateComment}
               arrayWithComments={filterComments(mainArrayWithComments, post)}
               addingComments={functionForAddingComments}
               loggedInUser={presentUser}
@@ -135,6 +138,7 @@ export const PostSchema = ({
             </span>
             <Divider sx={{ border: 1 }} />
             <CommentSchema
+              updateComment={updateComment}
               arrayWithComments={filterComments(mainArrayWithComments, post)}
               addingComments={functionForAddingComments}
               loggedInUser={presentUser}

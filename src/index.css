@@ -48,4 +48,10 @@ span {
 
 }
 
+blockquote{
+  margin: 0;
+}
  
+[contenteditable='true'] {
+  background-color: rgb(100, 96, 90);
+}
