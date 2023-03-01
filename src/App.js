@@ -48,12 +48,15 @@ function App() {
     };
 
     const getPostsAuth = async (bearerToken) => {
+      console.log(bearerToken)
       const response = await fetch("http://localhost:5000/api/data", {
         headers: {
           Authorization: `Bearer ${bearerToken}`, // передаем токен в заголовке
         },
       });
-      console.log ("токен перед отправкой " + bearerToken + " отправил на бэк запрос")
+      console.log(
+        "токен перед отправкой " + bearerToken + " отправил на бэк запрос"
+      );
       const post = await response.json();
       const revPost = post.data.reverse();
       console.log(revPost);
@@ -61,22 +64,21 @@ function App() {
       setMappedPosts(revPost);
     };
 
-
     // checking whether the user has already been logged in
     const loggedInUser = localStorage.getItem("user");
     if (loggedInUser) {
       setCurrentUser(loggedInUser);
     }
-  
+
     // checcking user token
-    const localToken = localStorage.getItem("token")
+    const localToken = localStorage.getItem("token");
     if (localToken) {
       setToken(localToken);
     }
-     getPostsAuth(localToken)
-    .then(() => getComments())
-    .then(() => setIsLoading(false))
 
+    getPostsAuth(localToken)
+      .then(() => getComments())
+      .then(() => setIsLoading(false));
   }, []);
 
 
@@ -124,12 +126,11 @@ function App() {
   const logOut = () => {
     setCurrentUser("");
     localStorage.clear();
-    console.log(currentUser);
   };
+
   //Set current User
   const setTheUser = (username) => {
     setCurrentUser(username);
-    console.log(currentUser);
   };
 
   //Сhanging a post with a specific id
