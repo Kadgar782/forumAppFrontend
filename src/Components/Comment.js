@@ -1,16 +1,46 @@
-import { AccordionDetails, Typography, Avatar, IconButton } from "@mui/material";
+import {
+  AccordionDetails,
+  Typography,
+  Avatar,
+  IconButton,
+  Button,
+} from "@mui/material";
 import { Divider } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
-import React, { useState, } from "react";
+import Textarea from "@mui/joy/Textarea";
+import React, { useState } from "react";
 
+export function Comment({
+  updateComment,
+  setMappedComments,
+  arrayForMapping,
+  commentId,
+  commentBody,
+}) {
 
-export function Comment({ updateComment, username, _id, thumbnailUrl, body, setMappedComments, arrayForMapping}) {
-
-  const [isEditable, setIsEditable] = useState(false);
-  const [idForEditing, setID] = useState([]);
 
   
+  let comment = arrayForMapping.find((comment) => comment._id === commentId);
+
+  const [isEditable, setIsEditable] = useState(false);
+  const [body, setBody] = useState(comment.body);
+
+  const username = comment.username;
+  const thumbnailUrl = comment.thumbnailUrl;
+  const _id = commentId
+  console.log(_id)
+
+
+  const updatedComment = { id: _id, body, thumbnailUrl };
+
+  //editing
+  const turnEditMode = () => {
+    setIsEditable(!isEditable);
+    console.log(isEditable);
+  };
+
+
   const removeElement = (_id) => {
     //Backend fetch
 
@@ -27,72 +57,81 @@ export function Comment({ updateComment, username, _id, thumbnailUrl, body, setM
     setMappedComments(newComments);
   };
 
+  //Function for button
+  const handleSubmit = (_id) => {
+    // make request to backend
 
-  const handleSubmit = (updatedComment, commentId) => {
-    updateComment(updatedComment,commentId); //скажет какой комент надо обновить
-  }
-  
-  //editing
-  const turnEditMode = () => {
-    setIsEditable(!isEditable);
-    console.log(isEditable)
-  };
-  
-  const checkId = (event) => {
-    setID(event.currentTarget.id);
-    console.log(event.currentTarget.id);
+    fetch(`http://localhost:5000/api/comments/${_id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(updatedComment),
+    })
+      .then((response) => response.json())
+      .then((result) => {
+        console.log(result);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+
+    updateComment(updatedComment, _id); //скажет какой комент надо обновить
     turnEditMode();
   };
-  
 
-    return (
-      <AccordionDetails
-        sx={{
-          padding: 0,
-          backgroundColor: "#cbcccc",
-        }}
-      >
-        <span>
-          <Avatar
-            alt="Placeholder"
-            src={thumbnailUrl}
-            variant="rounded"
-            sx={{
-              maxWidth: 35,
-              maxHeight: 35,
-              marginRight: 0.5,
-            }}
-          />
-          {username}
+  return (
+    <AccordionDetails
+      sx={{
+        padding: 0,
+        backgroundColor: "#cbcccc",
+      }}
+    >
+      <span>
+        <Avatar
+          alt="Placeholder"
+          src={thumbnailUrl}
+          variant="rounded"
+          sx={{
+            maxWidth: 35,
+            maxHeight: 35,
+            marginRight: 0.5,
+          }}
+        />
+        {username}
 
-          <IconButton
-            aria-label="delete"
-            disableRipple
-            onClick={() => removeElement(_id)}
+        <IconButton
+          aria-label="delete"
+          disableRipple
+          onClick={() => removeElement(_id)}
+        >
+          <DeleteIcon />
+        </IconButton>
+
+        <IconButton aria-label="Edit" disableRipple id={_id} onClick={()=>turnEditMode()}>
+          <EditIcon />
+        </IconButton>
+      </span>
+      {isEditable ? ( //true
+        <div style={{ display: "flex", alignItems: "center" }}>
+          <Textarea
+            size="md"
+            className="inputField"
+            value={body}
+            onChange={(newValue) => setBody(newValue.target.value)}
           >
-            <DeleteIcon />
-          </IconButton>
+            {" "}
+          </Textarea>
+          <Button onClick={() => handleSubmit(_id)}>
+            Done
+          </Button>
+          <Button>Cancel</Button>
+        </div>  
+      ) : (
+        <Typography id={_id}> {commentBody}</Typography>
+      )}
 
-          <IconButton
-            aria-label="Edit"
-            disableRipple
-            id={_id}
-            onClick={checkId}
-          >
-            <EditIcon />
-          </IconButton>
-        </span>
-        {
-          isEditable? ( //true
-            <Typography id={_id}> {body}  + "1"</Typography>
-            ) : (
-              <Typography id={_id} > {body}</Typography>
-            )
-          }
-          
-          
-
-        <Divider sx={{ border: 1 }} />
-      </AccordionDetails>
-    );
-  }
+      <Divider sx={{ border: 1 }} />
+    </AccordionDetails>
+  );
+}

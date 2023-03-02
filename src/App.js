@@ -164,8 +164,6 @@ function App() {
     console.log(comments);
   };
 
-  console.log(currentUser);
-  console.log(token);
   console.log(mappedPosts)
 
   // Creating Post with JSX
