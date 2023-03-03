@@ -29,7 +29,7 @@ export function Comment({
   const username = comment.username;
   const thumbnailUrl = comment.thumbnailUrl;
   const _id = commentId
-  console.log(_id)
+  
 
 
   const updatedComment = { id: _id, body, thumbnailUrl };
