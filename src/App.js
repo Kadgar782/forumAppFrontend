@@ -25,7 +25,6 @@ function App() {
   const [editOpen, setEditOpen] = useState(false);
   const [token, setToken] = useState("");
 
-
   //Getting Post content
   useEffect(() => {
     // declare the async data fetching function
@@ -48,7 +47,7 @@ function App() {
     };
 
     const getPostsAuth = async (bearerToken) => {
-      console.log(bearerToken)
+      console.log(bearerToken);
       const response = await fetch("http://localhost:5000/api/data", {
         headers: {
           Authorization: `Bearer ${bearerToken}`, // передаем токен в заголовке
@@ -80,10 +79,6 @@ function App() {
       .then(() => getComments())
       .then(() => setIsLoading(false));
   }, []);
-
-
-
-
 
   //Post remove function
   const removeElement = (_id) => {
@@ -143,13 +138,13 @@ function App() {
   };
 
   //Changing comment
- const updateComment = (updatedComment,commentId)  => {
-  setComments(
-    comments.map((comment) =>
-    comment._id === commentId ? updatedComment : comment
-    )
-  );
-};
+  const updateComment = (updatedComment, commentId) => {
+    setComments(
+      comments.map((comment) =>
+        comment._id === commentId ? updatedComment : comment
+      )
+    );
+  };
 
   //Adding new data from a component
   const addingToMappedPosts = (added) => {
@@ -164,7 +159,7 @@ function App() {
     console.log(comments);
   };
 
-  console.log(mappedPosts)
+  console.log(mappedPosts);
 
   // Creating Post with JSX
   return (
@@ -203,12 +198,11 @@ function App() {
                   Log out
                 </Button>
               )}
-               {currentUser === "" ? (
-              <Button color="inherit" onClick={handleRegistrationModalToggle}>
-                Registration
-              </Button>
-               ):(null)
-               }
+              {currentUser === "" ? (
+                <Button color="inherit" onClick={handleRegistrationModalToggle}>
+                  Registration
+                </Button>
+              ) : null}
             </Toolbar>
           </AppBar>
         </Box>
@@ -234,7 +228,7 @@ function App() {
                   updateComment={updateComment}
                   presentUser={currentUser}
                   mainArrayWithComments={comments}
-                  functionForAddingComments={addingToComments} 
+                  functionForAddingComments={addingToComments}
                   arrayWithPosts={mappedPosts}
                   checkingId={checkId}
                   deleteElement={removeElement}

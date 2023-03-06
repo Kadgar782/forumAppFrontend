@@ -7,7 +7,7 @@ import {userContext} from "../App.js"
 export const CommentSchema = ({ loggedInUser, addingComments, arrayWithComments, setMappedComments, updateComment, }) => {
   const postId = useContext(postContext);
 const username = useContext(userContext);
-  
+
   // We only return post if it has no comments and is watched by an unauthorized person
 
   if (

@@ -23,16 +23,16 @@ export function Comment({
   
   let comment = arrayForMapping.find((comment) => comment._id === commentId);
 
+
   const [isEditable, setIsEditable] = useState(false);
   const [body, setBody] = useState(comment.body);
 
   const username = comment.username;
   const thumbnailUrl = comment.thumbnailUrl;
   const _id = commentId
-  
 
 
-  const updatedComment = { id: _id, body, thumbnailUrl };
+  const updatedComment = { id: _id, body, thumbnailUrl,  };
 
   //editing
   const turnEditMode = () => {
@@ -75,7 +75,7 @@ export function Comment({
       .catch((error) => {
         console.error(error);
       });
-
+    console.log(updateComment.toString())
     updateComment(updatedComment, _id); //скажет какой комент надо обновить
     turnEditMode();
   };

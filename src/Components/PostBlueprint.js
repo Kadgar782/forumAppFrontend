@@ -20,6 +20,7 @@ export const PostSchema = ({
 }) => {
   return arrayWithPosts.map((post) => {
     //Filter the necessary comments for a particular post
+    
     const filterComments = (comments, post) => {
       const reqComments = comments.filter(
         (comments) => comments.postId === post._id

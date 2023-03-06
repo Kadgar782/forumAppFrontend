@@ -34,7 +34,7 @@ export const MuiAccordion = ({
         >
           <Typography>Comments</Typography>
         </AccordionSummary>
-        <InsideAccordion arrayForMapping={arrayForComments} setMappedComments={setMappedComments} />
+        <InsideAccordion arrayForMapping={arrayForComments} setMappedComments={setMappedComments}  updateComment={updateComment} />
       </Accordion>
     );
   else

@@ -7,13 +7,11 @@ import { Comment } from "./Comment";
 
 export const InsideAccordion = ({ arrayForMapping, setMappedComments,updateComment, }) => {
 
-
-
   if (!Array.isArray(arrayForMapping) || !arrayForMapping.length)
     return <AccordionDetails></AccordionDetails>;
   else
     return arrayForMapping.map((commentStuff) => {
-      const {username, _id, thumbnailUrl, body} = commentStuff
+      const {_id, body} = commentStuff
       return (
         <Comment
           commentId={_id}
