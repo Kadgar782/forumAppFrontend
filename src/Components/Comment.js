@@ -17,10 +17,10 @@ export function Comment({
   arrayForMapping,
   commentId,
   commentBody,
+  postId,
+  loggedInUser,
+  postControls,
 }) {
-
-
-  
   let comment = arrayForMapping.find((comment) => comment._id === commentId);
 
 
@@ -28,11 +28,12 @@ export function Comment({
   const [body, setBody] = useState(comment.body);
 
   const username = comment.username;
-  const thumbnailUrl = comment.thumbnailUrl;
+  const thumbnailUrl = "https://via.placeholder.com/150/54176f";
   const _id = commentId
+ 
 
 
-  const updatedComment = { id: _id, body, thumbnailUrl,  };
+  const updatedComment = { _id, body, thumbnailUrl, postId, username  };
 
   //editing
   const turnEditMode = () => {
@@ -75,13 +76,14 @@ export function Comment({
       .catch((error) => {
         console.error(error);
       });
-    console.log(updateComment.toString())
-    updateComment(updatedComment, _id); //скажет какой комент надо обновить
+    updateComment(updatedComment, _id); //which comment should be changed
     turnEditMode();
   };
 
+
+  if (postControls === true || username === loggedInUser){
   return (
-    <AccordionDetails
+      <AccordionDetails
       sx={{
         padding: 0,
         backgroundColor: "#cbcccc",
@@ -99,7 +101,7 @@ export function Comment({
           }}
         />
         {username}
-
+  
         <IconButton
           aria-label="delete"
           disableRipple
@@ -107,7 +109,7 @@ export function Comment({
         >
           <DeleteIcon />
         </IconButton>
-
+  
         <IconButton aria-label="Edit" disableRipple id={_id} onClick={()=>turnEditMode()}>
           <EditIcon />
         </IconButton>
@@ -130,8 +132,52 @@ export function Comment({
       ) : (
         <Typography id={_id}> {commentBody}</Typography>
       )}
-
+  
       <Divider sx={{ border: 1 }} />
     </AccordionDetails>
-  );
+  )
+} else {
+  return (
+    <AccordionDetails
+    sx={{
+      padding: 0,
+      backgroundColor: "#cbcccc",
+    }}
+  >
+    <span>
+      <Avatar
+        alt="Placeholder"
+        src={thumbnailUrl}
+        variant="rounded"
+        sx={{
+          maxWidth: 35,
+          maxHeight: 35,
+          marginRight: 0.5,
+        }}
+      />
+      {username}
+    </span>
+    {isEditable ? ( //true
+      <div style={{ display: "flex", alignItems: "center" }}>
+        <Textarea
+          size="md"
+          className="inputField"
+          value={body}
+          onChange={(newValue) => setBody(newValue.target.value)}
+        >
+          {" "}
+        </Textarea>
+        <Button onClick={() => handleSubmit(_id)}>
+          Done
+        </Button>
+        <Button>Cancel</Button>
+      </div>  
+    ) : (
+      <Typography id={_id}> {commentBody}</Typography>
+    )}
+
+    <Divider sx={{ border: 1 }} />
+  </AccordionDetails>
+)
+}
 }

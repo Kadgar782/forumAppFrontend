@@ -19,6 +19,8 @@ export const MuiAccordion = ({
   arrayForComments,
   userIsLogged,
   setMappedComments,
+  loggedInUser,
+  postControls,
 }) => {
   const postId = useContext(postContext);
   const username = useContext(userContext);
@@ -34,7 +36,12 @@ export const MuiAccordion = ({
         >
           <Typography>Comments</Typography>
         </AccordionSummary>
-        <InsideAccordion arrayForMapping={arrayForComments} setMappedComments={setMappedComments}  updateComment={updateComment} />
+        <InsideAccordion
+          loggedInUser={loggedInUser}
+          arrayForMapping={arrayForComments}
+          setMappedComments={setMappedComments}
+          updateComment={updateComment}
+        />
       </Accordion>
     );
   else
@@ -54,7 +61,13 @@ export const MuiAccordion = ({
           userName={username}
           addingToArray={MuiAddingComments}
         />
-        <InsideAccordion arrayForMapping={arrayForComments} setMappedComments={setMappedComments} updateComment={updateComment} />
+        <InsideAccordion
+          loggedInUser={loggedInUser}
+          arrayForMapping={arrayForComments}
+          setMappedComments={setMappedComments}
+          updateComment={updateComment}
+          postControls={postControls}
+        />
       </Accordion>
     );
 };

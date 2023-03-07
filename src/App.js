@@ -80,6 +80,7 @@ function App() {
       .then(() => setIsLoading(false));
   }, []);
 
+
   //Post remove function
   const removeElement = (_id) => {
     //Backend fetch
