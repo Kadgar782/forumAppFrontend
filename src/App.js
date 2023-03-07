@@ -78,7 +78,7 @@ function App() {
     getPostsAuth(localToken)
       .then(() => getComments())
       .then(() => setIsLoading(false));
-  }, []);
+  }, [currentUser]);
 
 
   //Post remove function
