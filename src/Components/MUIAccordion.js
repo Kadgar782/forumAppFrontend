@@ -16,7 +16,7 @@ import { userContext } from "../App.js";
 export const MuiAccordion = ({
   updateComment,
   MuiAddingComments,
-  arrayForComments,
+  arrayWithCommentsForPost,
   userIsLogged,
   setMappedComments,
   loggedInUser,
@@ -38,7 +38,7 @@ export const MuiAccordion = ({
         </AccordionSummary>
         <InsideAccordion
           loggedInUser={loggedInUser}
-          arrayForMapping={arrayForComments}
+          arrayWithCommentsForPost={arrayWithCommentsForPost}
           setMappedComments={setMappedComments}
           updateComment={updateComment}
         />
@@ -63,7 +63,7 @@ export const MuiAccordion = ({
         />
         <InsideAccordion
           loggedInUser={loggedInUser}
-          arrayForMapping={arrayForComments}
+          arrayWithCommentsForPost={arrayWithCommentsForPost}
           setMappedComments={setMappedComments}
           updateComment={updateComment}
           postControls={postControls}

@@ -10,19 +10,20 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import Textarea from "@mui/joy/Textarea";
 import React, { useState } from "react";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export function Comment({
   updateComment,
   setMappedComments,
-  arrayForMapping,
+  arrayWithCommentsForPost,
   commentId,
   commentBody,
   postId,
   loggedInUser,
   postControls,
 }) {
-  let comment = arrayForMapping.find((comment) => comment._id === commentId);
-
+  let comment = arrayWithCommentsForPost.find((comment) => comment._id === commentId);
 
   const [isEditable, setIsEditable] = useState(false);
   const [body, setBody] = useState(comment.body);
@@ -30,10 +31,12 @@ export function Comment({
   const username = comment.username;
   const thumbnailUrl = "https://via.placeholder.com/150/54176f";
   const _id = commentId
- 
-
-
   const updatedComment = { _id, body, thumbnailUrl, postId, username  };
+
+  const notify = () => toast("The comment was successfully deleted");
+
+  
+
 
   //editing
   const turnEditMode = () => {
@@ -52,10 +55,14 @@ export function Comment({
       .then((data) => console.log(data))
       .catch((error) => console.error(error));
 
-    const newComments = arrayForMapping.filter(
+    const newComments = arrayWithCommentsForPost.filter(
       (arrayForMapping) => arrayForMapping._id !== _id
     );
+    console.log(arrayWithCommentsForPost)
+    console.log(newComments)
     setMappedComments(newComments);
+    console.log(arrayWithCommentsForPost)
+    notify()
   };
 
   //Function for button
@@ -82,6 +89,7 @@ export function Comment({
 
 
   if (postControls === true || username === loggedInUser){
+    //Return if user is admin or author of comment
   return (
       <AccordionDetails
       sx={{
@@ -134,9 +142,14 @@ export function Comment({
       )}
   
       <Divider sx={{ border: 1 }} />
+      <div>
+       <ToastContainer/>
+      </div>
     </AccordionDetails>
+    
   )
 } else {
+  //Return if user is not admin or author
   return (
     <AccordionDetails
     sx={{
@@ -177,6 +190,7 @@ export function Comment({
     )}
 
     <Divider sx={{ border: 1 }} />
+
   </AccordionDetails>
 )
 }

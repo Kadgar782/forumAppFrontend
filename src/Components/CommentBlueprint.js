@@ -7,24 +7,25 @@ import { userContext } from "../App.js";
 export const CommentSchema = ({
   loggedInUser,
   addingComments,
-  arrayWithComments,
+  arrayWithCommentsForPost,
   setMappedComments,
   updateComment,
   postControls,
 }) => {
+
   const postId = useContext(postContext);
   const username = useContext(userContext);
 
   // We only return post if it has no comments and is watched by an unauthorized person
 
   if (
-    (!arrayWithComments?.length || arrayWithComments === undefined) &&
+    (!arrayWithCommentsForPost?.length || arrayWithCommentsForPost === undefined) &&
     loggedInUser === ""
   )
     return "";
   //If user is logged in, but post has no comments, we return field for entering comments
   else if (
-    (!arrayWithComments?.length || arrayWithComments === undefined) &&
+    (!arrayWithCommentsForPost?.length || arrayWithCommentsForPost === undefined) &&
     loggedInUser !== ""
   )
     return (
@@ -42,7 +43,7 @@ export const CommentSchema = ({
         loggedInUser={loggedInUser}
         updateComment={updateComment}
         userIsLogged={loggedInUser}
-        arrayForComments={arrayWithComments}
+        arrayWithCommentsForPost={arrayWithCommentsForPost}
         setMappedComments={setMappedComments}
         MuiAddingComments={addingComments}
       />

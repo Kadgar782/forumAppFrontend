@@ -84,15 +84,13 @@ function App() {
   //Post remove function
   const removeElement = (_id) => {
     //Backend fetch
-    const deleteResource = (id) => {
-      fetch(`http://localhost:5000/api/products/${id}`, {
+      fetch(`http://localhost:5000/api/products/${_id}`, {
         method: "DELETE",
       })
         .then((response) => response.json())
         .then((data) => console.log(data))
         .catch((error) => console.error(error));
-    };
-    deleteResource(_id);
+
 
     const newPosts = mappedPosts.filter(
       (mappedPosts) => mappedPosts._id !== _id

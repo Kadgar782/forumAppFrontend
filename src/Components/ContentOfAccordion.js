@@ -5,12 +5,12 @@ import { Comment } from "./Comment";
 
 
 
-export const InsideAccordion = ({ arrayForMapping, setMappedComments,updateComment, loggedInUser, postControls, }) => {
+export const InsideAccordion = ({ arrayWithCommentsForPost, setMappedComments,updateComment, loggedInUser, postControls, }) => {
 
-  if (!Array.isArray(arrayForMapping) || !arrayForMapping.length)
+  if (!Array.isArray(arrayWithCommentsForPost) || !arrayWithCommentsForPost.length)
     return <AccordionDetails></AccordionDetails>;
   else
-    return arrayForMapping.map((commentStuff) => {
+    return arrayWithCommentsForPost.map((commentStuff) => {
       const {_id, body, postId} = commentStuff
       return (
         <Comment
@@ -21,7 +21,7 @@ export const InsideAccordion = ({ arrayForMapping, setMappedComments,updateComme
           postId={postId}
           updateComment={updateComment}
           setMappedComments={setMappedComments}
-          arrayForMapping={arrayForMapping}
+          arrayWithCommentsForPost={arrayWithCommentsForPost}
         />
       );
     });

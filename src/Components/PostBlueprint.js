@@ -54,7 +54,7 @@ export const PostSchema = ({
             <CommentSchema
               postControls={post.controls}
               updateComment={updateComment}
-              arrayWithComments={filterComments(mainArrayWithComments, post)}
+              arrayWithCommentsForPost={filterComments(mainArrayWithComments, post)}
               addingComments={functionForAddingComments}
               loggedInUser={presentUser}
               setMappedComments={setMappedComments}
@@ -106,7 +106,7 @@ export const PostSchema = ({
             <CommentSchema
               postControls={post.controls}
               updateComment={updateComment}
-              arrayWithComments={filterComments(mainArrayWithComments, post)}
+              arrayWithCommentsForPost={filterComments(mainArrayWithComments, post)}
               addingComments={functionForAddingComments}
               loggedInUser={presentUser}
               setMappedComments={setMappedComments}
@@ -139,7 +139,7 @@ export const PostSchema = ({
             <CommentSchema
               postControls={post.controls}
               updateComment={updateComment}
-              arrayWithComments={filterComments(mainArrayWithComments, post)}
+              arrayWithCommentsForPost={filterComments(mainArrayWithComments, post)}
               addingComments={functionForAddingComments}
               loggedInUser={presentUser}
               setMappedComments={setMappedComments}
