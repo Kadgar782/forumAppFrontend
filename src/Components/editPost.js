@@ -2,6 +2,8 @@ import TextField from "@mui/material/TextField";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import React, { useState } from "react";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const style = {
   position: "absolute",
@@ -40,25 +42,39 @@ export const EditPostFields = ({
     commentsInPost,
   };
 
-  // Function for button
-  const handleSubmit = () => {
-    // make request to backend
+  //Toast notify
+  const notify = (status) => {
+    switch (status) {
+      case "success":
+        toast.success("you have successfully edited post");
+        break;
+      case "error":
+        toast.error("Something went wrong");
+        break;
+      default:
+        break;
+    }
+  };
 
-    fetch(`http://localhost:5000/api/products/${_id}`, {
+  // Function for button
+  const handleSubmit = async() => {
+    // make request to backend
+    try {
+    const response = await fetch(`http://localhost:5000/api/products/${_id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(updatedPost),
-    })
-      .then((response) => response.json())
-      .then((result) => {
-        console.log(result);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-
+    });
+    if (response.status >= 400) {
+      throw new Error("Server responds with error!");
+    }
+    notify("success");
+    } catch(error) {
+      console.error(error);
+      notify("error");
+      }; 
     updatePost(updatedPost);
     modalStatusChange();
   };
@@ -93,6 +109,9 @@ export const EditPostFields = ({
       >
         Confirm
       </Button>
+      <div>
+          <ToastContainer />
+        </div>
     </Box>
   );
 };

@@ -3,8 +3,8 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button'
 import React, { useState,  } from "react";
 import { Link, } from "react-router-dom";
-
-
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const style = {
   position: 'absolute',
@@ -18,14 +18,14 @@ const style = {
   p: 4,
 };
 
-export const PostFields = ({userName,addingToArray,}) => {
+export const PostFields =  ({userName,addingToArray,}) => {
 
   const [tfHeaderValue,setTFHeaderValue ] = useState("");
   const [tfContentValue, setTFContentValue] = useState("");
 
 
   // Function for button
-  const createNewPost = (upperValue, loverValue) => {
+  const createNewPost = async (upperValue, loverValue) => {
     const username = userName;
     const title = upperValue;
     const body = loverValue;
@@ -40,25 +40,38 @@ export const PostFields = ({userName,addingToArray,}) => {
     clearHeaderValue();
     clearContentValue();
 
+    const notify = (status) => {
+      switch (status) {
+        case "success":
+          toast.success("Post was published");
+          break;
+        case "error":
+          toast.error("Something went wrong");
+          break;
+        default:
+          break;
+      }
+    };
+
     // make request to backend
-   
-      fetch("http://localhost:5000/api/products", {
+    try {
+      const respons = await fetch("http://localhost:5000/api/products", {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify(allData)
       })
-      .then(response => response.json())
-      .then(result => {
-        console.log(result.result);
-        addingToArray(result.result)
-      })
-      .catch(error => {
-        console.error(error);
-      });
-
-
+      if (respons.status >= 400) {
+        throw new Error("Server responds with error!");
+      }
+      const result = await respons.json()
+      notify("success");
+      addingToArray(result.result)
+    } catch (error) {
+      console.error(error);
+      notify("error");
+    }
   }
   
   //Modal content
@@ -95,6 +108,9 @@ export const PostFields = ({userName,addingToArray,}) => {
       >
         Confirm
       </Button>
+      <div>
+          <ToastContainer />
+        </div>
     </Box>
   );
 }

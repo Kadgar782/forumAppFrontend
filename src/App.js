@@ -7,6 +7,8 @@ import { PostSchema } from "./Components/PostBlueprint.js";
 import MenuIcon from '@mui/icons-material/Menu';
 import  {LoginFields} from "./Components/loginUser.js"
 import {RegistrationFields} from "./Components/registrationFields.js"
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import './App.css';
 
 //Context
@@ -80,18 +82,36 @@ function App() {
       .then(() => setIsLoading(false));
   }, [currentUser]);
 
+   //Notify
+   const notify = (status) => {
+    switch (status) {
+      case "success":
+        toast.success("Post was deleted");
+        break;
+      case "error":
+        toast.error("Something went wrong");
+        break;
+      default:
+        break;
+    }
+  };
+
 
   //Post remove function
-  const removeElement = (_id) => {
+  const removeElement = async (_id) => {
     //Backend fetch
-      fetch(`http://localhost:5000/api/products/${_id}`, {
+    try {
+      const response = fetch(`http://localhost:5000/api/products/${_id}`, {
         method: "DELETE",
-      })
-        .then((response) => response.json())
-        .then((data) => console.log(data))
-        .catch((error) => console.error(error));
-
-
+      });
+      if (response.status >= 400) {
+        throw new Error("Server responds with error!");
+      }
+      notify("success");
+    } catch (error) {
+      console.error(error);
+      notify("error");
+    }
     const newPosts = mappedPosts.filter(
       (mappedPosts) => mappedPosts._id !== _id
     );
@@ -261,6 +281,9 @@ function App() {
             updatePost={updatePost}
           />
         </Modal>
+        <div>
+          <ToastContainer />
+        </div>
       </div>
     </userContext.Provider>
   );
