@@ -9,8 +9,9 @@ import { Divider } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import Textarea from "@mui/joy/Textarea";
-import React, { useState } from "react";
+import React, { useState, useContext, createContext } from "react";
 import { ToastContainer, toast } from "react-toastify";
+import { CommentContext } from "../App.js";
 import "react-toastify/dist/ReactToastify.css";
 
 export function Comment({
@@ -23,6 +24,8 @@ export function Comment({
   loggedInUser,
   postControls,
 }) {
+  const [comments, setComments] = useContext(CommentContext);
+
   let comment = arrayWithCommentsForPost.find(
     (comment) => comment._id === commentId
   );
@@ -68,10 +71,10 @@ export function Comment({
       if (response.status >= 400) {
         throw new Error("Server responds with error!");
       }
-      const newComments = arrayWithCommentsForPost.filter(
+      const newComments = comments.filter(
         (arrayForMapping) => arrayForMapping._id !== _id
       );
-      setMappedComments(newComments);
+      setComments(newComments);
       notify("success");
     } catch (error) {
       console.error(error);

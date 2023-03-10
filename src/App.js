@@ -13,7 +13,7 @@ import './App.css';
 
 //Context
 export const userContext = createContext("without user provider");
-
+export const CommentContext = createContext("without comment provider");
 
 function App() {
   const [isLoading, setIsLoading] = useState(true);
@@ -173,15 +173,15 @@ function App() {
     setUser([added, ...userList]);
   };
   const addingToComments = (added) => {
-    setComments((comments) => [added, ...comments]);
+    setComments([added, ...comments]);
     console.log(added);
-    console.log(comments);
   };
 
   console.log(mappedPosts);
 
   // Creating Post with JSX
   return (
+    <CommentContext.Provider value={[comments, setComments]}>
     <userContext.Provider value={currentUser}>
       <div className="outer">
         <Box sx={{ flexGrow: 1 }}>
@@ -286,6 +286,7 @@ function App() {
         </div>
       </div>
     </userContext.Provider>
+    </CommentContext.Provider>
   );
 }
 export default App;
