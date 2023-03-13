@@ -57,9 +57,9 @@ export const LoginFields = ({
       try {
          const response = await fetch("http://localhost:5000/auth/login", {
         method: "POST",
+        credentials: "include",
         headers: {
           "Content-Type": "application/json",
-          credentials: "include",
         },
         body: JSON.stringify(allData),
       });
@@ -73,7 +73,8 @@ export const LoginFields = ({
         setThatUser(username);
         console.log(username)
         localStorage.setItem("user", username);
-        localStorage.setItem("token", token.accessToken)     
+        localStorage.setItem("token", token.accessToken)  
+        // document.cookie = `token=${token.accessToken}; max-age=1800; secure; SameSite=Lax; httpOnly`;   
         notify("success", username)
        } catch  (error) { 
         console.error(error);
