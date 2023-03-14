@@ -63,7 +63,7 @@ export function Comment({
   const removeElement = async (_id) => {
     try {
       const response = await fetch(
-        `http://localhost:5000/api/comments/${_id}`,
+        `http://localhost:5001/api/comments/${_id}`,
         {
           method: "DELETE",
         }
@@ -87,7 +87,7 @@ export function Comment({
     // make request to backend
     try {
       const response = await fetch(
-        `http://localhost:5000/api/comments/${_id}`,
+        `http://localhost:5001/api/comments/${_id}`,
         {
           method: "PUT",
           headers: {

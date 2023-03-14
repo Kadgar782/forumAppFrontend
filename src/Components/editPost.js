@@ -60,7 +60,7 @@ export const EditPostFields = ({
   const handleSubmit = async() => {
     // make request to backend
     try {
-    const response = await fetch(`http://localhost:5000/api/products/${_id}`, {
+    const response = await fetch(`http://localhost:5001/api/products/${_id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",

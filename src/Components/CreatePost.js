@@ -55,7 +55,7 @@ export const PostFields =  ({userName,addingToArray,}) => {
 
     // make request to backend
     try {
-      const respons = await fetch("http://localhost:5000/api/products", {
+      const respons = await fetch("http://localhost:5001/api/products", {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

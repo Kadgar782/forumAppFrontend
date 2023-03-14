@@ -39,7 +39,7 @@ export const CommentFields = ({addingToArray,userName,_id}) => {
     console.log(postId);
     console.log(username)
    
-      fetch("http://localhost:5000/api/comments", {
+      fetch("http://localhost:5001/api/comments", {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

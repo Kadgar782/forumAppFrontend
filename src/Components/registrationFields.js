@@ -36,7 +36,7 @@ export const RegistrationFields = ({addingToArray, modalStatusChange}) => {
 
     // make request to backend
    
-      fetch("http://localhost:5000/auth/registration", {
+      fetch("http://localhost:5001/auth/registration", {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

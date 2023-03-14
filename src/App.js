@@ -10,6 +10,7 @@ import {RegistrationFields} from "./Components/registrationFields.js"
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import './App.css';
+import { Cookie } from "@mui/icons-material";
 
 //Context
 export const userContext = createContext("without user provider");
@@ -41,7 +42,7 @@ function App() {
     };
     //Getting Comments
     const getComments = async () => {
-      const resComments = await fetchData("http://localhost:5000/api/comments");
+      const resComments = await fetchData("http://localhost:5001/api/comments");
 
       const comments = resComments.result;
 
@@ -49,8 +50,7 @@ function App() {
     };
 
     const getPostsAuth = async (bearerToken) => {
-      console.log(bearerToken);
-      const response = await fetch("http://localhost:5000/api/data", {
+      const response = await fetch("http://localhost:5001/api/data", {
         headers: {
           Authorization: `Bearer ${bearerToken}`, // передаем токен в заголовке
         },
@@ -101,7 +101,7 @@ function App() {
   const removeElement = async (_id) => {
     //Backend fetch
     try {
-      const response = fetch(`http://localhost:5000/api/products/${_id}`, {
+      const response = fetch(`http://localhost:5001/api/products/${_id}`, {
         method: "DELETE",
       });
       if (response.status >= 400) {
@@ -138,6 +138,30 @@ function App() {
   };
   //Logging out and clearing the local storage
   const logOut = () => {
+const cookies = document.cookie.split('; ');
+console.log(cookies)
+const refreshTokenCookie = cookies.find(cookie => cookie.startsWith('refreshToken='));
+const refreshToken = refreshTokenCookie ? refreshTokenCookie.split('=')[1] : null;
+console.log(refreshToken)
+  //   try {
+  //     const response = await fetch("http://localhost:5001/auth/logout", {
+  //    method: "POST",
+  //    credentials: "include",
+  //    headers: {
+  //      "Content-Type": "application/json",
+  //    },
+  //    body: JSON.stringify(cookie.),
+  //  });
+  //  if (response.status >= 400) {
+  //    notify("error", "")
+  //    throw new Error("Server responds with error!");   
+  //  } 
+   
+  //    notify("success", username)
+  //   } catch  (error) { 
+  //    console.error(error);
+  //    notify("error");
+  //    }
     setCurrentUser("");
     localStorage.clear();
   };
