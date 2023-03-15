@@ -82,8 +82,8 @@ function App() {
       .then(() => setIsLoading(false));
   }, [currentUser]);
 
-   //Notify
-   const notify = (status) => {
+  //Notify
+  const notify = (status) => {
     switch (status) {
       case "success":
         toast.success("Post was deleted");
@@ -95,7 +95,6 @@ function App() {
         break;
     }
   };
-
 
   //Post remove function
   const removeElement = async (_id) => {
@@ -136,32 +135,25 @@ function App() {
     console.log(event.currentTarget.id);
     handleEditableModalToggle();
   };
+
   //Logging out and clearing the local storage
-  const logOut = () => {
-const cookies = document.cookie.split('; ');
-console.log(cookies)
-const refreshTokenCookie = cookies.find(cookie => cookie.startsWith('refreshToken='));
-const refreshToken = refreshTokenCookie ? refreshTokenCookie.split('=')[1] : null;
-console.log(refreshToken)
-  //   try {
-  //     const response = await fetch("http://localhost:5001/auth/logout", {
-  //    method: "POST",
-  //    credentials: "include",
-  //    headers: {
-  //      "Content-Type": "application/json",
-  //    },
-  //    body: JSON.stringify(cookie.),
-  //  });
-  //  if (response.status >= 400) {
-  //    notify("error", "")
-  //    throw new Error("Server responds with error!");   
-  //  } 
-   
-  //    notify("success", username)
-  //   } catch  (error) { 
-  //    console.error(error);
-  //    notify("error");
-  //    }
+  const logOut = async () => {
+    try {
+      const response = await fetch("http://localhost:5001/auth/logout", {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      if (response.status >= 400) {
+        notify("error", "");
+        throw new Error("Server responds with error!");
+      }
+    } catch (error) {
+      console.error(error);
+      notify("error");
+    }
     setCurrentUser("");
     localStorage.clear();
   };
@@ -206,110 +198,116 @@ console.log(refreshToken)
   // Creating Post with JSX
   return (
     <CommentContext.Provider value={[comments, setComments]}>
-    <userContext.Provider value={currentUser}>
-      <div className="outer">
-        <Box sx={{ flexGrow: 1 }}>
-          <AppBar position="static">
-            <Toolbar>
-              <IconButton
-                component={Link}
-                to="/"
-                size="large"
-                edge="start"
-                color="inherit"
-                aria-label="menu"
-                sx={{ mr: 2 }}
-              >
-                <MenuIcon />
-              </IconButton>
-              <Typography
-                variant="h6"
-                component="div"
-                sx={{ flexGrow: 1 }}
-              ></Typography>
-              {currentUser === "" ? null : (
-                <Button color="inherit" component={Link} to="/editor">
-                  Create new post
-                </Button>
-              )}
-              {currentUser === "" ? (
-                <Button color="inherit" onClick={handleLoginModalToggle}>
-                  Login
-                </Button>
-              ) : (
-                <Button color="inherit" onClick={logOut}>
-                  Log out
-                </Button>
-              )}
-              {currentUser === "" ? (
-                <Button color="inherit" onClick={handleRegistrationModalToggle}>
-                  Registration
-                </Button>
-              ) : null}
-            </Toolbar>
-          </AppBar>
-        </Box>
+      <userContext.Provider value={currentUser}>
+        <div className="outer">
+          <Box sx={{ flexGrow: 1 }}>
+            <AppBar position="static">
+              <Toolbar>
+                <IconButton
+                  component={Link}
+                  to="/"
+                  size="large"
+                  edge="start"
+                  color="inherit"
+                  aria-label="menu"
+                  sx={{ mr: 2 }}
+                >
+                  <MenuIcon />
+                </IconButton>
+                <Typography
+                  variant="h6"
+                  component="div"
+                  sx={{ flexGrow: 1 }}
+                ></Typography>
+                {currentUser === "" ? null : (
+                  <Button color="inherit" component={Link} to="/editor">
+                    Create new post
+                  </Button>
+                )}
+                {currentUser === "" ? (
+                  <Button color="inherit" onClick={handleLoginModalToggle}>
+                    Login
+                  </Button>
+                ) : (
+                  <Button color="inherit" onClick={logOut}>
+                    Log out
+                  </Button>
+                )}
+                {currentUser === "" ? (
+                  <Button
+                    color="inherit"
+                    onClick={handleRegistrationModalToggle}
+                  >
+                    Registration
+                  </Button>
+                ) : null}
+              </Toolbar>
+            </AppBar>
+          </Box>
 
-        <Routes>
-          <Route
-            path="/editor"
-            element={
-              <PostFields
-                userName={currentUser}
-                arrayForAdding={mappedPosts}
-                addingToArray={addingToMappedPosts}
-              />
-            }
-          />
-          <Route
-            path="/"
-            element={
-              isLoading ? (
-                <div>IS loading...</div>
-              ) : (
-                <PostSchema
-                  updateComment={updateComment}
-                  presentUser={currentUser}
-                  mainArrayWithComments={comments}
-                  functionForAddingComments={addingToComments}
-                  arrayWithPosts={mappedPosts}
-                  checkingId={checkId}
-                  deleteElement={removeElement}
-                  setMappedComments={setComments}
+          <Routes>
+            <Route
+              path="/editor"
+              element={
+                <PostFields
+                  userName={currentUser}
+                  arrayForAdding={mappedPosts}
+                  addingToArray={addingToMappedPosts}
                 />
-              )
-            }
-          />
-        </Routes>
+              }
+            />
+            <Route
+              path="/"
+              element={
+                isLoading ? (
+                  <div>IS loading...</div>
+                ) : (
+                  <PostSchema
+                    updateComment={updateComment}
+                    presentUser={currentUser}
+                    mainArrayWithComments={comments}
+                    functionForAddingComments={addingToComments}
+                    arrayWithPosts={mappedPosts}
+                    checkingId={checkId}
+                    deleteElement={removeElement}
+                    setMappedComments={setComments}
+                  />
+                )
+              }
+            />
+          </Routes>
 
-        <Modal open={loginOpen} onClose={handleLoginModalToggle}>
-          <LoginFields
-            modalStatusChange={handleLoginModalToggle}
-            setThatUser={setTheUser}
-            setThatToken={setToken}
-          />
-        </Modal>
+          <Modal open={loginOpen} onClose={handleLoginModalToggle}>
+            <LoginFields
+              modalStatusChange={handleLoginModalToggle}
+              setThatUser={setTheUser}
+              setThatToken={setToken}
+            />
+          </Modal>
 
-        <Modal open={registrationOpen} onClose={handleRegistrationModalToggle}>
-          <RegistrationFields
-            modalStatusChange={handleRegistrationModalToggle}
-            addingToArray={addingToUserList}
-          />
-        </Modal>
+          <Modal
+            open={registrationOpen}
+            onClose={handleRegistrationModalToggle}
+          >
+            <RegistrationFields
+              modalStatusChange={handleRegistrationModalToggle}
+              addingToArray={addingToUserList}
+            />
+          </Modal>
 
-        <Modal open={editOpen} onClose={handleEditableModalToggle}>
-          <EditPostFields
-            modalStatusChange={handleEditableModalToggle}
-            specificId={idForEditing}
-            allPosts={mappedPosts}
-            updatePost={updatePost}
-          />
-        </Modal>
-        <div>
-          <ToastContainer />
+          <Modal open={editOpen} onClose={handleEditableModalToggle}>
+            <EditPostFields
+              modalStatusChange={handleEditableModalToggle}
+              specificId={idForEditing}
+              allPosts={mappedPosts}
+              updatePost={updatePost}
+            />
+          </Modal>
+          <div>
+            <ToastContainer />
+          </div>
         </div>
-      </div>
-    </userContext.Provider>
+      </userContext.Provider>
     </CommentContext.Provider>
   );
 }
