@@ -10,7 +10,6 @@ import {RegistrationFields} from "./Components/registrationFields.js"
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import './App.css';
-import { Cookie } from "@mui/icons-material";
 
 //Context
 export const userContext = createContext("without user provider");
@@ -61,7 +60,6 @@ function App() {
       const post = await response.json();
       const revPost = post.data.reverse();
       console.log(revPost);
-
       setMappedPosts(revPost);
     };
 
@@ -81,6 +79,28 @@ function App() {
       .then(() => getComments())
       .then(() => setIsLoading(false));
   }, [currentUser]);
+
+
+  useEffect(() => {
+    if (localStorage.getItem('token')) {
+    const checkAuth =async()=>{
+      try {
+        const response = await fetch("http://localhost:5001/auth/refresh", {
+          method: "GET",
+          credentials: "include",   
+        });
+        console.log(response);
+        localStorage.setItem('token', response.data.accessToken);
+    } catch (error) {
+      console.error(error);
+      notify("error");
+    } 
+    }
+    checkAuth()
+    }
+  
+}, [])
+
 
   //Notify
   const notify = (status) => {
