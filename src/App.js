@@ -51,7 +51,7 @@ function App() {
     const getPostsAuth = async (bearerToken) => {
       const response = await fetch("http://localhost:5001/api/data", {
         headers: {
-          Authorization: `Bearer ${bearerToken}`, 
+          Authorization: `Bearer ${bearerToken}`, // передаем токен в заголовке
         },
       });
       const post = await response.json();
@@ -89,7 +89,7 @@ function App() {
         console.log(responseJSON)
         localStorage.setItem('token', responseJSON.accessToken);
     } catch (error) {
-      console.error(error);
+      console.log(error);
       notify("error");
     } 
     }
