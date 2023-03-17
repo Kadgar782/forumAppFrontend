@@ -51,7 +51,7 @@ function App() {
     const getPostsAuth = async (bearerToken) => {
       const response = await fetch("http://localhost:5001/api/data", {
         headers: {
-          Authorization: `Bearer ${bearerToken}`, // передаем токен в заголовке
+          Authorization: `Bearer ${bearerToken}`, 
         },
       });
       const post = await response.json();
@@ -87,7 +87,7 @@ function App() {
         });
         const responseJSON = await response.json()
         console.log(responseJSON)
-        localStorage.setItem('token', responseJSON.accessToken);// после первого рефреша который проходит удачно, токен не меняется на новый и все летит в пизду 
+        localStorage.setItem('token', responseJSON.accessToken);
     } catch (error) {
       console.error(error);
       notify("error");
