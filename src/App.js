@@ -54,12 +54,8 @@ function App() {
           Authorization: `Bearer ${bearerToken}`, // передаем токен в заголовке
         },
       });
-      console.log(
-        "токен перед отправкой " + bearerToken + " отправил на бэк запрос"
-      );
       const post = await response.json();
       const revPost = post.data.reverse();
-      console.log(revPost);
       setMappedPosts(revPost);
     };
 
@@ -89,8 +85,9 @@ function App() {
           method: "GET",
           credentials: "include",   
         });
-        console.log(response);
-        localStorage.setItem('token', response.data.accessToken);
+        const responseJSON = await response.json()
+        console.log(responseJSON)
+        localStorage.setItem('token', responseJSON.accessToken);// после первого рефреша который проходит удачно, токен не меняется на новый и все летит в пизду 
     } catch (error) {
       console.error(error);
       notify("error");
@@ -213,7 +210,6 @@ function App() {
     console.log(added);
   };
 
-  console.log(mappedPosts);
 
   // Creating Post with JSX
   return (
