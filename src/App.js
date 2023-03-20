@@ -86,7 +86,6 @@ function App() {
           credentials: "include",   
         });
         const responseJSON = await response.json()
-        console.log(responseJSON)
         localStorage.setItem('token', responseJSON.accessToken);
     } catch (error) {
       console.log(error);
@@ -97,7 +96,6 @@ function App() {
     }
   
 }, [])
-
 
   //Notify
   const notify = (status) => {
@@ -216,9 +214,10 @@ function App() {
     <CommentContext.Provider value={[comments, setComments]}>
       <userContext.Provider value={currentUser}>
         <div className="outer">
-          <Box sx={{ flexGrow: 1 }}>
+          <Box sx={{ flexGrow: 1,
+          mb: 1,   }}>
             <AppBar position="static">
-              <Toolbar>
+              <Toolbar sx={{minHeight: '54px !important',}}>
                 <IconButton
                   component={Link}
                   to="/"

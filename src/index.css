@@ -1,5 +1,10 @@
-
+html, body {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+}
 div#root {
+  width: 100%;
   display: flex;
   justify-content: center;
   flex-direction:column
@@ -54,4 +59,8 @@ blockquote{
  
 [contenteditable='true'] {
   background-color: rgb(100, 96, 90);
+}
+
+.css-aov98l-MuiToolbar-root {
+  min-height: 54px;
 }
