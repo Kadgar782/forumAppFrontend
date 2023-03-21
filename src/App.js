@@ -1,15 +1,23 @@
 import React, { useState, useEffect, createContext } from "react";
-import { Box, IconButton, Typography,Toolbar,AppBar, Button, Modal} from "@mui/material";
-import { createBrowserRouter, Routes, Route, Link} from "react-router-dom";
-import {PostFields} from "./Components/CreatePost.js";
+import {
+  Box,
+  IconButton,
+  Typography,
+  Toolbar,
+  AppBar,
+  Button,
+  Modal,
+} from "@mui/material";
+import { createBrowserRouter, Routes, Route, Link } from "react-router-dom";
+import { PostFields } from "./Components/CreatePost.js";
 import { EditPostFields } from "./Components/editPost.js";
 import { PostSchema } from "./Components/PostBlueprint.js";
-import MenuIcon from '@mui/icons-material/Menu';
-import  {LoginFields} from "./Components/loginUser.js"
-import {RegistrationFields} from "./Components/registrationFields.js"
+import MenuIcon from "@mui/icons-material/Menu";
+import { LoginFields } from "./Components/loginUser.js";
+import { RegistrationFields } from "./Components/registrationFields.js";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import './App.css';
+import "./App.css";
 
 //Context
 export const userContext = createContext("without user provider");
@@ -76,26 +84,24 @@ function App() {
       .then(() => setIsLoading(false));
   }, [currentUser]);
 
-
   useEffect(() => {
-    if (localStorage.getItem('token')) {
-    const checkAuth =async()=>{
-      try {
-        const response = await fetch("http://localhost:5001/auth/refresh", {
-          method: "GET",
-          credentials: "include",   
-        });
-        const responseJSON = await response.json()
-        localStorage.setItem('token', responseJSON.accessToken);
-    } catch (error) {
-      console.log(error);
-      notify("error");
-    } 
+    if (localStorage.getItem("token")) {
+      const checkAuth = async () => {
+        try {
+          const response = await fetch("http://localhost:5001/auth/refresh", {
+            method: "GET",
+            credentials: "include",
+          });
+          const responseJSON = await response.json();
+          localStorage.setItem("token", responseJSON.accessToken);
+        } catch (error) {
+          console.log(error);
+          notify("error");
+        }
+      };
+      checkAuth();
     }
-    checkAuth()
-    }
-  
-}, [])
+  }, []);
 
   //Notify
   const notify = (status) => {
@@ -208,16 +214,14 @@ function App() {
     console.log(added);
   };
 
-
   // Creating Post with JSX
   return (
     <CommentContext.Provider value={[comments, setComments]}>
       <userContext.Provider value={currentUser}>
         <div className="outer">
-          <Box sx={{ flexGrow: 1,
-          mb: 1,   }}>
+          <Box sx={{ flexGrow: 1, mb: 1 }}>
             <AppBar position="static">
-              <Toolbar sx={{minHeight: '54px !important',}}>
+              <Toolbar sx={{ minHeight: "54px !important" }}>
                 <IconButton
                   component={Link}
                   to="/"
@@ -228,6 +232,7 @@ function App() {
                   sx={{ mr: 2 }}
                 >
                   <MenuIcon />
+                      ZAP
                 </IconButton>
                 <Typography
                   variant="h6"
