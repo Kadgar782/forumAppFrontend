@@ -119,6 +119,20 @@ function App() {
 
   //Post remove function
   const removeElement = async (_id) => {
+    //We delete all comments from post, before deleting the posts themselves
+    try {
+      const response = fetch(`http://localhost:5001/api/comments/post/${_id}`, {
+        method: "DELETE",
+      });
+      if (response.status >= 400) {
+        throw new Error("Server responds with error!");
+      }
+      notify("success");
+    } catch (error) {
+      console.error(error);
+      notify("error");
+    }
+
     //Backend fetch
     try {
       const response = fetch(`http://localhost:5001/api/products/${_id}`, {
@@ -135,6 +149,7 @@ function App() {
     const newPosts = mappedPosts.filter(
       (mappedPosts) => mappedPosts._id !== _id
     );
+
 
     setMappedPosts(newPosts);
   };
