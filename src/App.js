@@ -127,7 +127,6 @@ function App() {
       if (response.status >= 400) {
         throw new Error("Server responds with error!");
       }
-      notify("success");
     } catch (error) {
       console.error(error);
       notify("error");
