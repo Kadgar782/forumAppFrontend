@@ -167,7 +167,6 @@ function App() {
   //Search for a post by ID via the button
   const checkId = (event) => {
     setID(event.currentTarget.id);
-    console.log(event.currentTarget.id);
     handleEditableModalToggle();
   };
 
@@ -225,7 +224,6 @@ function App() {
   };
   const addingToComments = (added) => {
     setComments([added, ...comments]);
-    console.log(added);
   };
 
   // Creating Post with JSX
