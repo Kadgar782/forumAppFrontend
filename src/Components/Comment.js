@@ -57,7 +57,6 @@ export function Comment({
   //editing
   const turnEditMode = () => {
     setIsEditable(!isEditable);
-    console.log(isEditable);
   };
 
   const removeElement = async (_id) => {

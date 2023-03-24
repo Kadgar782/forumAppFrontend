@@ -45,7 +45,6 @@ export const RegistrationFields = ({addingToArray, modalStatusChange}) => {
       })
       .then(response => response.json())
       .then(result => {
-        console.log(result.result);
         addingToArray(result.result)
       })
       .catch(error => {
@@ -57,7 +56,6 @@ export const RegistrationFields = ({addingToArray, modalStatusChange}) => {
   
 
     modalStatusChange();
-    console.log(allData)
   }
   
   //Modal content

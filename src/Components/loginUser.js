@@ -71,7 +71,6 @@ export const LoginFields = ({
         const token = data.token;
         setThatToken(token.accessToken);
         setThatUser(username);
-        console.log(username)
         localStorage.setItem("user", username);
         localStorage.setItem("token", token.accessToken)  
         // document.cookie = `token=${token.accessToken}; max-age=1800; secure; SameSite=Lax; httpOnly`;   

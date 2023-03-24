@@ -36,8 +36,7 @@ export const CommentFields = ({addingToArray,userName,_id}) => {
     clearContentValue();
 
     // make request to backend
-    console.log(postId);
-    console.log(username)
+
    
       fetch("http://localhost:5001/api/comments", {
         method: 'POST',
@@ -48,7 +47,6 @@ export const CommentFields = ({addingToArray,userName,_id}) => {
       })
       .then(response => response.json())
       .then(result => {
-        console.log(result.result);
         addingToArray(result.result)
       })
       .catch(error => {
