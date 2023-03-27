@@ -81,6 +81,7 @@ export const PostFields =  ({userName,addingToArray,}) => {
       <TextField
         label="the topic of the post"
         value={tfHeaderValue}
+        inputProps={{ maxLength: 170 }}
         multiline={true}
         onChange={(newValue) => setTFHeaderValue(newValue.target.value)}
         sx={{
@@ -90,7 +91,7 @@ export const PostFields =  ({userName,addingToArray,}) => {
       ></TextField>
       <TextField
         label="content"
-        multiline={true}
+        multiline={true}   
         value={tfContentValue}
         onChange={(newValue) => setTFContentValue(newValue.target.value)}
         sx={{
