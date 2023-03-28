@@ -35,7 +35,8 @@ export const PostSchema = ({
         <postContext.Provider value={post._id}>
           <div className="inner" key={post._id}>
             <Typography variant="h5">{post.title}</Typography>
-            <p>{post.body}</p>
+            
+            <Typography>{post.body} </Typography>
 
             <span>
               <Avatar
