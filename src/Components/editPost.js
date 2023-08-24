@@ -1,8 +1,12 @@
 import TextField from "@mui/material/TextField";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
-import React, { useState } from "react";
-import { ToastContainer, toast } from "react-toastify";
+import React, { useState, forwardRef } from "react";
+import { toast } from "react-toastify";
+import { editCurrentPost } from "../http/posts";
+import { useQueryClient, useMutation } from "@tanstack/react-query";
+import { useNavigate } from "react-router-dom";
+import { refreshTokens } from "../http/interceptor";
 import "react-toastify/dist/ReactToastify.css";
 
 const style = {
@@ -17,72 +21,61 @@ const style = {
   p: 4,
 };
 
-export const EditPostFields = ({
+export const EditPostFields = forwardRef(({
   specificId,
   allPosts,
-  updatePost,
   modalStatusChange,
-}) => {
+},ref) => {
   let thePost = allPosts.find((post) => post._id === specificId);
+
+  const navigate = useNavigate();
 
   const [title, setTitle] = useState(thePost.title);
   const [body, setBody] = useState(thePost.body);
 
   const _id = specificId;
-  const thumbnailUrl = thePost.thumbnailUrl;
-  const userId = thePost.userId;
-  const commentsInPost = {};
+
 
   const updatedPost = {
     _id,
     title,
     body,
-    thumbnailUrl,
-    userId,
-    commentsInPost,
   };
 
-  //Toast notify
-  const notify = (status) => {
-    switch (status) {
-      case "success":
-        toast.success("you have successfully edited post");
-        break;
-      case "error":
-        toast.error("Something went wrong");
-        break;
-      default:
-        break;
-    }
-  };
+//Edit mutation
+const queryClient = useQueryClient();
+  const editPostMutation = useMutation({
+    mutationFn: (updatedPost) => editCurrentPost(updatedPost),
+    onSuccess: (data) => {
+      queryClient.setQueryData(["responsePosts", data._id], data);
+      queryClient.invalidateQueries(["post", _id], {
+        exact: true,
+      });
+      queryClient.invalidateQueries(["responsePosts", "infinite"], {
+        exact: true,
+      });
+      toast.success("you have successfully edited post");
+      modalStatusChange();
+      navigate(`/${data._id}`);
+    },
+    onError: () => {
+      refreshTokens();
+      toast.error("Something went wrong");
+    },
+  });
+
 
   // Function for button
   const handleSubmit = async() => {
-    // make request to backend
-    try {
-    const response = await fetch(`http://localhost:5001/api/products/${_id}`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(updatedPost),
-    });
-    if (response.status >= 400) {
-      throw new Error("Server responds with error!");
-    }
-    notify("success");
-    } catch(error) {
-      console.error(error);
-      notify("error");
-      }; 
-    updatePost(updatedPost);
-    modalStatusChange();
+    editPostMutation.mutate({updatedPost})
   };
   //Modal content
 
   return (
-    <Box sx={style}>
+    // we have two fields for topic and content of post
+    <Box sx={style}  ref={ref}>
       <TextField
+        autoFocus
         label="the topic of the post"
         value={title}
         multiline={true}
@@ -103,15 +96,13 @@ export const EditPostFields = ({
       ></TextField>
       <Button
         disabled={
+          // User can't leave fields empty
           !title.replace(/\s/g, "").length || !body.replace(/\s/g, "").length
         }
         onClick={() => handleSubmit()}
       >
         Confirm
       </Button>
-      <div>
-          <ToastContainer />
-        </div>
     </Box>
   );
-};
+});

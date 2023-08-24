@@ -1,76 +1,48 @@
 import { Typography, Avatar, IconButton } from "@mui/material";
-import { CommentSchema } from "./CommentBlueprint";
+import { AccordionMui } from "./Accordion";
 import { Divider } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
-import React, { createContext, useContext } from "react";
+import React, { createContext, useEffect } from "react";
+import { Link } from "react-router-dom";
+import { useInView } from "react-intersection-observer";
 //Context
 
 export const postContext = createContext("without provider");
 
 export const PostSchema = ({
-  updateComment,
-  presentUser,
-  functionForAddingComments,
-  mainArrayWithComments,
+  currentUser,
   arrayWithPosts,
   checkingId,
   deleteElement,
-  setMappedComments,
+  fetchNextPage,
 }) => {
-  return arrayWithPosts.map((post) => {
-    //Filter the necessary comments for a particular post
+  const { ref, inView } = useInView({
+    threshold: 0,
+  });
 
-    const filterComments = (comments, post) => {
-      const reqComments = comments.filter(
-        (comments) => comments.postId === post._id
-      );
-      return reqComments;
-    };
+  // We use this useEffect to fetch new posts as we scroll
+  useEffect(() => {
+    if (inView) {
+      fetchNextPage();
+    }
+  }, [inView, fetchNextPage]);
 
-    //If the user is not logged in, he cannot create new posts or write comments
-
-    if (presentUser === "")
-      return (
-        <postContext.Provider value={post._id}>
-          <div className="inner" key={post._id}>
-            <Typography variant="h5">{post.title}</Typography>
-            
-            <Typography>{post.body} </Typography>
-
-            <span>
-              <Avatar
-                alt="Placeholder"
-                src={post.thumbnailUrl}
-                variant="rounded"
-                sx={{
-                  maxWidth: 35,
-                  maxHeight: 35,
-                  marginRight: 0.5,
-                }}
-              />
-              {post.username}
-            </span>
-            <Divider sx={{ border: 1 }} />
-            <CommentSchema
-              postControls={post.controls}
-              updateComment={updateComment}
-              arrayWithCommentsForPost={filterComments(mainArrayWithComments, post)}
-              addingComments={functionForAddingComments}
-              loggedInUser={presentUser}
-              setMappedComments={setMappedComments}
-            />
-          </div>
-        </postContext.Provider>
-      );
+  return arrayWithPosts.map((post, index) => {
+    // I tried to add a ref only to the last post counting it through the index,
+    // but for some reason it was not applied. However, the fetch of the following posts occurs only after scrolling to the end of the feed.
     // If the user is an admin or the author of current post
-    else if (post.controls === true || post.username === presentUser)
+    if (post.controls === true || post.username === currentUser)
       return (
-        <postContext.Provider value={post._id}>
-          <div className="inner" key={post._id}>
+        <postContext.Provider key={post._id} value={post._id}>
+          <div className="inner" key={post._id} ref={ref}>
             <Typography variant="h5">
-              {post.title}
-
+              <Link
+                to={`/${post._id}`}
+                style={{ textDecoration: "none", color: "inherit" }}
+              >
+                {post.title}
+              </Link>
               <IconButton
                 aria-label="Edit"
                 disableRipple
@@ -88,8 +60,7 @@ export const PostSchema = ({
                 <DeleteIcon />
               </IconButton>
             </Typography>
-            <p>{post.body}</p>
-
+            <Typography>{post.body}</Typography>
             <span>
               <Avatar
                 alt="Placeholder"
@@ -104,13 +75,9 @@ export const PostSchema = ({
               {post.username}
             </span>
             <Divider sx={{ border: 1 }} />
-            <CommentSchema
+            <AccordionMui
               postControls={post.controls}
-              updateComment={updateComment}
-              arrayWithCommentsForPost={filterComments(mainArrayWithComments, post)}
-              addingComments={functionForAddingComments}
-              loggedInUser={presentUser}
-              setMappedComments={setMappedComments}
+              commentCount={post.commentsInPost}
             />
           </div>
         </postContext.Provider>
@@ -118,11 +85,17 @@ export const PostSchema = ({
     // if the user is not an admin and not the author of the post
     else
       return (
-        <postContext.Provider value={post._id}>
-          <div className="inner" key={post._id}>
-            <Typography variant="h5">{post.title}</Typography>
-            <p>{post.body}</p>
-
+        <postContext.Provider key={post._id} value={post._id}>
+          <div className="inner" key={post._id} ref={ref}>
+            <Typography variant="h5">
+              <Link
+                to={`/${post._id}`}
+                style={{ textDecoration: "none", color: "inherit" }}
+              >
+                {post.title}
+              </Link>
+            </Typography>
+            <Typography>{post.body}</Typography>
             <span>
               <Avatar
                 alt="Placeholder"
@@ -137,13 +110,9 @@ export const PostSchema = ({
               {post.username}
             </span>
             <Divider sx={{ border: 1 }} />
-            <CommentSchema
+            <AccordionMui
               postControls={post.controls}
-              updateComment={updateComment}
-              arrayWithCommentsForPost={filterComments(mainArrayWithComments, post)}
-              addingComments={functionForAddingComments}
-              loggedInUser={presentUser}
-              setMappedComments={setMappedComments}
+              commentCount={post.commentsInPost}
             />
           </div>
         </postContext.Provider>
