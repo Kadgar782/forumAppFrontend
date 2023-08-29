@@ -60,7 +60,7 @@ export const removePost = async (_id) => {
   const token = localStorage.getItem("token");
   //We delete all comments from post, before deleting the posts themselves
   try {
-    const response = await axios.delete(`${API_URL}/api/comments/post/${_id}`, {
+    const response = await axios.delete(`${API_URL}api/comments/post/${_id}`, {
       withCredentials: true,
       headers: {
         Authorization: `Bearer ${token}`,
@@ -75,7 +75,7 @@ export const removePost = async (_id) => {
 
   //Backend fetch
   try {
-    const response = await axios.delete(`${API_URL}/api/products/${_id}`, {
+    const response = await axios.delete(`${API_URL}api/products/${_id}`, {
       withCredentials: true,
       headers: {
         Authorization: `Bearer ${token}`,
@@ -96,7 +96,7 @@ export const createNewPost = async (allData) => {
     const { username, title, body, thumbnailUrl, commentsInPost } =
       allData.allData;
     const response = await axios.post(
-      `${API_URL}/api/products`,
+      `${API_URL}api/products`,
       {
         username,
         title,
@@ -131,7 +131,7 @@ export const editCurrentPost = async (updatedPost) => {
   try {
     const { _id, title, body } = updatedPost.updatedPost;
     const response = await axios.put(
-      `${API_URL}/api/products/${_id}`,
+      `${API_URL}api/products/${_id}`,
       {
         title,
         body,

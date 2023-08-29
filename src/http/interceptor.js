@@ -42,7 +42,7 @@ class Interceptor {
         ) {
           originalRequest._isRetry = true;
           try {
-            const response = await axios.get(`${API_URL}/auth/refresh`, {
+            const response = await axios.get(`${API_URL}auth/refresh`, {
               withCredentials: true,
             });
             localStorage.setItem("token", response.data.accessToken);
@@ -113,7 +113,7 @@ class Interceptor {
 // Function for refreshing tokens 
 export  const refreshTokens = async () => {
   try {
-    const response = await apiForRefresh.get(`${API_URL}/auth/refresh`, {
+    const response = await apiForRefresh.get(`${API_URL}auth/refresh`, {
       withCredentials: true,
     });
     localStorage.setItem("token", response.data.accessToken);

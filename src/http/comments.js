@@ -13,7 +13,7 @@ export const getCommentsForPost = async (
   try {
     const token = localStorage.getItem("token");
     const response = await interceptor.get(
-      `${API_URL}/api/comments/post/${postId}`,
+      `${API_URL}api/comments/post/${postId}`,
       {
         params: { page: page, limit: 50 },
         withCredentials: true,
@@ -38,7 +38,7 @@ export const getCommentsForPost = async (
 export const removeComment = async (_id) => {
   const token = localStorage.getItem("token");
   try {
-    const response = await axios.delete(`${API_URL}/api/comments/${_id}`, {
+    const response = await axios.delete(`${API_URL}api/comments/${_id}`, {
       withCredentials: true,
       headers: {
         Authorization: `Bearer ${token}`,
@@ -60,7 +60,7 @@ export const createNewComment = async (allData) => {
     const { username, body, thumbnailUrl, postId  } =
       allData.allData;
     const response = await axios.post(
-      `${API_URL}/api/comments`,
+      `${API_URL}api/comments`,
       {
         username,
         body,
@@ -94,7 +94,7 @@ export const editCurrentComment = async (updatedComment) => {
   try {
     const {  _id, title, body,} = updatedComment
     const response = await axios.put(
-      `${API_URL}/api/comments/${_id}`,
+      `${API_URL}api/comments/${_id}`,
       {
         title,
         body,
