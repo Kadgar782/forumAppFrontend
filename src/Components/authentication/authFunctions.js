@@ -1,10 +1,12 @@
 import { toast } from "react-toastify";
 
+const API_URL = process.env.REACT_APP_API_URL;
+
   export const login = async ( setCurrentUser, modalStatusChange, allData, username, ) => { 
         // make request to backend
         try {
 
-           const response = await fetch("http://localhost:5001/auth/login", {
+           const response = await fetch(`${API_URL}auth/login`, {
           method: "POST",
           credentials: "include",
           headers: {
@@ -34,7 +36,7 @@ import { toast } from "react-toastify";
   //Logging out and clearing the local storage
     export const logOut = async (setCurrentUser) =>{
         try {
-          const response = await fetch("http://localhost:5001/auth/logout", {
+          const response = await fetch(`${API_URL}auth/logout`, {
             method: "POST",
             credentials: "include",
             headers: {

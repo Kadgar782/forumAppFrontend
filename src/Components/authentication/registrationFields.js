@@ -17,6 +17,8 @@ const style = {
   p: 4,
 };
 
+const API_URL = process.env.REACT_APP_API_URL;
+
 export const RegistrationFields = forwardRef(
   ({ addingToArray, modalStatusChange }, ref) => {
     const [email, setEmail] = useState("");
@@ -45,7 +47,7 @@ export const RegistrationFields = forwardRef(
 
       // make request to backend
 
-      fetch("http://localhost:5001/auth/registration", {
+      fetch(`${API_URL}auth/registration`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
