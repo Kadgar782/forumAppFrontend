@@ -47,7 +47,7 @@ export const RegistrationFields = forwardRef(
 
       // make request to backend
 
-      fetch(`${API_URL}auth/registration`, {
+      fetch(`${API_URL}api/auth/registration`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

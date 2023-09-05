@@ -6,7 +6,7 @@ const API_URL = process.env.REACT_APP_API_URL;
         // make request to backend
         try {
 
-           const response = await fetch(`${API_URL}auth/login`, {
+           const response = await fetch(`${API_URL}api/auth/login`, {
           method: "POST",
           credentials: "include",
           headers: {
@@ -36,7 +36,7 @@ const API_URL = process.env.REACT_APP_API_URL;
   //Logging out and clearing the local storage
     export const logOut = async (setCurrentUser) =>{
         try {
-          const response = await fetch(`${API_URL}auth/logout`, {
+          const response = await fetch(`${API_URL}api/auth/logout`, {
             method: "POST",
             credentials: "include",
             headers: {
