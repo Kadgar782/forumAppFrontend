@@ -54,8 +54,7 @@ function App() {
   // We use this to get all posts and update them on the background
   const { isFetchingNextPage, fetchNextPage, isRefetching } = useInfiniteQuery({
     queryKey: ["responsePosts", "infinite"],
-    queryFn: ({ pageParam = 0 }) =>
-      getPostsAuth(setCurrentUser, pageParam),
+    queryFn: ({ pageParam = 0 }) => getPostsAuth(setCurrentUser, pageParam),
     refetchInterval: 1000 * 60 * 2,
     refetchOnReconnect: "always",
     getNextPageParam: (lastPage, allPages) => {
@@ -86,7 +85,7 @@ function App() {
 
   //Refs
   const loginFieldsRef = useRef(null);
-  
+
   //Post remove function
 
   const queryClient = useQueryClient();
@@ -101,8 +100,7 @@ function App() {
     // if an error happened, then either user has no rights or tokens are outdated
     onError: (error) => {
       refreshTokens();
-      toast.error("Something went wrong",{
-      });
+      toast.error("Something went wrong", {});
       console.log(error);
     },
   });
@@ -151,8 +149,7 @@ function App() {
                 disableTouchRipple
                 sx={{ mr: 2 }}
               >
-                <MenuIcon
-                 sx={{ pr: 2 }} />
+                <MenuIcon sx={{ pr: 2 }} />
                 ZAP
               </IconButton>
               <Typography
@@ -188,8 +185,8 @@ function App() {
                 </Button>
               ) : null}
             </Toolbar>
-            {isLoading && <LinearProgress/>}
-            {isRefetching && <LinearProgress/>}
+            {isLoading && <LinearProgress />}
+            {isRefetching && <LinearProgress />}
           </AppBar>
         </Box>
 
@@ -210,6 +207,7 @@ function App() {
                   currentUser={currentUser}
                   arrayWithPosts={mappedPosts}
                   checkingId={checkId}
+                  deleteElement={deletePost}
                   fetchNextPage={fetchNextPage}
                 />
                 <ToastContainer />
@@ -236,8 +234,8 @@ function App() {
               </>
             }
           />
-          <Route path='/error/404' element={<NotFound />}/>
-          <Route path='*' element={<NotFound />}/>
+          <Route path="/error/404" element={<NotFound />} />
+          <Route path="*" element={<NotFound />} />
         </Routes>
 
         {/* Modal windows for logging in, registering and editing posts.*/}

@@ -27,7 +27,6 @@ export const SinglePostCommentField = ({
   const {
     isFetchingNextPage,
     fetchNextPage,
-    data,
     isSuccess,
     isLoading,
     isRefetching,
@@ -62,8 +61,6 @@ export const SinglePostCommentField = ({
         allComments.push(...comments);
       });
       setComments(allComments);
-      console.log(comments);
-      console.log(data);
     },
   });
 
